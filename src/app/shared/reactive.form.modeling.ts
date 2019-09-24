@@ -96,12 +96,12 @@ export function createFormGroupContent(initValue: any,
  */
 export function createFormGroup(content: FormGroupContent) {
   let controlsConfiguration = {};
-  console.log(content)
-
   if (content) {
     const controls = Object.keys(content.initValue);
     controls.forEach(key => {
-      const newFormGroup = (value = content.initValue[key], validator = content.initValidator[key], disable = content.initDisableStatus[key]) => createFormGroup(createFormGroupContent(value, validator, disable));
+      const newFormGroup = (value = content.initValue[key], validator = content.initValidator[key], disable = content.initDisableStatus[key]) =>
+        createFormGroup(createFormGroupContent(value, validator, disable));
+
       controlsConfiguration = {
         ...controlsConfiguration,
         [key]: (
