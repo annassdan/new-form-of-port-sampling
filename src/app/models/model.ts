@@ -1,23 +1,16 @@
 
 
-export interface Model {
+export const model = {
+  uuid: '',
+  dibuatPadaTanggal: '',
+  terakhirDiubahPadaTanggal: '',
+  dibuatOleh: '',
+  terakhirDiubahOleh: ''
+};
+export type Model = typeof model;
 
-  uuid: string;
-
-  dibuatPadaTanggal: any;
-
-  terakhirDiubahPadaTanggal: any;
-
-  dibuatOleh: string;
-
-  terakhirDiubahOleh: string;
-
-}
-
-export interface FotoDokumentasi {
-
-  foto: string;
-
-  path: string;
-
-}
+export const fotoDokumentasi = {
+  foto: '',
+  path: ''
+};
+export type FotoDokumentasi = typeof fotoDokumentasi;

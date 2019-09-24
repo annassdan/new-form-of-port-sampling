@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "build": "ng build --prod --output-hashing=none ",
     "cordova": "ng build --prod --base-href ./ --output-path C:/Users/Y/WebstormProjects/untitled1/www/",
     "to-electron": "ng build --prod --base-href ./ --output-path C:/Users/Y/WebstormProjects/angular-electron/dist/form/",
     "test": "ng test",
@@ -25,6 +25,7 @@
     "@angular/platform-browser-dynamic": "~8.2.0-next.0",
     "@angular/router": "~8.2.0-next.0",
     "@thisissoon/angular-inviewport": "^4.2.0",
+    "@types/scriptjs": "0.0.2",
     "animate.css": "^3.7.2",
     "bootstrap": "4.1.1",
     "hammerjs": "^2.0.8",
@@ -33,6 +34,7 @@
     "ngx-device-detector": "^1.3.9",
     "ngx-electron": "^2.1.1",
     "rxjs": "~6.4.0",
+    "scriptjs": "^2.5.9",
     "tslib": "^1.9.0",
     "zone.js": "~0.9.1"
   },
@@ -47,6 +49,7 @@
     "@types/node": "~8.9.4",
     "codelyzer": "^5.0.0",
     "electron": "^5.0.8",
+    "first-input-delay": "^0.1.3",
     "jasmine-core": "~3.4.0",
     "jasmine-spec-reporter": "~4.2.1",
     "karma": "~4.1.0",

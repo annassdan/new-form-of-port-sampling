@@ -1,0 +1,86 @@
+@import '../../../the-theme';
+
+.breadcrumb-root {
+  margin-left: ($default-padding - 11) !important;
+}
+
+.breadcrumb-icon {
+  margin-left: -4px;
+}
+
+.my-search {
+  top: 0;
+  left: 0;
+  position: fixed !important;
+  padding: 37px 10px 37px 10px !important;
+  border-bottom: 1px solid $the-on-search-box-border-color;
+  z-index: 10;
+}
+
+
+.when-small-and-search {
+  padding-top: $default-padding + 50;
+}
+
+.when-small-and-not-search {
+  padding-top: $default-padding + 20;
+}
+
+.when-not-small-and-search {
+  padding-top: $default-padding - 10;
+}
+
+.when-not-small-and-not-search {
+  padding-top: $default-padding + 20;
+}
+
+
+
+#search-toolbar {
+  .mat-toolbar {
+    font-size: $the-font-size-1 !important;
+
+  }
+
+
+  ::ng-deep .mat-form-field-wrapper {
+    padding-bottom: 0;
+  }
+}
+
+
+
+.fake-chip { background: $the-bg-color !important; }
+
+.action-on-menu {
+  //margin-top: 5px;
+  //position: absolute;
+  margin-right: -8px;
+}
+
+.menu-description {
+  position: absolute;
+  margin-top: -6px;
+}
+
+.breadcrumb-bottom-divider {
+  position: absolute;
+  //margin-top: -7px;
+}
+
+
+
+.my-search {
+  position: relative;
+  //float: left;
+}
+
+
+#my-breadcrumb {
+
+
+  .mat-toolbar {
+    margin-top: -17px;
+    padding: 0;
+  }
+}

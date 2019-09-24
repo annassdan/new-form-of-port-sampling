@@ -1,34 +1,21 @@
-import {FotoDokumentasi, Model} from './model';
+import {model} from './model';
 
 
-export interface General extends Model {
-
-
+export const general  = {
+  ...model,
   /* relasi ke enumerator  */
-  uuidEnumerator: any;
-
+  uuidEnumerator: '',
   /* relasi ke data sumberdaya */
-  uuidSumberDaya: any;
-
-  statusDokumen: any;
-
-  /**/
-  photoNames: FotoDokumentasi[];
-  /**/
-
-  uuidPengupload: any;
-
+  uuidSumberDaya: '',
+  statusDokumen: '',
+  photoNames: [],
+  uuidPengupload: '',
   /* maybe to organization */
-  organisasi: any;
-
-  wpp: string;
-
+  organisasi: '',
+  wpp: '',
   /* maybe to user */
-  terverifikasiOleh: any;
-
-  untukEksternalTerverifikasiOleh: any;
-
-  byMachine: boolean;
-
-
-}
+  terverifikasiOleh: '',
+  untukEksternalTerverifikasiOleh: '',
+  byMachine: false
+};
+export type General = typeof general;

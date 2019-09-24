@@ -20,24 +20,24 @@ import {
 } from '@angular/material';
 import {TheDashboardComponent} from './ideas/the-dashboard/the-dashboard.component';
 import {LayoutModule} from '@angular/cdk/layout';
-import {AlatTangkapModule} from './ideas/master/alat-tangkap/alat-tangkap.module';
-import {AlatTangkapComponent} from './ideas/master/alat-tangkap/alat-tangkap.component';
 import {TextSkeletonComponent} from './shared/conponents/text-skeleton/text-skeleton.component';
 import {StandardGhostComponent} from './ideas/the-dashboard/ghosts/standard-ghost/standard-ghost.component';
 import {WhenElementRenderedDirective} from './shared/directives/when-element-rendered.directive';
 import {InViewportModule} from '@thisissoon/angular-inviewport';
 import {NoContentComponent} from './ideas/the-dashboard/ghosts/no-content/no-content.component';
 import {NgxElectronModule} from 'ngx-electron';
+import {FormsModule} from '@angular/forms';
+import { CreateComponent } from './ideas/create/create.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     TheDashboardComponent,
-    AlatTangkapComponent,
     TextSkeletonComponent,
     StandardGhostComponent,
     WhenElementRenderedDirective,
-    NoContentComponent
+    NoContentComponent,
+    CreateComponent
   ],
   imports: [
     BrowserModule,
@@ -62,9 +62,8 @@ import {NgxElectronModule} from 'ngx-electron';
     MatProgressBarModule,
     MatButtonToggleModule,
 
-    AlatTangkapModule,
-
-    InViewportModule
+    InViewportModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

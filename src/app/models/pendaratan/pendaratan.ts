@@ -1,69 +1,48 @@
-import {FotoDokumentasi, Model} from '../model';
-import {Operasional} from '../operasional/operasional';
-import {BiologiUkuran} from '../ukuran/ukuran';
-import {General} from '../general';
+import {model} from '../model';
+import {general} from '../general';
 
 
-export interface HasilTangkapanPendaratan extends Model {
-
+export const hasilTangkapanPendaratan = {
+  ...model,
   /* relasi ke tabel spesies */
-  uuidSpesies: any;
-
+  uuidSpesies: '',
   /*double*/
-  tangkapanVolume: number;
-
+  tangkapanVolume: 0,
   /*double*/
-  tangkapanIndividu: number;
+  tangkapanIndividu: 0,
+};
+export type HasilTangkapanPendaratan = typeof hasilTangkapanPendaratan;
 
-}
-
-export interface RincianPendaratan extends Model {
-
-  namaKapal: string;
-
-  penampung: boolean;
-
-  penangkap: boolean;
-
-  jumlahKapalPenangkap: number;
-
+export const rincianPendaratan = {
+  ...model,
+  namaKapal: '',
+  penampung: false,
+  penangkap: false,
+  jumlahKapalPenangkap: 0,
   /* relasi ke tabel alat tangkap */
-  uuidAlatTangkap: any;
-
-  jumlahSetting: number;
-
-  jumlahMataPancing: number;
-
-  rumpon: boolean;
-
-  cahaya: boolean;
-
-  daerahPenangkapan: string;
-
-  jumlahHariPerTrip: number;
-
-  jumlahHariMenangkap: number;
-
+  uuidAlatTangkap: '',
+  jumlahSetting: 0,
+  jumlahMataPancing: 0,
+  rumpon: false,
+  cahaya: false,
+  daerahPenangkapan: '',
+  jumlahHariPerTrip: 0,
+  jumlahHariMenangkap: 0,
   /*double*/
-  totalTangkapanVolume: number;
+  totalTangkapanVolume: 0,
+  totalTangkapanIndividu: 0,
+  dataRincianTangkapanPendaratan: []
+};
+export type RincianPendaratan = typeof rincianPendaratan;
 
-  totalTangkapanIndividu: number;
-
-  dataRincianTangkapanPendaratan: HasilTangkapanPendaratan[];
-
-}
-
-export interface Pendaratan extends General {
-
-  tanggalPendaratan: any;
-
-  namaLokasiPendaratan: string;
-
-  dataRincianPendaratan: RincianPendaratan[];
-
-  dataOperasional: Operasional[];
-
-  dataUkuran: BiologiUkuran[];
+export const pendaratan = {
+  ...general,
+  tanggalPendaratan: '',
+  namaLokasiPendaratan: '',
+  dataRincianPendaratan: [],
+  dataOperasional: [],
+  dataUkuran: []
+};
+export type Pendaratan = typeof pendaratan;
 
 
-}

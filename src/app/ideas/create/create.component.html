@@ -1,0 +1,116 @@
+<ng-container *ngIf="!(rootState.asSmallSize$ | async) && (rootState.searching$ | async)">
+  <mat-form-field appearance="outline">
+    <mat-label><strong>Pencarian</strong></mat-label>
+    <label>
+      <input
+        appWhenElementRendered
+        (hasRendered)="onSearchHasRendered($event)"
+        (keyup)="checkEscape($event)"
+        matInput autocomplete="off"
+        placeholder="Pencarian pada {{(rootState.selectedMenuOptions$ | async).currentMenu.displayName}}" />
+    </label>
+    <button matSuffix (click)="rootState.search(false)" mat-icon-button>
+      <mat-icon color="warn">close</mat-icon>
+    </button>
+  </mat-form-field>
+</ng-container>
+
+
+<div *ngIf="(rootState.asSmallSize$ | async) && (rootState.searching$ | async)" id="search-toolbar">
+  <mat-toolbar [ngClass]="(rootState.asSmallSize$ | async) ? 'my-search my-on-search-bg-color' : ''">
+    <mat-form-field appearance="outline">
+      <mat-label>Pencarian</mat-label>
+      <label>
+        <input
+          appWhenElementRendered
+          (hasRendered)="onSearchHasRendered($event)"
+          (keyup)="checkEscape($event)"
+
+          matInput autocomplete="off"
+          placeholder="Pencarian pada {{(rootState.selectedMenuOptions$ | async).currentMenu.displayName}}">
+      </label>
+      <button matSuffix (click)="rootState.search(false)" mat-icon-button>
+        <mat-icon color="warn">close</mat-icon>
+      </button>
+    </mat-form-field>
+  </mat-toolbar>
+</div>
+
+
+<!-- my breadcrumb -->
+<div *ngIf="!(rootState.searching$ | async)"
+     snInViewport
+     (inViewportChange)="onInViewportChange($event)"
+     class="mat-typography" id="my-breadcrumb">
+  <mat-toolbar class="my-bg-color">
+
+    <mat-icon class="my-color breadcrumb-icon">{{(rootState.selectedMenuOptions$ | async).currentMenu.icon}}</mat-icon>
+    <h3 *ngIf="!(rootState.asSmallSize$ | async)"
+        class="breadcrumb-root">{{(rootState.selectedMenuOptions$ | async).breadcrumbPrefixText}}</h3>
+
+    <h3 *ngIf="(rootState.asSmallSize$ | async); else menuAsChip"
+        class="breadcrumb-root">{{(rootState.selectedMenuOptions$ | async).currentMenu.displayName}}</h3>
+    <ng-template #menuAsChip>
+      <span
+        *ngIf="!isEmptyRoot((rootState.selectedMenuOptions$ | async).currentMenusInstance)">&nbsp;{{rootState.rightArrowChar}}&nbsp;</span>
+      <mat-chip-list>
+        <mat-chip *ngIf="!isEmptyRoot((rootState.selectedMenuOptions$ | async).currentMenusInstance); else tryFake"
+                  color="primary" selected>
+          {{(rootState.selectedMenuOptions$ | async).currentMenu.displayName}}
+        </mat-chip>
+        <ng-template #tryFake>
+          <mat-chip class="fake-chip" selected></mat-chip>
+        </ng-template>
+      </mat-chip-list>
+    </ng-template>
+
+    <span class="spacer"></span>
+
+    <div class="action-on-menu">
+      <button (click)="startSearch()" mat-icon-button>
+        <mat-icon class="my-color">search</mat-icon>
+      </button>
+      <button (click)="rootState.search(false)" mat-icon-button>
+        <mat-icon class="my-color">refresh</mat-icon>
+      </button>
+      <button mat-icon-button>
+        <mat-icon class="my-color">error_outline</mat-icon>
+      </button>
+      <button mat-icon-button>
+        <mat-icon class="my-color">insert_drive_file</mat-icon>
+      </button>
+    </div>
+
+  </mat-toolbar>
+</div>
+
+<div *ngIf="!(rootState.searching$ | async)" class="menu-description">
+  <h5>{{(rootState.selectedMenuOptions$ | async).currentMenu.description}}</h5>
+</div>
+<!--<mat-divider class="breadcrumb-bottom-divider"></mat-divider>-->
+
+
+
+<div [ngClass]="content((rootState.asSmallSize$ | async), (rootState.searching$ | async))">
+  <app-no-content></app-no-content>
+  <!--  <app-standard-ghost></app-standard-ghost>-->
+</div>
+
+<button (click)="tets()">TEST</button>
+
+<br>
+<br>
+<br>
+<button (click)="test()" color="primary" mat-flat-button>The Button</button>
+<br>
+<br>
+<button color="accent" mat-flat-button>The Button</button>
+<br>
+<br>
+<button color="warn" mat-raised-button>
+  The Button
+</button>
+
+
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+<br><br>

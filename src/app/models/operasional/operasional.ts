@@ -1,160 +1,98 @@
-import {FotoDokumentasi, Model} from '../model';
-import {General} from '../general';
+import {model} from '../model';
+import {general} from '../general';
 
 
-export interface HasilTangkapanOperasional extends Model {
-
+export const hasilTangkapanOperasional = {
+  ...model,
   /* relasi ke tabel spesies */
-  uuidSpesies: any;
-
-  kodeFao: string;
-
-  totalBeratKg: number;
-
-  totalBeratEkor: number;
-
-  segar: boolean;
-
-  beku: boolean;
-
-  asin: boolean;
-
-  loin: boolean;
-
-  rebus: boolean;
-
-}
+  uuidSpesies: '',
+  kodeFao: '',
+  totalBeratKg: 0,
+  totalBeratEkor: 0,
+  segar: false,
+  beku: false,
+  asin: false,
+  loin: false,
+  rebus: false,
+};
+export type HasilTangkapanOperasional = typeof hasilTangkapanOperasional;
 
 
-export interface SpesifikasiAlatTangkapOperasional extends Model {
-
+export const spesifikasiAlatTangkapOperasional = {
+  ...model,
   /* relasi ke tabel alat tangkap */
-  uuidAlatTangkap: any;
-
-  spesifikasi: string;
-
-  nilaiSpesifikasi: string;
-
-  satuanSpesifikasi: string;
-
-}
+  uuidAlatTangkap: '',
+  spesifikasi: '',
+  nilaiSpesifikasi: '',
+  satuanSpesifikasi: '',
+};
+export type SpesifikasiAlatTangkapOperasional = typeof spesifikasiAlatTangkapOperasional;
 
 
-export interface Operasional extends General {
-
+export const operasional = {
+  ...general,
   /* any untuk kemungkinan pengubahan menjadi object */
-  namaLokasiPendaratan: any;
-
-
-  jamSampling: any;
-
-  tanggalSampling: any;
-
+  namaLokasiPendaratan: '',
+  jamSampling: '',
+  tanggalSampling: '',
   /* any karena bisa menjadi object model */
-  namaKapal: any;
-
-  tanggalBerangkat: any;
-
+  namaKapal: '',
+  tanggalBerangkat: '',
   /**/
-  tandaSelar: any;
-
-  tanggalKembali: any;
-
-  namaPemilikKapal: string;
-
-  namaKapten: string;
-
-  jumlahAbk: number;
-
+  tandaSelar: '',
+  tanggalKembali: '',
+  namaPemilikKapal: '',
+  namaKapten: '',
+  jumlahAbk: 0,
   // double
-  panjangKapal: number;
-
-  materialKapal: string;
-
-  dayaCahaya: number;
-
+  panjangKapal: 0,
+  materialKapal: '',
+  dayaCahaya: 0,
   // double
-  bobotKapal: number;
-
-  kapalBantu: boolean;
-
-  ukuranKapalBantu: number;
-
-  kapalAndon: boolean;
-
-  asalKapalAndon: any;
-
-  jumlahPalka: number;
-
-  jumlahBoks: number;
-
-  mesinUtama: number;
-
-  freezer: boolean;
-
+  bobotKapal: 0,
+  kapalBantu: false,
+  ukuranKapalBantu: 0,
+  kapalAndon: false,
+  asalKapalAndon: '',
+  jumlahPalka: 0,
+  jumlahBoks: 0,
+  mesinUtama: 0,
+  freezer: false,
   // double
-  kapasitasFreezer: number;
-
-  kapasitasPalkaBoks: number;
-
-  mesinBantu: number;
-
-  gps: boolean;
-
-  jenisGps: string;
-
+  kapasitasFreezer: 0,
+  kapasitasPalkaBoks: 0,
+  mesinBantu: 0,
+  gps: false,
+  jenisGps: '',
   /* relasi ke tabel alat tangkap */
-  uuidAlatTangkap: any;
-
-  material: string;
-
-  jumlahAlatTangkapYangDioperasikan: number;
-
-  jumlahSetting: number
-
+  uuidAlatTangkap: '',
+  material: '',
+  jumlahAlatTangkapYangDioperasikan: 0,
+  jumlahSetting: 0,
   // double
-  kedalamanAirMulai: number;
-
+  kedalamanAirMulai: 0,
   // double
-  kedalamanAirHingga: number;
-
-  daerahPenangkapan: any;
-
-  jumlahHariPerTrip: number;
-
-  jumlahHariMenangkap: number;
-
-  jenisRumpon: string;
-
+  kedalamanAirHingga: 0,
+  daerahPenangkapan: '',
+  jumlahHariPerTrip: 0,
+  jumlahHariMenangkap: 0,
+  jenisRumpon: '',
   // double
-  jumlahBalokEs: number;
-
-  jumlahRumponDikunjungi: number;
-
-  jumlahRumponBerhasil: number;
-
-  waktuMemancing: string;
-
-  komentar: string;
-
-  sumberInformasi: string;
-
+  jumlahBalokEs: 0,
+  jumlahRumponDikunjungi: 0,
+  jumlahRumponBerhasil: 0,
+  waktuMemancing: '',
+  komentar: '',
+  sumberInformasi: '',
   // double
-  jumlahTangkapanUntukDimakanDilautVolume: number;
-
-  jumlahTangkapanUntukDimakanDilautIndividu: number;
-
-  dataSpesifikasiAlatTangkap: SpesifikasiAlatTangkapOperasional[];
-
-  dataOperasionalDetailTangkapan: HasilTangkapanOperasional[];
-
+  jumlahTangkapanUntukDimakanDilautVolume: 0,
+  jumlahTangkapanUntukDimakanDilautIndividu: 0,
+  dataSpesifikasiAlatTangkap: [],
+  dataOperasionalDetailTangkapan: [],
   // double
-  jumlahTangkapanVolume: number;
-
-  jumlahTangkapanIndividu: number;
-
+  jumlahTangkapanVolume: 0,
+  jumlahTangkapanIndividu: 0,
   // double
-  lamaPerendaman: number;
-
-
-}
+  lamaPerendaman: 0,
+};
+export type Operasional = typeof operasional;

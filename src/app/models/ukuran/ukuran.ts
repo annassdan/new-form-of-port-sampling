@@ -1,65 +1,48 @@
-import {FotoDokumentasi, Model} from '../model';
-import {General} from '../general';
+import {model} from '../model';
+import {general} from '../general';
 
 
-export interface RincianBiologiUkuran extends Model {
-
+export const rincianBiologiUkuran = {
+  ...model,
   /* relasi ke tabel spesies */
-  uuidSpesies: any;
-
+  uuidSpesies: '',
   // double
-  panjang: number;
+  panjang: 0
+};
+export type  RincianBiologiUkuran = typeof rincianBiologiUkuran;
 
-}
 
-
-export interface SampelBiologiUkuran extends Model {
-
+export const sampelBiologiUkuran = {
+  ...model,
   /* relasi ke tabel spesies */
-  uuidSpesies: any;
-
+  uuidSpesies: '',
   // double
-  sampleVolume: number;
-
+  sampleVolume: 0,
   // double
-  sampleIndividu: number;
-
-  tipePanjang: string;
-
-}
-
-
-export interface BiologiUkuran extends General {
+  sampleIndividu: 0,
+  tipePanjang: ''
+};
+export type SampelBiologiUkuran = typeof sampelBiologiUkuran;
 
 
-  namaLokasiSampling: any;
-
-  tanggalSampling: any;
-
-  namaKapal: string;
-
+export const biologiUkuran = {
+  ...general,
+  namaLokasiSampling: '',
+  tanggalSampling: '',
+  namaKapal: '',
   /* ke tabel daerah penangkapan, karena mesti displitting by coma */
-  daerahPenangkapan: any;
-
+  daerahPenangkapan: '',
   /* ke table alat tangkap  */
-  uuidAlatTangkap: any;
-
-  penampung: boolean;
-
-  penangkap: boolean;
-
+  uuidAlatTangkap: '',
+  penampung: false,
+  penangkap: false,
   // double
-  totalTangkapanVolume: number;
-
-  totalTangkapanIndividu: number;
-
-  totalSampelIndividu: number;
-
+  totalTangkapanVolume: 0,
+  totalTangkapanIndividu: 0,
+  totalSampelIndividu: 0,
   // double
-  totalSampelVolume: number;
-
-  dataSampleDetail: SampelBiologiUkuran[];
-
-  dataUkuranDetail: RincianBiologiUkuran[];
-
-}
+  totalSampelVolume: '',
+  dataSampleDetail: [],
+  dataUkuranDetail: []
+};
+export type BiologiUkuran = typeof biologiUkuran;

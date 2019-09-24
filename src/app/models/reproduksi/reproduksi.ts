@@ -1,45 +1,32 @@
-import {Model} from '../model';
-import {General} from '../general';
+import {model} from '../model';
+import {general} from '../general';
 
 
-export interface RincianBiologiReproduksi extends Model {
-
+export const rincianBiologiReproduksi = {
+  ...model,
   // double
-  panjang: number;
-
-  tipePanjang: any;
-
-  jenisKelamin: any;
-
+  panjang: 0,
+  tipePanjang: '',
+  jenisKelamin: '',
   // double
-  berat: number;
-
-  tkg: any;
-
+  berat: 0,
+  tkg: '',
   // double
-  beratIsiPerut: number;
+  beratIsiPerut: 0
+};
+export type RincianBiologiReproduksi = typeof rincianBiologiReproduksi;
 
-}
 
-
-export interface BiologiReproduksi extends General {
-
-  namaLokasiSampling: any;
-
-  namaKapal: any;
-
-  daerahPenangkapan: any;
-
-  penampung: boolean;
-
-  penangkap: boolean;
-
+export const biologiReproduksi = {
+  ...general,
+  namaLokasiSampling: '',
+  namaKapal: '',
+  daerahPenangkapan: '',
+  penampung: false,
+  penangkap: false,
   /* relasi tabel alat tangkap */
-  uuidAlatTangkap: any;
-
-  tanggalSampling: any;
-
-  dataDetailReproduksi: RincianBiologiReproduksi[];
-
-  
-}
+  uuidAlatTangkap: '',
+  tanggalSampling: '',
+  dataDetailReproduksi: []
+};
+export type BiologiReproduksi = typeof biologiReproduksi;
