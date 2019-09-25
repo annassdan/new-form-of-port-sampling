@@ -10,7 +10,6 @@ export class TextSkeletonComponent implements OnInit, AfterViewInit {
   @Input()
   top: string = '10px';
 
-
   @Input()
   background: string = '';
 
@@ -30,10 +29,8 @@ export class TextSkeletonComponent implements OnInit, AfterViewInit {
   @Input()
   height: number = 20;
 
-
   @Input()
   heightAsPercent: boolean = false;
-
 
   @Input()
   theStyle = {};
@@ -48,7 +45,6 @@ export class TextSkeletonComponent implements OnInit, AfterViewInit {
     const w = this.width.length === 0 ? '100%' : this.width;
 
     this.theStyle = {
-      ...this.theStyle,
       paddingTop: `${padding}${this.heightAsPercent ? '%' : 'px'}`,
       paddingBottom: `${padding}${this.heightAsPercent ? '%' : 'px'}`,
       width: w,
@@ -56,7 +52,8 @@ export class TextSkeletonComponent implements OnInit, AfterViewInit {
       marginLeft: this.start,
       marginTop: this.besideOnNext ? '' : this.top,
       float: this.besideOnNext ? 'left' : '',
-      backgroundColor: this.background.length === 0 ? '#d1d1d1' : this.background
+      backgroundColor: this.background.length === 0 ? '#d1d1d1' : this.background,
+      ...this.theStyle,
     }
   }
 
