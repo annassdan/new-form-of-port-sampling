@@ -12,27 +12,45 @@ $the-font-size-1: 14px;
 $the-font-size-1-point-5: 17px;
 $the-font-size-2: 19px;
 $the-font-size-3: 23px;
+$the-font-size-section-title: 16px;
 
-$the-font-color: #707070;
+$the-font-color: #656565;
+$the-font-color-hard: #474747;
+$the-font-color-soft: #797979;
+$section-title-color: #303030;
 
 /* deklarai warna tema yang diinginkan */
 $color-primary: $mat-blue;
-$color-accent: $mat-pink;
+//$color-accent: $mat-pink;
+$color-accent: $mat-yellow;
 $color-warn: $mat-deep-orange;
 
 $the-primary: mat-palette($color-primary, A700);
-$the-accent: mat-palette($color-accent, A200);
+//$the-accent: mat-palette($color-accent, A200);
+$the-accent: mat-palette($color-accent, 900);
 $the-warn: mat-palette($color-warn);
 
 
-.primary { color: mat-color($the-primary); }
-.accent { color: mat-color($the-accent); }
-.warn { color: mat-color($the-warn); }
+.primary { color: mat-color($the-primary) !important; }
+.accent { color: mat-color($the-accent) !important; }
+.warn { color: mat-color($the-warn) !important;  }
+
+.my-color-hard { color: $the-font-color-hard; }
+.my-color-soft { color: $the-font-color-soft; }
 .my-color { color: $the-font-color; }
+
 .my-bg-color { background: $the-bg-color !important;}
 .my-on-search-bg-color { background: $the-on-search-bg-color !important;}
 
 
+.conditional-accent { color: mat-color(mat-palette($color-accent, 500)) !important; }
+
+
+
+
+::ng-deep .mat-option {
+  font-size: $the-font-size-1 !important;
+}
 
 /* inisialisasi tema */
 $the-light-theme: mat-light-theme($the-primary, $the-accent, $the-warn);

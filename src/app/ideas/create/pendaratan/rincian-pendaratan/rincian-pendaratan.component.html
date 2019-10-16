@@ -1,0 +1,80 @@
+<div *ngIf="currentPendaratanState.formRincianPendaratan$ |async"
+     [formGroup]="currentPendaratanState.formRincianPendaratan$ |async"
+     class="form-rincian-pendaratan">
+  <mat-toolbar color="primary">
+
+    <mat-icon class="icon-of-dialog">double_arrow</mat-icon>
+    <!-- title -->
+    <h5 class="conditional-accent title-of-dialog"
+        *ngIf="extractFormControlValue('namaKapal', currentPendaratanState.formRincianPendaratan$ | async).length === 0; else hasTitle">
+      {{defaultNamaKapal}}
+    </h5>
+    <ng-template #hasTitle>
+      <h5 class="title-of-dialog">{{extractFormControlValue('namaKapal', currentPendaratanState.formRincianPendaratan$ | async)}}</h5>
+    </ng-template>
+
+
+    <!--invisible fake button-->
+    <button #fake mat-flat-button></button>
+    <!--spacer-->
+    <span class="spacer"></span>
+
+    <button mat-icon-button mat-dialog-close>
+      <mat-icon>clear</mat-icon>
+    </button>
+  </mat-toolbar>
+
+<!--  <div class="form-content-wrapper ">-->
+  <div class="row form-content-wrapper">
+    <div class="col-md-6">
+      <mat-form-field appearance="outline">
+        <mat-label>Nama Kapal</mat-label>
+        <input #targetNamaKapal autocomplete="off"
+               formControlName="namaKapal"
+               appMatInputNext
+               matInput placeholder="Nama Kapal">
+      </mat-form-field>
+    </div>
+
+    <div class="col-md-6">
+      <mat-form-field appearance="outline">
+        <mat-label>Alat Tangkap</mat-label>
+        <input [matAutocomplete]="autoAlatTangkap"
+               #targetAlatTangkap="matAutocompleteTrigger"
+               formControlName="uuidAlatTangkap"
+               autocomplete="off" matInput placeholder="Alat Tangkap"
+               appMatAutocompleteNext>
+        <mat-autocomplete #autoAlatTangkap="matAutocomplete">
+          <mat-option value="Pukat Cincin">Pukat Cincin</mat-option>
+          <mat-option value="Pukat Rawai">Pukat Rawai</mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </div>
+
+    <div class="col-md-6 row cause-slide-toggle-section">
+      <div class="col-md-6 slide-toggle-section">
+        <section>
+          <mat-slide-toggle color="warn" formControlName="penampung">Penampung</mat-slide-toggle>
+        </section>
+      </div>
+      <div class="col-md-6 slide-toggle-section">
+        <section>
+          <mat-slide-toggle color="warn" formControlName="penangkap">Penangkap</mat-slide-toggle>
+        </section>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <mat-form-field appearance="outline">
+        <mat-label>Jumlah Kapal Penangkap</mat-label>
+        <input #targetJumlahKapalPenangkap autocomplete="off"
+               formControlName="jumlahKapalPenangkap"
+               appMatInputNext
+               matInput placeholder="Jumlah Kapal Penangkap">
+      </mat-form-field>
+    </div>
+
+  </div>
+
+<!--  </div>-->
+</div>

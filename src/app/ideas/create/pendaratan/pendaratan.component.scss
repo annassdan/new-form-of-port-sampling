@@ -1,0 +1,42 @@
+@import "../../../../the-theme";
+/* hanya apply pada container form pendaratan */
+.form-pendaratan {
+  .floating-to-right {
+    float: right;
+  }
+
+  .icon-inside-button {
+    margin-top: -3px;
+  }
+
+
+  .rincian-pendaratan-container {
+    top: 0;
+  }
+
+  .list-rincian-pendaratan-container {
+    margin-top: 10px;
+
+    ::ng-deep .mat-pseudo-checkbox {
+      display: none;
+    }
+
+    .new-window-position {
+      position: absolute;
+      right: 55px;
+    }
+
+    .remove-rincian-pendaratan {
+      position: absolute;
+      right: 15px;
+    }
+  }
+
+  .mat-subheader {
+    color: $section-title-color;
+    font-size: $the-font-size-section-title;
+    padding: 16px 16px 16px 0;
+    //margin-left: -15px;
+    font-weight: bold;
+  }
+}

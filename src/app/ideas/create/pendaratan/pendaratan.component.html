@@ -1,0 +1,178 @@
+<div class="row form-pendaratan" [formGroup]="formPendaratan">
+
+  <div class="col-md-6">
+    <mat-form-field appearance="outline">
+      <mat-label>Organisasi</mat-label>
+      <input [matAutocomplete]="autoOrganisasi"
+             #targetOrganisasi="matAutocompleteTrigger"
+             formControlName="organisasi"
+             autocomplete="off" matInput placeholder="Organisasi"
+             appMatAutocompleteNext
+             [nextTarget]="targetPencatat">
+      <mat-autocomplete #autoOrganisasi="matAutocomplete">
+        <mat-option value="Balai Riset Perikanan Laut">BRPL</mat-option>
+        <mat-option value="The Nature Conservation">TNC</mat-option>
+        <mat-option value="WCS Indonesia">WCS Indonesia</mat-option>
+        <mat-option value="WWF Indonesia">WWF Indonesia</mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+  </div>
+
+  <div class="col-md-6">
+    <mat-form-field appearance="outline">
+      <mat-label>Pencatat</mat-label>
+      <input [matAutocomplete]="autoPencatat"
+             #targetPencatat="matAutocompleteTrigger" autocomplete="off"
+             formControlName="uuidEnumerator"
+             matInput placeholder="Pencatat"
+             appMatAutocompleteNext
+             required="true"
+             [previousTarget]="targetOrganisasi"
+             [nextTarget]="targetSumberdaya">
+      <mat-autocomplete #autoPencatat="matAutocomplete">
+        <mat-option value="Muhammad Nur Annas">Muhammad Nur Annas</mat-option>
+        <mat-option value="I Komang Suryana">I Komang Suryana</mat-option>
+        <mat-option value="Syaifullah">Syaifullah</mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+  </div>
+
+  <div class="col-md-6">
+    <mat-form-field appearance="outline">
+      <mat-label>Sumberdaya</mat-label>
+      <input #targetSumberdaya="matAutocompleteTrigger" autocomplete="off"
+             formControlName="uuidSumberDaya"
+             [matAutocomplete]="autoSumberdaya" matInput placeholder="Sumberdaya"
+             appMatAutocompleteNext
+             [nextTarget]="targetWpp"
+             [previousTarget]="targetPencatat">
+      <mat-autocomplete #autoSumberdaya="matAutocomplete">
+        <mat-option value="Pelagis Besar">Pelagis Besar</mat-option>
+        <mat-option value="Pelagis Kecil">Pelagis Kecil</mat-option>
+        <mat-option value="Demersal">Demersal</mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+  </div>
+
+  <div class="col-md-6">
+    <mat-form-field appearance="outline">
+      <mat-label>WPP</mat-label>
+      <input #targetWpp="matAutocompleteTrigger" [matAutocomplete]="autoWpp"
+             formControlName="wpp"
+             autocomplete="off" matInput placeholder="WPP"
+             appMatAutocompleteNext
+             required="true"
+             [nextTarget]="targetLokasiPendaratan"
+             [previousTarget]="targetSumberdaya">
+      <mat-autocomplete #autoWpp="matAutocomplete">
+        <mat-option value="571">571</mat-option>
+        <mat-option value="572">572</mat-option>
+        <mat-option value="573">573</mat-option>
+        <mat-option value="711">711</mat-option>
+        <mat-option value="712">712</mat-option>
+        <mat-option value="713">713</mat-option>
+        <mat-option value="714">714</mat-option>
+        <mat-option value="715">715</mat-option>
+        <mat-option value="716">716</mat-option>
+        <mat-option value="717">717</mat-option>
+        <mat-option value="718">718</mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+  </div>
+
+  <div class="col-md-6">
+    <mat-form-field appearance="outline">
+      <mat-label>Lokasi Pendaratan</mat-label>
+      <input #targetLokasiPendaratan autocomplete="off"
+             formControlName="namaLokasiPendaratan"
+             appMatInputNext
+             [nextTarget]="targetTanggalPendaratan"
+             [previousTarget]="targetWpp"
+             matInput placeholder="Lokasi Pendaratan">
+    </mat-form-field>
+  </div>
+
+  <div class="col-md-6">
+    <mat-form-field appearance="outline">
+      <mat-label>Tanggal Pendaratan</mat-label>
+      <input #targetTanggalPendaratan="matDatepickerInput" matInput autocomplete="off" placeholder="Tanggal Pendaratan"
+             formControlName="tanggalPendaratan"
+             appMatDatepickerNext
+             [nextTarget]="tombolTambahPendaratan"
+             [previousTarget]="targetLokasiPendaratan"
+             (focus)="datepickerTanggalPendaratan.open()"
+             (click)="datepickerTanggalPendaratan.open()"
+             [matDatepicker]="datepickerTanggalPendaratan">
+      <mat-datepicker #datepickerTanggalPendaratan></mat-datepicker>
+    </mat-form-field>
+  </div>
+
+  <!--  <div class="col-md-12">-->
+  <!--    -->
+  <!--  </div>-->
+
+  <div class="col-md-12 rincian-pendaratan-container">
+    <button (click)="addRincianPendaratan('dataRincianPendaratan')" class="floating-to-right" #tombolTambahPendaratan
+            mat-raised-button color="primary">
+      <mat-icon class="icon-inside-button">add</mat-icon>&nbsp;&nbsp;Tambah Rincian Pendaratan
+    </button>
+
+
+    <mat-selection-list class="remove-outline" #shoes>
+      <label *ngIf="listOfRincianPendaratan('dataRincianPendaratan').length > 0; else emptyRincianPendaratan"
+             mat-subheader>
+        Daftar Rincian Pendaratan&nbsp;&nbsp;<span
+        class="primary">({{listOfRincianPendaratan('dataRincianPendaratan').length}})</span>
+      </label>
+      <ng-template #emptyRincianPendaratan>
+        <label class="warn" mat-subheader>Belum Ada Rincian Pendaratan</label>
+      </ng-template>
+
+      <div class="list-rincian-pendaratan-container">
+        <mat-divider *ngIf="listOfRincianPendaratan('dataRincianPendaratan').length > 0"></mat-divider>
+        <div
+          *ngFor="let rincianPendaratan of listOfRincianPendaratan('dataRincianPendaratan'); index as rincianPendaratanIndex">
+          <mat-list-option>
+            <mat-icon class="my-color" mat-list-icon>folder</mat-icon>
+            <h4 class="my-color-hard" mat-line>DADADAD</h4>
+            <p class="my-color" mat-line> detailll </p>
+
+            <button #targetButtonOpenRincianPendaratan
+                    (click)="openRincianPendaratan(rincianPendaratan, targetButtonOpenRincianPendaratan)" mat-line
+                    mat-icon-button class="new-window-position">
+              <mat-icon class="my-color" matTooltip="Buka Rincian" matTooltipPosition="before">open_in_new</mat-icon>
+            </button>
+            <button (click)="removeRincianPendaratan('dataRincianPendaratan', rincianPendaratanIndex)" mat-line
+                    mat-icon-button class="remove-rincian-pendaratan">
+              <mat-icon color="warn" matTooltip="Hapus" matTooltipPosition="before">delete</mat-icon>
+            </button>
+          </mat-list-option>
+          <mat-divider></mat-divider>
+        </div>
+      </div>
+    </mat-selection-list>
+
+
+    <!--    <p>-->
+    <!--      Options selected: {{shoes.selectedOptions.selected.length}}-->
+    <!--    </p>-->
+  </div>
+
+
+</div>
+
+
+<br/>
+
+<iframe width="702.7834302325581" height="336.5" seamless frameborder="0" scrolling="no" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vQbRYApCbHWpdbi-t78-8SunBur2F8RsjsrIHvvi0mn24Fc3MBwZLhK7ioqPr4xxh9i3svumhHL-laK/pubchart?oid=1004436221&amp;format=interactive"></iframe>
+<br>
+
+<iframe width="926" height="515.3808333333334" seamless frameborder="0" scrolling="no" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vR37AI3trwdwEezye_Vu5KyABPQatnxfeFF5yBcdyUSOQ86Tz-sgrlpxJmRWtA0Lnn6vj2SXDzPfnFN/pubchart?oid=2052201994&amp;format=interactive"></iframe>
+<br>
+<iframe width="607.277628032345" height="375.5" seamless frameborder="0" scrolling="no" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vS5SB_8MOgQpHxaZCtyj89okEG8kNtnQcLdvFCwk1RUv1OpYhAt-SVkjbIDkE1aAXdiuRRB7bcP3H7o/pubchart?oid=387635745&amp;format=interactive"></iframe>
+<br>
+<iframe width="807.1352040816327" height="499.0675321750321" seamless frameborder="0" scrolling="no" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vTa1WcbfNmMB3a_of65xX323_eA0cgSrftZjO0QiTxrXyaJslTn4jb1nABZGX1dYu95b07NHxxDAHC4/pubchart?oid=605456211&amp;format=interactive"></iframe>
+<br>
+<iframe width="696.0970350404313" height="413.5" seamless frameborder="0" scrolling="no" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vQCzzZ88d47uIfkZChHtS566qZKbChg959KOy5VjuyD4bP3tmP2ggcQVwfVnU-Dii53xnbeUKesy59r/pubchart?oid=884457720&amp;format=interactive"></iframe>
+<br>
+<iframe width="809" height="627.1924890006285" seamless frameborder="0" scrolling="no" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vTesnhgJHj6cxOjMgjIJjohQX0uOessbZM6Wz8bVF5mXcs3J4X3nYGkcdAk9WnuuBNOHXfC32SD0HM5/pubchart?oid=1257564337&amp;format=interactive"></iframe>

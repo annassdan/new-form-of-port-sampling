@@ -1,0 +1,14 @@
+@import "../../../../../the-theme";
+
+::ng-deep .mat-dialog-container {
+  padding: 0;
+  border-radius: 0;
+  background: $the-bg-color;
+  font-size: $the-font-size-1;
+}
+
+.form-rincian-pendaratan {
+  .form-content-wrapper {
+    padding: 25px 25px 0 25px;
+  }
+}

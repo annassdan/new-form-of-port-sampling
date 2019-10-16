@@ -1,4 +1,4 @@
-import {FormBuilder, Validators} from '@angular/forms';
+import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 
 /**
  * Melakukan cast data ke Tipe Array
@@ -23,6 +23,7 @@ function isArray(array: any): boolean {
 function isObject(object: any): boolean {
   return object === undefined || object === null ? false : ((<any[]> object).length === undefined && typeof object === 'object');
 }
+
 
 /* model constant dari default nilai pada setiap formControl */
 export const formControlContent = {
@@ -141,6 +142,32 @@ export function createFormControl(value: any,
   ];
 }
 
+
+export function extractFormControlValue(control: string, formGroup: FormGroup | any) {
+  return formGroup ? <FormControl> formGroup.get(control).value : '';
+}
+
+export function extractFormArray(formGroupParent: FormGroup, formArrayControlName: string): FormArray {
+  return (<FormArray> formGroupParent.controls[formArrayControlName]);
+}
+
+export function extractAllMemberOfFormArray(fg: FormGroup | any, formArrayControlName: string) {
+  return fg ? ((<FormArray>  fg.get(formArrayControlName)).controls) : [];
+}
+
+export async function addFormArrayMember(formGroupParent: FormGroup, formArrayControlName: string, data: FormGroup, first = true) {
+  const formArray = extractFormArray(formGroupParent, formArrayControlName);
+  if (first) {
+    await formArray.insert(0, data);
+  } else {
+    await formArray.push(data);
+  }
+}
+
+export async function removeFormArrayMember(formGroupParent: FormGroup, formArrayControlName: string, index: number) {
+  const formArray = extractFormArray(formGroupParent, formArrayControlName);
+  await formArray.removeAt(index);
+}
 
 
 

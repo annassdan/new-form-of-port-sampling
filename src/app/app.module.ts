@@ -5,9 +5,13 @@ import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {
+  DateAdapter,
+  MAT_DATE_FORMATS,
+  MAT_DATE_LOCALE,
+  MatAutocompleteModule,
   MatButtonModule,
   MatButtonToggleModule,
-  MatChipsModule,
+  MatChipsModule, MatDatepickerModule, MatDialogModule,
   MatDividerModule,
   MatFormFieldModule,
   MatIconModule,
@@ -15,8 +19,9 @@ import {
   MatListModule,
   MatMenuModule,
   MatProgressBarModule,
-  MatSidenavModule,
-  MatToolbarModule
+  MatSidenavModule, MatSlideToggleModule,
+  MatToolbarModule,
+  MatTooltipModule
 } from '@angular/material';
 import {TheDashboardComponent} from './ideas/the-dashboard/the-dashboard.component';
 import {LayoutModule} from '@angular/cdk/layout';
@@ -26,8 +31,18 @@ import {WhenElementRenderedDirective} from './shared/directives/when-element-ren
 import {InViewportModule} from '@thisissoon/angular-inviewport';
 import {NoContentComponent} from './ideas/the-dashboard/ghosts/no-content/no-content.component';
 import {NgxElectronModule} from 'ngx-electron';
-import {FormsModule} from '@angular/forms';
-import { CreateComponent } from './ideas/create/create.component';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {CreateComponent} from './ideas/create/create.component';
+import {PendaratanComponent} from './ideas/create/pendaratan/pendaratan.component';
+import {InputSelectTextDirective} from './shared/directives/input-select-text.directive';
+import {MatAutocompleteNextDirective} from './shared/directives/mat-autocomplete-next.directive';
+import {MAT_MOMENT_DATE_FORMATS} from '@angular/material-moment-adapter';
+import {IonMomentDateAdapter} from './shared/ion-moment-date-adapter';
+import { MatInputNextDirective } from './shared/directives/mat-input-next.directive';
+import { MatDatepickerNextDirective } from './shared/directives/mat-datepicker-next.directive';
+import { RincianPendaratanComponent } from './ideas/create/pendaratan/rincian-pendaratan/rincian-pendaratan.component';
+import {RincianPendaratanContainer} from './ideas/create/pendaratan/rincian-pendaratan/rincian-pendaratan-container ';
+import {PendaratanBrigeService} from './ideas/create/pendaratan/pendaratan-brige.service';
 
 @NgModule({
   declarations: [
@@ -37,7 +52,14 @@ import { CreateComponent } from './ideas/create/create.component';
     StandardGhostComponent,
     WhenElementRenderedDirective,
     NoContentComponent,
-    CreateComponent
+    CreateComponent,
+    PendaratanComponent,
+    InputSelectTextDirective,
+    MatAutocompleteNextDirective,
+    MatInputNextDirective,
+    MatDatepickerNextDirective,
+    RincianPendaratanComponent,
+    RincianPendaratanContainer
   ],
   imports: [
     BrowserModule,
@@ -63,9 +85,23 @@ import { CreateComponent } from './ideas/create/create.component';
     MatButtonToggleModule,
 
     InViewportModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule,
+    MatAutocompleteModule,
+    MatTooltipModule,
+    MatDatepickerModule,
+    MatDialogModule,
+    MatSlideToggleModule
   ],
-  providers: [],
+  entryComponents: [
+    RincianPendaratanComponent
+  ],
+  providers: [
+    /* Provide formating tanggal emnggunakan moment js dan angular */
+    { provide: DateAdapter, useClass: IonMomentDateAdapter, deps: [MAT_DATE_LOCALE] },
+    { provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS },
+    /**/
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -60,48 +60,31 @@ export class TheDashboardComponent implements OnInit, OnDestroy, AfterViewInit {
       hasActive: 'active'
     },
     {
-      name: 'data-dasar',
-      displayName: 'Data Dasar',
-      icon: 'dns',
-      hasActive: '',
-      rightIcon: this.collapsedIcon,
-      hasChilds: [
-        {...this.back, roots: {display: 'Data Dasar ', names: ['data-dasar']}},
-        {
-          name: 'unggah-data',
-          displayName: 'Unggah Data',
-          description: 'Proses Unggah Data Mentah dari Excel',
-          icon: 'vertical_align_top',
-          hasActive: ''
-        },
-        {
-          name: 'input-data',
-          displayName: 'Input Data',
-          description: 'Proses Input Data Mentah ke Sistem',
-          icon: 'note_add',
-          hasActive: ''
-        }
-      ]
+      name: 'form-sampling',
+      displayName: 'Form Sampling',
+      description: 'Halaman untuk memasukan data port sampling',
+      icon: 'post_add',
+      hasActive: ''
     },
     {
-      name: 'pendataan',
-      displayName: 'Pendataan',
+      name: 'data-utama',
+      displayName: 'Data Utama',
       icon: 'receipt',
       hasActive: '',
       rightIcon: this.collapsedIcon,
       hasChilds: [
-        {...this.back, roots: {display: 'Pendataan ', names: ['pendataan']}},
+        {...this.back, roots: {display: 'Data Utama ', names: ['data-utama']}},
         {
           name: 'pendaratan',
           displayName: 'Pendaratan',
-          description: 'Daftar Pendataan untuk Pendaratan',
+          description: 'Daftar Data Utama untuk Pendaratan',
           icon: 'camera_rear',
           hasActive: ''
         },
         {
           name: 'operasional',
           displayName: 'Operasional',
-          description: 'Daftar Pendataan untuk Operasional',
+          description: 'Daftar Data Utama untuk Operasional',
           icon: 'camera_rear',
           hasActive: ''
         },
@@ -112,18 +95,18 @@ export class TheDashboardComponent implements OnInit, OnDestroy, AfterViewInit {
           hasActive: '',
           rightIcon: this.collapsedIcon,
           hasChilds: [
-            {...this.back, roots: {display: `Pendataan ${rightArrowChar}  Biologi `, names: ['pendataan', 'biologi']}},
+            {...this.back, roots: {display: `Data Utama ${rightArrowChar}  Biologi `, names: ['data-utama', 'biologi']}},
             {
               name: 'ukuran',
               displayName: 'Ukuran',
-              description: 'Daftar Pendataan untuk Biologi Ukuran',
+              description: 'Daftar Data Utama untuk Biologi Ukuran',
               icon: 'camera_rear',
               hasActive: ''
             },
             {
               name: 'reproduksi',
               displayName: 'Reproduksi',
-              description: 'Daftar Pendataan untuk Biologi Reproduksi',
+              description: 'Daftar Data Utama untuk Biologi Reproduksi',
               icon: 'camera_rear',
               hasActive: ''
             },
@@ -133,33 +116,24 @@ export class TheDashboardComponent implements OnInit, OnDestroy, AfterViewInit {
 
     },
     {
-      name: 'master',
-      displayName: 'Master',
-      icon: 'blur_linear',
-      hasActive: '',
-      rightIcon: this.collapsedIcon,
-      hasChilds: [
-        {...this.back, roots: {display: 'Master ', names: ['master']}},
-        {
-          name: 'alat-tangkap',
-          displayName: 'Alat Tangkap',
-          description: 'Daftar Alat Tangkap',
-          icon: 'camera_rear',
-          hasActive: ''
-        },
-      ]
+      name: 'pengaturan',
+      displayName: 'Pengaturan',
+      icon: 'settings',
+      hasActive: ''
     }
 
   ];
 
 
   /* menu yang terpilih */
-  currentMenu = this.menus[2].hasChilds[3].hasChilds[1];
+  // currentMenu = this.menus[2].hasChilds[3].hasChilds[1];
+  currentMenu = this.menus[1];
 
   /* menu yang akan ditampilkan ke user */
-  menuInstance: MyMenu[] = this.menus[2].hasChilds[3].hasChilds;
+  // menuInstance: MyMenu[] = this.menus[2].hasChilds[3].hasChilds;
+  menuParent: MyMenu[] = this.menus;
 
-  currentMenuInstance: MyMenu[] = this.menuInstance;
+  currentMenuParent: MyMenu[] = this.menuParent;
   breadcrumbPrefixText = this.currentMenu.displayName;
   breadcrumbPrefixIcon = this.dashboardIcon;
 
@@ -171,8 +145,6 @@ export class TheDashboardComponent implements OnInit, OnDestroy, AfterViewInit {
     private changeDetector: ChangeDetectorRef,
     public breakpointObserver: BreakpointObserver) {
     this.showMenu(this.currentMenu);
-
-
     console.log('this.electronService.ipcRenderer', this.electronService.ipcRenderer);
   }
 
@@ -202,7 +174,7 @@ export class TheDashboardComponent implements OnInit, OnDestroy, AfterViewInit {
 
 
   pickBreadcrumb() {
-    const getted = <MyMenu[]> this.menuInstance.filter(value => value.isBack);
+    const getted = <MyMenu[]> this.menuParent.filter(value => value.isBack);
     if (getted.length === 0) {
       this.breadcrumbPrefixIcon = this.dashboardIcon;
       this.breadcrumbPrefixText = this.currentMenu.displayName;
@@ -232,7 +204,7 @@ export class TheDashboardComponent implements OnInit, OnDestroy, AfterViewInit {
       atRootNameIndex++;
     }
 
-    this.menuInstance = topMenu;
+    this.menuParent = topMenu;
   }
 
   clear(m: MyMenu | MyMenu[], except?: string) {
@@ -255,8 +227,8 @@ export class TheDashboardComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-  selectMenu(menu: MyMenu, menus = this.menuInstance) {
-    this.currentMenuInstance = menus;
+  selectMenu(menu: MyMenu, menus = this.menuParent) {
+    this.currentMenuParent = menus;
 
     for (const m of menus) {
       if (m.name === menu.name) {
@@ -270,7 +242,7 @@ export class TheDashboardComponent implements OnInit, OnDestroy, AfterViewInit {
 
     /* set perubahan nilai event listener on menu options */
     this.rootState.menuOptions({
-      currentMenusInstance: this.currentMenuInstance,
+      currentMenusInstance: this.currentMenuParent,
       currentMenu: this.currentMenu,
       breadcrumbPrefixText: this.breadcrumbPrefixText
     });
@@ -316,7 +288,7 @@ export class TheDashboardComponent implements OnInit, OnDestroy, AfterViewInit {
 
         this.showMenu(menu);
       } else { /* jika menu mempunyai sub menu, maka menu yang ditampilkan adalah sub menunya */
-        this.menuInstance = menu.hasChilds;
+        this.menuParent = menu.hasChilds;
       }
 
     }
@@ -324,32 +296,19 @@ export class TheDashboardComponent implements OnInit, OnDestroy, AfterViewInit {
 
   showMenu(menu: MyMenu) {
     this.selectMenu(menu);
-    const backs = this.menuInstance.filter(value => value.isBack);
-    if (this.menuInstance.filter(value => value.isBack).length > 0) {
+    const backs = this.menuParent.filter(value => value.isBack);
+    if (this.menuParent.filter(value => value.isBack).length > 0) {
       this.selectAllHisRootMenu(backs[0], menu.name);
     }
   }
 
   async current() {
-
-
-    // const module = await import('../master/alat-tangkap/alat-tangkap.module');
-    // const compiled = await this.compiler.compileModuleAndAllComponentsAsync(module.AlatTangkapModule);
-    // const factory = compiled.componentFactories.find((cf: ComponentFactory<any>) => cf.selector === 'app-alat-tangkap');
-    //
-    // if (factory) {
-    //   this.myContainer.createComponent(factory);
-    // }
-
-
-    for (const cm of this.currentMenuInstance) {
-      if (this.menuInstance.filter(value => value.name === cm.name).length === 0) {
-        this.menuInstance = this.currentMenuInstance;
+    for (const cm of this.currentMenuParent) {
+      if (this.menuParent.filter(value => value.name === cm.name).length === 0) {
+        this.menuParent = this.currentMenuParent;
         break;
       }
     }
-
-
   }
 
 }

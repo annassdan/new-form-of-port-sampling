@@ -49,19 +49,14 @@
         </mat-chip-list>
       </h2>
 
-
       <!-- jika breadcrumb terlihat di viewport -->
       <ng-container *ngIf="rootState.breadcrumbAppear$ | async">
-        <h2 *ngIf="!(rootState.asSmallSize$ | async)" class="the-app-title">Form Pendataan RBPL</h2>
-        <h2 *ngIf="(rootState.asSmallSize$ | async)" class="the-app-title">Form BRPL</h2>
+        <h2 *ngIf="!(rootState.asSmallSize$ | async)" class="the-app-title">Port Sampling BRPL</h2>
+        <h2 *ngIf="(rootState.asSmallSize$ | async)" class="the-app-title">Sampling</h2>
       </ng-container>
-
-
 
       <!--spacer-->
       <span class="spacer"></span>
-
-
 
       <h3 *ngIf="(rootState.asSmallSize$ | async) && breadcrumbPrefixText !== currentMenu.displayName" class="mat-typography the-app-title">
         <mat-chip-list>
@@ -72,7 +67,6 @@
         </mat-chip-list>
       </h3>
 
-
       <!-- user menu on wide device -->
       <button mat-icon-button
               (click)="minimizeElectronWindow()"
@@ -82,14 +76,6 @@
       <button mat-icon-button (click)="closeElectronWindow()">
         <mat-icon>clear</mat-icon>
       </button>
-<!--      <button mat-icon-button [matMenuTriggerFor]="userOptionsMenu">-->
-<!--        <mat-icon>drag_indicator</mat-icon>-->
-<!--      </button>-->
-<!--      <button mat-icon-button [matMenuTriggerFor]="userOptionsMenu">-->
-<!--        <mat-icon>account_circle</mat-icon>-->
-<!--      </button>-->
-
-
     </mat-toolbar>
   </ng-template>
 
@@ -105,7 +91,7 @@
       <input #isLarge type="hidden" [value]="!(rootState.asSmallSize$ | async)">
       <button mat-menu-item [ngClass]="m.hasActive"
               (click)="onMenuClicked(m, { sidenav: sidenav, isLarge: isLarge.value})"
-              *ngFor="let m of menuInstance">
+              *ngFor="let m of menuParent">
 
         <div class="the-sidenav-menu">
           <mat-icon class="display-icon" [color]="m.isBack ? backCss : ''">{{m.icon}}</mat-icon>
@@ -121,10 +107,7 @@
     <!-- container utama letak penempatan konten ataupun router outlet -->
     <mat-sidenav-content id="mainContentContainerId" class="mat-typography">
 
-<!--      <app-alat-tangkap></app-alat-tangkap>-->
-
       <app-create></app-create>
-<!--      <app-standard-ghost></app-standard-ghost>-->
 
     </mat-sidenav-content>
 

@@ -4,13 +4,14 @@ import {MainStateService} from '../../shared/services/main-state.service';
 import {BreakpointObserver} from '@angular/cdk/layout';
 import {MAX_WIDTH} from '../../shared/constants';
 import {pendaratan} from '../../models/pendaratan/pendaratan';
-import {createFormGroup, createFormGroupContent} from '../../shared/reactive.form.modeling';
+import {createFormGroup, createFormGroupContent} from '../../shared/reactive-form-modeling';
 import {Shared} from '../../shared/shared';
+import {PendaratanBrigeService} from './pendaratan/pendaratan-brige.service';
 
 @Component({
   selector: 'app-create',
   templateUrl: './create.component.html',
-  styleUrls: ['./create.component.scss']
+  styleUrls: ['./create.component.scss'],
 })
 export class CreateComponent extends Shared implements OnInit, OnDestroy {
 
@@ -55,7 +56,7 @@ export class CreateComponent extends Shared implements OnInit, OnDestroy {
 
 
 
-  
+
 
   async test() {
     await import(/* webpackChunkName: "settings" */ '../../../assets/settings/settings.js')
@@ -64,11 +65,7 @@ export class CreateComponent extends Shared implements OnInit, OnDestroy {
 
 
   tets() {
-
-    console.log('pendaratan', pendaratan)
-
     const form = createFormGroup(createFormGroupContent(pendaratan));
-
     console.log(form);
   }
 }

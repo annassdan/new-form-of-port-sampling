@@ -67,18 +67,19 @@
     <span class="spacer"></span>
 
     <div class="action-on-menu">
-      <button (click)="startSearch()" mat-icon-button>
-        <mat-icon class="my-color">search</mat-icon>
+<!--      <button (click)="startSearch()" mat-icon-button>-->
+<!--        <mat-icon class="my-color">search</mat-icon>-->
+<!--      </button>-->
+      <button mat-stroked-button class="margin-from-icon" color="accent">
+        Atur Ulang Form
       </button>
       <button (click)="rootState.search(false)" mat-icon-button>
-        <mat-icon class="my-color">refresh</mat-icon>
+        <mat-icon matTooltip="Muat Ulang"
+                  color="accent" class="my-color">refresh</mat-icon>
       </button>
-      <button mat-icon-button>
-        <mat-icon class="my-color">error_outline</mat-icon>
-      </button>
-      <button mat-icon-button>
-        <mat-icon class="my-color">insert_drive_file</mat-icon>
-      </button>
+<!--      <button mat-icon-button>-->
+<!--        <mat-icon class="my-color">insert_drive_file</mat-icon>-->
+<!--      </button>-->
     </div>
 
   </mat-toolbar>
@@ -87,30 +88,29 @@
 <div *ngIf="!(rootState.searching$ | async)" class="menu-description">
   <h5>{{(rootState.selectedMenuOptions$ | async).currentMenu.description}}</h5>
 </div>
-<!--<mat-divider class="breadcrumb-bottom-divider"></mat-divider>-->
 
 
-
+<!-- penempatan main konten untuk desain form port sampling -->
 <div [ngClass]="content((rootState.asSmallSize$ | async), (rootState.searching$ | async))">
-  <app-no-content></app-no-content>
-  <!--  <app-standard-ghost></app-standard-ghost>-->
+<!--  <app-no-content></app-no-content>-->
+<!--    <app-standard-ghost></app-standard-ghost>-->
+  <app-pendaratan class="full"></app-pendaratan>
+  <router-outlet></router-outlet>
 </div>
 
-<button (click)="tets()">TEST</button>
+<!--<button (click)="tets()">TEST</button>-->
 
-<br>
-<br>
-<br>
-<button (click)="test()" color="primary" mat-flat-button>The Button</button>
-<br>
-<br>
-<button color="accent" mat-flat-button>The Button</button>
-<br>
-<br>
-<button color="warn" mat-raised-button>
-  The Button
-</button>
+<!--<br>-->
+<!--<br>-->
+<!--<br>-->
+<!--<button (click)="test()" color="primary" mat-flat-button>The Button</button>-->
+<!--<br>-->
+<!--<br>-->
+<!--<button color="accent" mat-flat-button>The Button</button>-->
+<!--<br>-->
+<!--<br>-->
+<!--<button color="warn" mat-raised-button>The Button</button>-->
 
 
-<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-<br><br>
+<!--<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>-->
+<!--<br><br>-->
