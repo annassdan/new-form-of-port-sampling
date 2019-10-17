@@ -6,7 +6,7 @@
     <mat-icon class="icon-of-dialog">double_arrow</mat-icon>
     <!-- title -->
     <h5 class="conditional-accent title-of-dialog"
-        *ngIf="extractFormControlValue('namaKapal', currentPendaratanState.formRincianPendaratan$ | async).length === 0; else hasTitle">
+        *ngIf="extractFormControlValue('namaKapal', currentPendaratanState.formRincianPendaratan$ | async); else hasTitle">
       {{defaultNamaKapal}}
     </h5>
     <ng-template #hasTitle>
