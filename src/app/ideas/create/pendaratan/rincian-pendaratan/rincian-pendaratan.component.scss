@@ -7,8 +7,51 @@
   font-size: $the-font-size-1;
 }
 
-.form-rincian-pendaratan {
-  .form-content-wrapper {
-    padding: 25px 25px 0 25px;
+#dialog-rincian-pendaratan {
+
+  ::ng-deep .mat-vertical-content {
+    padding: 0 0 0 0 !important;
+  }
+
+  ::ng-deep .mat-step-icon {
+    background: mat-color($the-primary) !important;
+  }
+
+
+  ::ng-deep .mat-step-header .mat-step-header-ripple {
+    display: none !important;
+  }
+
+  ::ng-deep .mat-step-header {
+    //background-colo: #fbfbfb !important;
+  }
+  //::ng-deep .mat-step-header[ng-reflect-label=" "] {
+  //  //background: #f7f7f7 !important;
+  //  color: #f7f7f7 !important;
+  //}
+
+  .hasil-tangkapan-bg-dif {
+    background: #f7f7f7;
+  }
+
+  .hasil-tangkapan-wrapper {
+    border: 1px solid #cdcdcd;
+  }
+
+  .no-padding {
+    padding: 0 0 0 0 !important;
+  }
+
+  .dialog-toolbar {
+    position: fixed;
+    z-index: 7;
+  }
+
+  .form-rincian-pendaratan {
+    .form-content-wrapper {
+      padding: 87px 25px 0 25px;
+    }
   }
 }
+
+

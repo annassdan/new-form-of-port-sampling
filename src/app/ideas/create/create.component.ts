@@ -4,9 +4,7 @@ import {MainStateService} from '../../shared/services/main-state.service';
 import {BreakpointObserver} from '@angular/cdk/layout';
 import {MAX_WIDTH} from '../../shared/constants';
 import {pendaratan} from '../../models/pendaratan/pendaratan';
-import {createFormGroup, createFormGroupContent} from '../../shared/reactive-form-modeling';
 import {Shared} from '../../shared/shared';
-import {PendaratanBrigeService} from './pendaratan/pendaratan-brige.service';
 
 @Component({
   selector: 'app-create',
@@ -65,7 +63,12 @@ export class CreateComponent extends Shared implements OnInit, OnDestroy {
 
 
   tets() {
-    const form = createFormGroup(createFormGroupContent(pendaratan));
-    console.log(form);
+    const y = {...pendaratan, namaLokasiPendaratan: 'UNKNOWN'};
+
+
+    const { namaLokasiPendaratan, tanggalPendaratan } = y;
+
+    // const form = createFormGroup(createFormGroupContent(pendaratan));
+    console.log(namaLokasiPendaratan);
   }
 }

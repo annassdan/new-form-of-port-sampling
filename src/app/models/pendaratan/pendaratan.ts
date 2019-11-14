@@ -28,6 +28,7 @@ export const rincianPendaratan = {
   daerahPenangkapan: '',
   jumlahHariPerTrip: 0,
   jumlahHariMenangkap: 0,
+
   /*double*/
   totalTangkapanVolume: 0,
   totalTangkapanIndividu: 0,

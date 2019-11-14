@@ -143,8 +143,20 @@ export function createFormControl(value: any,
 }
 
 
-export function extractFormControlValue(control: string, formGroup: FormGroup | any) {
-  return formGroup ? <FormControl> formGroup.get(control).value : '';
+export function isFormControlEmpty(control: string, formGroup: FormGroup | any) {
+  const value = formGroup ? (<FormControl> formGroup.get(control)).value : '';
+  return String(value).trim().length === 0;
+}
+
+
+export function extractFormControlValue(control: string, formGroup: FormGroup | any, defaultValue = '') {
+  const value = formGroup ? (<FormControl> formGroup.get(control)).value : defaultValue;
+
+  if (value) {
+    return String(value).trim().length === 0 ? defaultValue : value;
+  } else {
+    return defaultValue;
+  }
 }
 
 export function extractFormArray(formGroupParent: FormGroup, formArrayControlName: string): FormArray {

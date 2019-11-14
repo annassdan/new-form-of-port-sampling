@@ -11,7 +11,9 @@ import {
   MatAutocompleteModule,
   MatButtonModule,
   MatButtonToggleModule,
-  MatChipsModule, MatDatepickerModule, MatDialogModule,
+  MatChipsModule,
+  MatDatepickerModule,
+  MatDialogModule,
   MatDividerModule,
   MatFormFieldModule,
   MatIconModule,
@@ -19,7 +21,8 @@ import {
   MatListModule,
   MatMenuModule,
   MatProgressBarModule,
-  MatSidenavModule, MatSlideToggleModule,
+  MatSidenavModule,
+  MatSlideToggleModule,
   MatToolbarModule,
   MatTooltipModule
 } from '@angular/material';
@@ -38,11 +41,11 @@ import {InputSelectTextDirective} from './shared/directives/input-select-text.di
 import {MatAutocompleteNextDirective} from './shared/directives/mat-autocomplete-next.directive';
 import {MAT_MOMENT_DATE_FORMATS} from '@angular/material-moment-adapter';
 import {IonMomentDateAdapter} from './shared/ion-moment-date-adapter';
-import { MatInputNextDirective } from './shared/directives/mat-input-next.directive';
-import { MatDatepickerNextDirective } from './shared/directives/mat-datepicker-next.directive';
-import { RincianPendaratanComponent } from './ideas/create/pendaratan/rincian-pendaratan/rincian-pendaratan.component';
+import {MatInputNextDirective} from './shared/directives/mat-input-next.directive';
+import {MatDatepickerNextDirective} from './shared/directives/mat-datepicker-next.directive';
+import {RincianPendaratanComponent} from './ideas/create/pendaratan/rincian-pendaratan/rincian-pendaratan.component';
 import {RincianPendaratanContainer} from './ideas/create/pendaratan/rincian-pendaratan/rincian-pendaratan-container ';
-import {PendaratanBrigeService} from './ideas/create/pendaratan/pendaratan-brige.service';
+import {MatStepperModule} from "@angular/material/stepper";
 
 @NgModule({
   declarations: [
@@ -83,6 +86,7 @@ import {PendaratanBrigeService} from './ideas/create/pendaratan/pendaratan-brige
     MatListModule,
     MatProgressBarModule,
     MatButtonToggleModule,
+    MatStepperModule,
 
     InViewportModule,
     FormsModule,

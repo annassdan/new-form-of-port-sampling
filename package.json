@@ -6,7 +6,7 @@
     "start": "ng serve --host 0.0.0.0",
     "build": "ng build --prod --output-hashing=none ",
     "cordova": "ng build --prod --base-href ./ --output-path C:/Users/Y/WebstormProjects/untitled1/www/",
-    "to-electron": "ng build --prod --base-href ./ --output-path C:/Users/Y/WebstormProjects/angular-electron/dist/form/",
+    "to-electron": "ng build --prod --base-href ./ --output-path C:/Users/A/WebstormProjects/angular-electron/dist/form/",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
