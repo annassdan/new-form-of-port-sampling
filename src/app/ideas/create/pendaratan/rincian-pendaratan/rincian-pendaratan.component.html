@@ -1,5 +1,5 @@
-<div id="dialog-rincian-pendaratan">
-  <div *ngIf="currentPendaratanState.formRincianPendaratan$ |async"
+<div  id="dialog-rincian-pendaratan">
+  <div  #scrollMe *ngIf="currentPendaratanState.formRincianPendaratan$ |async"
        [formGroup]="currentPendaratanState.formRincianPendaratan$ |async"
 
        class="form-rincian-pendaratan">
@@ -168,24 +168,83 @@
         </mat-form-field>
       </div>
 
-      <br><br>
 
-      <div class="col-md-12">
-        <div class="col-md-12 hasil-tangkapan-wrapper no-padding">
-          <mat-vertical-stepper style="width: 100%">
+      <div class="col-md-12 " style="vertical-align: bottom">
+        <strong *ngIf="listOfHasilTangkapan('dataRincianTangkapanPendaratan').length === 0; else hasHasilTangkapan"
+               class="warn">Belum Ada Hasil Tangkapan</strong>
+        <ng-template class=" title-list-hasil-tangkapan" #hasHasilTangkapan>
+          <strong >Daftar Hasil Tangkapan
+            <strong class="primary">({{listOfHasilTangkapan('dataRincianTangkapanPendaratan').length}})</strong></strong>
+        </ng-template>
+
+        <button class="floating-to-right" #tombolTambahHasilTangkapan
+                (click)="addHasilTangkapan('dataRincianTangkapanPendaratan')"
+                mat-raised-button color="primary">
+          <mat-icon class="icon-inside-button">add</mat-icon>&nbsp;&nbsp;Tambah Hasil Tangkapan
+        </button>
+
+      </div>
+      <div class="col-md-12" formArrayName="dataRincianTangkapanPendaratan">
+        <div *ngIf="listOfHasilTangkapan('dataRincianTangkapanPendaratan').length > 0"
+             class="col-md-12 hasil-tangkapan-wrapper no-padding">
+          <mat-vertical-stepper  >
             <ng-template matStepperIcon="edit" let-index="index">
               {{index + 1}}
             </ng-template>
             <ng-template matStepperIcon="number" let-index="index">
               {{index + 1}}
             </ng-template>
-            <mat-step>
-            </mat-step>
-            <mat-step label=" ">
-            </mat-step>
-            <mat-step>
-            </mat-step>
-            <mat-step label=" ">
+            <mat-step *ngFor="let hasilTangkapan of listOfHasilTangkapan('dataRincianTangkapanPendaratan'); index as indexHasilTangkapan">
+
+              <ng-template class="full-width-table" matStepLabel>
+                <div class="full-width-table" style="display: flex" [formGroupName]="indexHasilTangkapan">
+                  <table class="full-width-table table-of-hasil-tangkapan ">
+                    <tr>
+                      <td class="hasil-tangkapan-spesies">
+                        <mat-form-field appearance="outline">
+                          <mat-label>Nama Spesies</mat-label>
+                          <input #targetSpesies autocomplete="off"
+                                 formControlName="uuidSpesies"
+                                 appMatInputNext [nextTarget]="targetVolume"
+                                 matInput placeholder="Nama Spesies">
+                        </mat-form-field>
+                      </td>
+                      <td class="hasil-tangkapan-volume">
+                        <mat-form-field appearance="outline">
+                          <mat-label>Tangkapan Volume</mat-label>
+                          <input #targetVolume autocomplete="off"
+                                 formControlName="tangkapanVolume"
+                                 appMatInputNext [nextTarget]="targetIndividu"
+                                 [previousTarget]="targetSpesies"
+                                 matInput placeholder="Tangkapan Volume">
+                        </mat-form-field>
+                      </td>
+                      <td class="hasil-tangkapan-individu">
+                        <mat-form-field appearance="outline">
+                          <mat-label>Tangkapan Individu</mat-label>
+                          <input #targetIndividu autocomplete="off"
+                                 formControlName="tangkapanIndividu"
+                                 appMatInputNext [nextTarget]="targetSpesies"
+                                 [previousTarget]="targetVolume"
+                                 matInput placeholder="Tangkapan Individu">
+                        </mat-form-field>
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+              </ng-template>
+
+
+<!--              <div class="row" [formGroupName]="indexHasilTangkapan">-->
+<!--                <div class="col-md-6">-->
+<!--                  <mat-form-field appearance="outline">-->
+<!--                    <mat-label>Nama Spesies</mat-label>-->
+<!--                    <input #targetJumlahKapalPenangkap autocomplete="off"-->
+<!--                           formControlName="uuidSpesies"-->
+<!--                           matInput placeholder="Nama Spesies">-->
+<!--                  </mat-form-field>-->
+<!--                </div>-->
+<!--              </div>-->
             </mat-step>
           </mat-vertical-stepper>
         </div>

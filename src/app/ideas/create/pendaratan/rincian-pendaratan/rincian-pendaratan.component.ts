@@ -1,14 +1,19 @@
-import {AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {MainStateService} from '../../../../shared/services/main-state.service';
 import {PendaratanBrigeService} from '../pendaratan-brige.service';
-import {FormGroup} from '@angular/forms';
+import {Form, FormGroup} from '@angular/forms';
 import {Subscription} from 'rxjs';
 import {MatDialogRef} from '@angular/material';
 import {unsubscribes} from '../../../../shared/utils';
-import {extractFormControlValue, isFormControlEmpty} from '../../../../shared/reactive-form-modeling';
+import {
+  addFormArrayMember, createFormGroup, createFormGroupContent, extractAllMemberOfFormArray,
+  extractFormControlValue,
+  isFormControlEmpty
+} from '../../../../shared/reactive-form-modeling';
 import {NON_STATIC_VIEW_CHILD} from "../../../../shared/constants";
 import {MatInput} from "@angular/material/input";
 import {fromMaterialExportAsNative} from "../../../../shared/material-util";
+import {hasilTangkapanPendaratan, rincianPendaratan} from "../../../../models/pendaratan/pendaratan";
 
 @Component({
   selector: 'app-rincian-pendaratan',
@@ -18,6 +23,8 @@ import {fromMaterialExportAsNative} from "../../../../shared/material-util";
 export class RincianPendaratanComponent implements OnInit, OnDestroy, AfterViewInit {
 
   @ViewChild('targetNamaKapal', NON_STATIC_VIEW_CHILD) namaKapalElement: MatInput;
+  @ViewChild('scrollMe', NON_STATIC_VIEW_CHILD) private myScrollContainer: ElementRef;
+
   defaultNamaKapal = 'Inputkan Nama Kapal';
   subs: Subscription[] = [];
   formRincianPendaratan: FormGroup;
@@ -35,14 +42,27 @@ export class RincianPendaratanComponent implements OnInit, OnDestroy, AfterViewI
       if (value === undefined) {
         await this.changeDetector.detectChanges();
         this.dialogRef.close();
+      } else {
+        /* init form rincian pendaratan */
+        this.formRincianPendaratan = value;
       }
 
       unsubscribes(this.subs);
     }));
   }
 
-  cek() {
-    this.subs.push(this.currentPendaratanState.formRincianPendaratan$.subscribe(value => console.log(value)));
+
+  listOfHasilTangkapan(formArrayControlName: string) {
+    return this.formRincianPendaratan ? extractAllMemberOfFormArray(this.formRincianPendaratan, formArrayControlName) : [];
+  }
+
+  addHasilTangkapan(formControlArrayName: string) {
+    addFormArrayMember(this.formRincianPendaratan, formControlArrayName, createFormGroup(createFormGroupContent(hasilTangkapanPendaratan)))
+      .then(r => {
+        console.log(this.formRincianPendaratan)
+        this.changeDetector.detectChanges();
+        this.scrollToBottom();
+      }).catch();
   }
 
   ngOnDestroy(): void {
@@ -61,6 +81,12 @@ export class RincianPendaratanComponent implements OnInit, OnDestroy, AfterViewI
       }
      }, 500);
     /**/
+  }
+
+  scrollToBottom(): void {
+    try {
+      this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
+    } catch(err) { }
   }
 
 

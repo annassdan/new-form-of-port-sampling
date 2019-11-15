@@ -1,5 +1,9 @@
 @import "../../../../../the-theme";
 
+.full-width-table {
+  width: 100%;
+}
+
 ::ng-deep .mat-dialog-container {
   padding: 0;
   border-radius: 0;
@@ -9,42 +13,83 @@
 
 #dialog-rincian-pendaratan {
 
+  padding-bottom: 55px;
+
   ::ng-deep .mat-vertical-content {
     padding: 0 0 0 0 !important;
+  }
+
+  .table-of-hasil-tangkapan {
+    margin-top: 20px;
+  }
+
+
+  ::ng-deep .mat-vertical-stepper-header {
+    padding: 24px 10px 24px 24px !important;
   }
 
   ::ng-deep .mat-step-icon {
     background: mat-color($the-primary) !important;
   }
 
+  ::ng-deep .mat-step-label {
+    padding-left: 0 !important;
+    width: 100%;
+  }
 
   ::ng-deep .mat-step-header .mat-step-header-ripple {
     display: none !important;
   }
 
-  ::ng-deep .mat-step-header {
-    //background-colo: #fbfbfb !important;
+  .floating-to-right {
+    float: right;
   }
-  //::ng-deep .mat-step-header[ng-reflect-label=" "] {
-  //  //background: #f7f7f7 !important;
-  //  color: #f7f7f7 !important;
-  //}
+
+  .icon-inside-button {
+    margin-top: -3px;
+  }
 
   .hasil-tangkapan-bg-dif {
     background: #f7f7f7;
   }
 
+  .title-list-hasil-tangkapan {
+    margin-top: 15px;
+  }
+
   .hasil-tangkapan-wrapper {
+    top: 25px;
     border: 1px solid #cdcdcd;
+    bottom: 30px;
   }
 
   .no-padding {
     padding: 0 0 0 0 !important;
   }
 
+  .no-margin {
+    margin: 0 0 0 0  !important;
+  }
+
   .dialog-toolbar {
     position: fixed;
     z-index: 7;
+  }
+
+
+
+  .hasil-tangkapan-spesies {
+    width: 80%;
+  }
+
+  .hasil-tangkapan-volume {
+    padding-left: 10px;
+    width: 10%;
+  }
+
+  .hasil-tangkapan-individu {
+    padding-left: 10px;
+    width: 10%;
   }
 
   .form-rincian-pendaratan {
