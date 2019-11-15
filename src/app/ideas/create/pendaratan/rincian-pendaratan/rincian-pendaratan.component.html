@@ -67,6 +67,7 @@
         <mat-form-field appearance="outline">
           <mat-label>Jumlah Kapal Penangkap</mat-label>
           <input #targetJumlahKapalPenangkap autocomplete="off"
+                 [textMask]="standardInputMask('', ' Buah')"
                  formControlName="jumlahKapalPenangkap"
                  appMatInputNext [previousTarget]="targetAlatTangkap"
                  [nextTarget]="targetJumlahSetting"
@@ -78,6 +79,7 @@
         <mat-form-field appearance="outline">
           <mat-label>Jumlah Setting</mat-label>
           <input #targetJumlahSetting autocomplete="off"
+                 [textMask]="standardInputMask()"
                  formControlName="jumlahSetting"
                  appMatInputNext [nextTarget]="targetJumlahMataPancing"
                  [previousTarget]="targetJumlahKapalPenangkap"
@@ -89,6 +91,7 @@
         <mat-form-field appearance="outline">
           <mat-label>Jumlah Mata Pancing</mat-label>
           <input #targetJumlahMataPancing autocomplete="off"
+                 [textMask]="standardInputMask()"
                  formControlName="jumlahMataPancing"
                  appMatInputNext [nextTarget]="targetGridDaerahPenangkapan"
                  [previousTarget]="targetJumlahSetting"
@@ -125,6 +128,7 @@
         <mat-form-field appearance="outline">
           <mat-label>Jumlah Hari/Trip</mat-label>
           <input #targetJumlahHariPerTrip autocomplete="off"
+                 [textMask]="standardInputMask('', ' Hari')"
                  formControlName="jumlahHariPerTrip"
                  appMatInputNext [nextTarget]="targetJumlahHariMenangkap"
                  [previousTarget]="targetGridDaerahPenangkapan"
@@ -137,6 +141,7 @@
         <mat-form-field appearance="outline">
           <mat-label>Jumlah Hari Menangkap</mat-label>
           <input #targetJumlahHariMenangkap autocomplete="off"
+                 [textMask]="standardInputMask('', ' Hari')"
                  formControlName="jumlahHariMenangkap"
                  appMatInputNext [nextTarget]="targetTotalTangkapanVolume"
                  [previousTarget]="targetJumlahHariPerTrip"
@@ -149,6 +154,7 @@
         <mat-form-field appearance="outline">
           <mat-label>Total Tangkapan Volume</mat-label>
           <input #targetTotalTangkapanVolume autocomplete="off"
+                 [textMask]="standardInputMask('', ' Kg')"
                  formControlName="totalTangkapanVolume"
                  appMatInputNext [nextTarget]="targetTotalTangkapanIndividu"
                  [previousTarget]="targetJumlahHariMenangkap"
@@ -161,6 +167,7 @@
         <mat-form-field appearance="outline">
           <mat-label>Total Tangkapan Individu</mat-label>
           <input #targetTotalTangkapanIndividu autocomplete="off"
+                 [textMask]="standardInputMask('', ' Ekor')"
                  formControlName="totalTangkapanIndividu"
                  appMatInputNext
                  [previousTarget]="targetTotalTangkapanVolume"
@@ -213,6 +220,7 @@
                         <mat-form-field appearance="outline">
                           <mat-label>Tangkapan Volume</mat-label>
                           <input #targetVolume autocomplete="off"
+                                 [textMask]="standardInputMask('', ' Kg')"
                                  formControlName="tangkapanVolume"
                                  appMatInputNext [nextTarget]="targetIndividu"
                                  [previousTarget]="targetSpesies"
@@ -223,6 +231,7 @@
                         <mat-form-field appearance="outline">
                           <mat-label>Tangkapan Individu</mat-label>
                           <input #targetIndividu autocomplete="off"
+                                 [textMask]="standardInputMask('', ' Ekor')"
                                  formControlName="tangkapanIndividu"
                                  appMatInputNext [nextTarget]="targetSpesies"
                                  [previousTarget]="targetVolume"

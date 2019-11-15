@@ -14,13 +14,16 @@ import {NON_STATIC_VIEW_CHILD} from "../../../../shared/constants";
 import {MatInput} from "@angular/material/input";
 import {fromMaterialExportAsNative} from "../../../../shared/material-util";
 import {hasilTangkapanPendaratan, rincianPendaratan} from "../../../../models/pendaratan/pendaratan";
+import {Utilities} from "../../../../shared/utilities";
 
 @Component({
   selector: 'app-rincian-pendaratan',
   templateUrl: './rincian-pendaratan.component.html',
   styleUrls: ['./rincian-pendaratan.component.scss']
 })
-export class RincianPendaratanComponent implements OnInit, OnDestroy, AfterViewInit {
+export class RincianPendaratanComponent
+  extends Utilities
+  implements OnInit, OnDestroy, AfterViewInit {
 
   @ViewChild('targetNamaKapal', NON_STATIC_VIEW_CHILD) namaKapalElement: MatInput;
   @ViewChild('scrollMe', NON_STATIC_VIEW_CHILD) private myScrollContainer: ElementRef;
@@ -28,13 +31,12 @@ export class RincianPendaratanComponent implements OnInit, OnDestroy, AfterViewI
   defaultNamaKapal = 'Inputkan Nama Kapal';
   subs: Subscription[] = [];
   formRincianPendaratan: FormGroup;
-  extractFormControlValue = extractFormControlValue;
-  isFormControlEmpty = isFormControlEmpty;
 
   constructor(public rootState: MainStateService,
               public changeDetector: ChangeDetectorRef,
               public dialogRef: MatDialogRef<RincianPendaratanComponent>,
               public currentPendaratanState: PendaratanBrigeService) {
+    super();
   }
 
   ngOnInit() {

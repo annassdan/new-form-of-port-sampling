@@ -13,21 +13,21 @@ import {MatButton, MatDialog} from '@angular/material';
 import {Router} from '@angular/router';
 import {fromMaterialExportAsNative} from '../../../shared/material-util';
 import {PendaratanBrigeService} from './pendaratan-brige.service';
+import {Utilities} from "../../../shared/utilities";
 
 @Component({
   selector: 'app-pendaratan',
   templateUrl: './pendaratan.component.html',
   styleUrls: ['./pendaratan.component.scss'],
 })
-export class PendaratanComponent implements OnInit, AfterViewInit {
+export class PendaratanComponent extends Utilities implements OnInit, AfterViewInit {
 
   formPendaratan: FormGroup;
-  extractFormControlValue = extractFormControlValue;
 
-  constructor(public sanitizer: DomSanitizer,
-              public currentPendaratanState: PendaratanBrigeService,
+  constructor(public currentPendaratanState: PendaratanBrigeService,
               public router: Router,
               public dialog: MatDialog) {
+    super();
     this.formPendaratanInializing();
   }
 
