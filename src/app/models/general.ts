@@ -4,9 +4,21 @@ import {model} from './model';
 export const general  = {
   ...model,
   /* relasi ke enumerator  */
-  uuidEnumerator: '',
+  // uuidEnumerator: '',
+  uuidEnumerator: {
+    uuid: '1',
+    nama: 'Muhammad Nur Annas',
+    posisi: ''
+  },
+
   /* relasi ke data sumberdaya */
-  uuidSumberDaya: '',
+  // uuidSumberDaya: '',
+  uuidSumberDaya: {
+    uuid: '',
+    namaSumberdaya: ''
+  },
+
+
   statusDokumen: '',
   photoNames: [],
   uuidPengupload: '',

@@ -24,6 +24,8 @@ export class MatAutocompleteNextDirective implements AfterViewInit, OnDestroy {
   @ContentChild(MatAutocompleteTrigger, {static: false}) trigger;
   @Input() previousTarget: any;
   @Input() nextTarget: any;
+  @Output() whenBlur = new EventEmitter<any>();
+  @Output() whenTyping = new EventEmitter<any>();
 
   private subscription: Subscription;
   private autocomplete: MatAutocomplete;
@@ -70,6 +72,14 @@ export class MatAutocompleteNextDirective implements AfterViewInit, OnDestroy {
     });
   };
 
+
+
+  @HostListener('focusout', ['$event'])
+  async onBlur($event) {
+    this.whenBlur.emit($event);
+  }
+
+
   @HostListener('keyup', ['$event'])
   async onKeyup($event) {
 
@@ -82,24 +92,36 @@ export class MatAutocompleteNextDirective implements AfterViewInit, OnDestroy {
       if (previous) {
         previous.focus();
       }
-    }
 
-    /* deteksi event key enter untuk berpindah ke komponent target */
-    if (!$event.ctrlKey && $event.key === 'Enter' && this.nextTarget) {
+      this.whenTyping.emit($event);
+    } else {
+      /* deteksi event key enter untuk berpindah ke komponent target */
+      if ($event.key === 'Enter' && this.nextTarget) {
 
-      let next = fromMaterialExportAsNative(this.nextTarget);
-      await this.emitAction();
-      if (!this.isRequired()) {
-        await this.syncWheterPanelIsOpen();
-        next.focus();
-      } else {
-        if (this.triggerText.length > 0) {
+
+        let next = fromMaterialExportAsNative(this.nextTarget);
+        await this.emitAction();
+        if (!this.isRequired()) {
           await this.syncWheterPanelIsOpen();
           next.focus();
+        } else {
+          if (this.triggerText.length > 0) {
+            await this.syncWheterPanelIsOpen();
+            next.focus();
+          }
+        }
+
+        this.whenTyping.emit($event);
+      } else {
+        if ($event.key === 'Enter' || $event.key === 'Escape') {}
+        else {
+          if ($event.key === 'ArrowDown' || $event.key === 'ArrowUp' || $event.key === 'ArrowLeft' || $event.key === 'ArrowRight') {}
+          else {
+            this.whenTyping.emit($event);
+          }
         }
       }
     }
-
 
   }
 

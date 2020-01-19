@@ -18,14 +18,17 @@
   ::ng-deep .mat-vertical-content {
     padding: 0 0 0 0 !important;
   }
-
+p
   .table-of-hasil-tangkapan {
     margin-top: 20px;
   }
 
+  ::ng-deep .mat-stepper-vertical {
+    padding: 15px 0px !important;
+  }
 
   ::ng-deep .mat-vertical-stepper-header {
-    padding: 24px 10px 24px 24px !important;
+    padding: 24px 20px 24px 24px !important;
   }
 
   ::ng-deep .mat-step-icon {

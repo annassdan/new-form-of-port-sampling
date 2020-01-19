@@ -4,16 +4,17 @@ import {
   addFormArrayMember,
   createFormGroup,
   createFormGroupContent,
-  extractAllMemberOfFormArray, extractFormControlValue,
+  extractAllMemberOfFormArray,
   removeFormArrayMember
 } from '../../../shared/reactive-form-modeling';
 import {pendaratan, rincianPendaratan} from '../../../models/pendaratan/pendaratan';
-import {DomSanitizer} from '@angular/platform-browser';
 import {MatButton, MatDialog} from '@angular/material';
 import {Router} from '@angular/router';
 import {fromMaterialExportAsNative} from '../../../shared/material-util';
 import {PendaratanBrigeService} from './pendaratan-brige.service';
 import {Utilities} from "../../../shared/utilities";
+import {MatAutocompleteSelectedEvent} from "@angular/material/autocomplete";
+import {Observable, of} from "rxjs";
 
 @Component({
   selector: 'app-pendaratan',
@@ -76,5 +77,30 @@ export class PendaratanComponent extends Utilities implements OnInit, AfterViewI
     await this.currentPendaratanState.setCurrentFormRincianPendaratan(formRincianPendaratan);
     this.router.navigate(['rincian-pendaratan']).then(r => {}).catch();
   }
+
+
+  selected($event: MatAutocompleteSelectedEvent) {
+    // console.log($event);
+    // console.log(this.formPendaratan);
+  }
+
+
+  sumberDayaSource = (): Observable<any[]> => {
+    return of([
+      { uuid: '1', namaSumberdaya: 'Satu' },
+      { uuid: '2', namaSumberdaya: 'Dua' },
+      { uuid: '3', namaSumberdaya: 'Tiga' },
+      { uuid: '4', namaSumberdaya: 'Empat' }
+    ]);
+  };
+
+  pencatatSource = (): Observable<any[]> => {
+    return of([
+      { uuid: '1', nama: 'Muhammad Nur Annas', posisi: '' },
+      { uuid: '2', nama: 'I Komang Suryana', posisi: '' },
+      { uuid: '3', nama: 'Syaifullah', posisi: '' },
+      { uuid: '4', nama: 'Arfan', posisi: '' }
+    ]);
+  };
 
 }

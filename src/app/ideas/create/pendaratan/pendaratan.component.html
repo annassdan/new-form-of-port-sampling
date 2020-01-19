@@ -19,39 +19,50 @@
   </div>
 
   <div class="col-md-6">
-    <mat-form-field appearance="outline">
-      <mat-label>Pencatat</mat-label>
-      <input [matAutocomplete]="autoPencatat"
-             #targetPencatat="matAutocompleteTrigger" autocomplete="off"
-             formControlName="uuidEnumerator"
-             matInput placeholder="Pencatat"
-             appMatAutocompleteNext
-             required="true"
-             [previousTarget]="targetOrganisasi"
-             [nextTarget]="targetSumberdaya">
-      <mat-autocomplete #autoPencatat="matAutocomplete">
-        <mat-option value="Muhammad Nur Annas">Muhammad Nur Annas</mat-option>
-        <mat-option value="I Komang Suryana">I Komang Suryana</mat-option>
-        <mat-option value="Syaifullah">Syaifullah</mat-option>
-      </mat-autocomplete>
-    </mat-form-field>
+    <i-autocomplete
+      #targetPencatat="iAutocomplete"
+      appearance="outline"
+      placeholder="Pencatat"
+      formGroupName="uuidEnumerator"
+      displayProp="nama"
+      mode="initially"
+      filterOnProp="nama"
+      [nextTo]="targetSumberdaya"
+      [previousTo]="targetOrganisasi"
+      [targetOptions]="pencatatSource">
+    </i-autocomplete>
+
+<!--    <mat-form-field appearance="outline">-->
+<!--      <mat-label>Pencatat</mat-label>-->
+<!--      <input [matAutocomplete]="autoPencatat"-->
+<!--             #targetPencatat="matAutocompleteTrigger" autocomplete="off"-->
+<!--             formControlName="uuidEnumerator"-->
+<!--             matInput placeholder="Pencatat"-->
+<!--             appMatAutocompleteNext-->
+<!--             required="true"-->
+<!--             [nextTarget]="targetSumberdaya"-->
+<!--             [previousTarget]="targetOrganisasi">-->
+<!--      <mat-autocomplete #autoPencatat="matAutocomplete">-->
+<!--        <mat-option value="Muhammad Nur Annas">Muhammad Nur Annas</mat-option>-->
+<!--        <mat-option value="I Komang Suryana">I Komang Suryana</mat-option>-->
+<!--        <mat-option value="Syaifullah">Syaifullah</mat-option>-->
+<!--      </mat-autocomplete>-->
+<!--    </mat-form-field>-->
   </div>
 
   <div class="col-md-6">
-    <mat-form-field appearance="outline">
-      <mat-label>Sumberdaya</mat-label>
-      <input #targetSumberdaya="matAutocompleteTrigger" autocomplete="off"
-             formControlName="uuidSumberDaya"
-             [matAutocomplete]="autoSumberdaya" matInput placeholder="Sumberdaya"
-             appMatAutocompleteNext
-             [nextTarget]="targetWpp"
-             [previousTarget]="targetPencatat">
-      <mat-autocomplete #autoSumberdaya="matAutocomplete">
-        <mat-option value="Pelagis Besar">Pelagis Besar</mat-option>
-        <mat-option value="Pelagis Kecil">Pelagis Kecil</mat-option>
-        <mat-option value="Demersal">Demersal</mat-option>
-      </mat-autocomplete>
-    </mat-form-field>
+    <i-autocomplete
+      #targetSumberdaya="iAutocomplete"
+      appearance="outline"
+      placeholder="Sumberdaya"
+      formGroupName="uuidSumberDaya"
+      displayProp="namaSumberdaya"
+      mode="initially"
+      filterOnProp="namaSumberdaya"
+      [nextTo]="targetWpp"
+      [previousTo]="targetPencatat"
+      [targetOptions]="sumberDayaSource">
+    </i-autocomplete>
   </div>
 
   <div class="col-md-6">
@@ -62,8 +73,8 @@
              autocomplete="off" matInput placeholder="WPP"
              appMatAutocompleteNext
              required="true"
-             [nextTarget]="targetLokasiPendaratan"
-             [previousTarget]="targetSumberdaya">
+             [previousTarget]="targetSumberdaya"
+             [nextTarget]="targetLokasiPendaratan">
       <mat-autocomplete #autoWpp="matAutocomplete">
         <mat-option value="571">571</mat-option>
         <mat-option value="572">572</mat-option>

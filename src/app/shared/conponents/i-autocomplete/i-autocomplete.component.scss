@@ -1,0 +1,25 @@
+@import "../../../../the-theme";
+
+.mat-option.mat-active {
+  background: mat-color(mat-palette($color-primary, 50));
+
+}
+
+.i-auto {
+  ::ng-deep .mat-form-field-suffix {
+    top: 7.5px;
+  }
+
+  .space-between-suffix {
+    padding-left: 7px;
+
+    .mat-icon-button {
+      bottom: -1px;
+    }
+
+    .mat-chip {
+      cursor: pointer;
+    }
+
+  }
+}

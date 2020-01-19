@@ -1,4 +1,5 @@
 import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {extractingValue, isBoolean, isNumber, isString} from "./utils";
 
 /**
  * Melakukan cast data ke Tipe Array
@@ -159,9 +160,6 @@ export function extractFormControlValue(control: string, formGroup: FormGroup | 
   }
 }
 
-export function extractFormArray(formGroupParent: FormGroup, formArrayControlName: string): FormArray {
-  return (<FormArray> formGroupParent.controls[formArrayControlName]);
-}
 
 export function extractAllMemberOfFormArray(fg: FormGroup | any, formArrayControlName: string) {
   return fg ? ((<FormArray>  fg.get(formArrayControlName)).controls) : [];
@@ -181,5 +179,49 @@ export async function removeFormArrayMember(formGroupParent: FormGroup, formArra
   await formArray.removeAt(index);
 }
 
+export function patchFormGroup(formGroup: FormGroup, patchValue: any) {
+  if (formGroup) {
+    for (const control in formGroup.controls) {
+      if (formGroup.controls[control] instanceof FormGroup) {
+        patchFormGroup((<FormGroup>formGroup.controls[control]), extractingValue(patchValue, control));
+      } else if (formGroup.controls[control] instanceof FormArray) {
+        const fa = <FormArray>formGroup.controls[control];
+        for (const fb of fa.controls) {
+          patchFormGroup(<FormGroup>fb, extractingValue(patchValue, control));
+        }
+      } else if (formGroup.controls[control] instanceof FormControl) {
+        const formControl = <FormControl>formGroup.controls[control];
+        formControl.patchValue(extractingValue(patchValue, control));
+      }
+    }
+  }
+}
 
+export function resetFormGroup(fg: FormGroup = this.formGroup, asString = false) {
+  if (fg) {
+    for (const control in fg.controls) {
+      if (fg.controls[control] instanceof FormGroup) {
+        resetFormGroup(<FormGroup>fg.controls[control]);
+      } else if (fg.controls[control] instanceof FormArray) {
+        const fa = <FormArray>fg.controls[control];
+        for (const fb of fa.controls) {
+          resetFormGroup(<FormGroup>fb);
+        }
+      } else if (fg.controls[control] instanceof FormControl) {
+        const fc = (<FormControl>fg.controls[control]);
+        if (isString(fc.value)) {
+          fc.patchValue('');
+        } else if (isNumber(fc.value)) {
+          fc.patchValue(asString ? '' : 0);
+        } else if (isBoolean(fc.value)) {
+          fc.patchValue(false);
+        }
+      }
+    }
+  }
+}
+
+export const extractFormGroup = (fg: FormGroup, control: string) => (<FormGroup> fg.controls[control]);
+export const extractFormArray = (fg: FormGroup, control: string) => (<FormArray> fg.controls[control]);
+export const extractFormControl = (fg: FormGroup, control: string) => (<FormControl> fg.controls[control]);
 

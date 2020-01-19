@@ -1,0 +1,45 @@
+<div class="i-auto">
+  <mat-form-field [appearance]="appearance">
+    <mat-label>{{label ? label : placeholder}}</mat-label>
+    <input type="text" #autoInput matInput
+           appMatAutocompleteNext
+           (whenBlur)="blur($event)"
+           (whenTyping)="whenTyping($event)"
+           [nextTarget]="nextTo"
+           [previousTarget]="previousTo"
+           [attr.aria-label]="ariaLabel"
+           [placeholder]="placeholder"
+           [matAutocomplete]="auto">
+
+    <table matSuffix>
+      <tr>
+        <td *ngIf="failOnFetch" class="space-between-suffix">
+          <mat-chip-list>
+            <mat-chip (click)="retry()" color="warn" selected>
+              <mat-icon>refresh</mat-icon>
+              &nbsp;Coba Lagi&nbsp;
+            </mat-chip>
+          </mat-chip-list>
+        </td>
+        <td *ngIf="calculatingIndicator()" class="space-between-suffix">
+          <mat-progress-spinner mode="indeterminate" diameter="29">
+          </mat-progress-spinner>
+        </td>
+        <td *ngIf="clearButton && hasValue() && !isNativeInputEmpty()" class="space-between-suffix">
+          <button mat-icon-button (click)="clear()">
+            <mat-icon matTooltip="Bersihkan" color="warn">close</mat-icon>
+          </button>
+        </td>
+      </tr>
+    </table>
+
+    <mat-autocomplete #auto="matAutocomplete"
+                      [displayWith]="transformDisplay"
+                      (opened)="opened()"
+                      (optionSelected)="onSelected($event)">
+      <mat-option *ngFor="let option of tempOptions | async" [value]="option" [disabled]="typing">
+        {{extractingValue(option, displayProp)}}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+</div>

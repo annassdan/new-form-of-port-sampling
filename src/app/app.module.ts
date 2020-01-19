@@ -46,6 +46,9 @@ import {MatDatepickerNextDirective} from './shared/directives/mat-datepicker-nex
 import {RincianPendaratanComponent} from './ideas/create/pendaratan/rincian-pendaratan/rincian-pendaratan.component';
 import {RincianPendaratanContainer} from './ideas/create/pendaratan/rincian-pendaratan/rincian-pendaratan-container ';
 import {MatStepperModule} from "@angular/material/stepper";
+import {TextMaskModule} from "angular2-text-mask";
+import { IAutocompleteComponent } from './shared/conponents/i-autocomplete/i-autocomplete.component';
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 
 @NgModule({
   declarations: [
@@ -62,7 +65,8 @@ import {MatStepperModule} from "@angular/material/stepper";
     MatInputNextDirective,
     MatDatepickerNextDirective,
     RincianPendaratanComponent,
-    RincianPendaratanContainer
+    RincianPendaratanContainer,
+    IAutocompleteComponent
   ],
   imports: [
     BrowserModule,
@@ -95,7 +99,9 @@ import {MatStepperModule} from "@angular/material/stepper";
     MatTooltipModule,
     MatDatepickerModule,
     MatDialogModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    TextMaskModule,
+    MatProgressSpinnerModule,
   ],
   entryComponents: [
     RincianPendaratanComponent
