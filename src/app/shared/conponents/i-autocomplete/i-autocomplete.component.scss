@@ -1,11 +1,20 @@
 @import "../../../../the-theme";
 
 .mat-option.mat-active {
-  background: mat-color(mat-palette($color-primary, 50));
-
+  background: mat-color(mat-palette($color-primary, 100));
 }
 
-.i-auto {
+//.mat-option:hover:not(.mat-option-disabled), .mat-option:focus:not(.mat-option-disabled) {
+//  background: mat-color(mat-palette($color-primary, 100));
+//}
+
+.mat-option.mat-selected {
+  background: mat-color(mat-palette($color-accent, 200)) !important;
+}
+
+
+
+#i-auto {
   ::ng-deep .mat-form-field-suffix {
     top: 7.5px;
   }

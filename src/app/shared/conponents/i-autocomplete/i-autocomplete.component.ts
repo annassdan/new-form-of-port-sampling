@@ -3,11 +3,13 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
+  EventEmitter,
   Host,
   Input,
   OnDestroy,
   OnInit,
   Optional,
+  Output,
   SkipSelf,
   ViewChild
 } from '@angular/core';
@@ -19,8 +21,6 @@ import {BehaviorSubject, Observable, of, Subject, Subscription} from "rxjs";
 import {MatFormFieldAppearance} from "@angular/material/form-field/typings/form-field";
 import {Utilities} from "../../utilities";
 import {MatOption} from "@angular/material/core";
-import * as reactForm from '../../reactive-form-modeling';
-import * as utilities from '../../utils';
 
 export type SearchType = 'includes' | 'equals';
 
@@ -58,7 +58,7 @@ export class IAutocompleteComponent extends Utilities implements OnInit, OnDestr
 
   readonly initially: AutoMode = 'initially';
 
-  @Input() fakeDelay = 1000;
+  @Input() fakeDelay = 300;
 
   /* digunakan sebagai counter parameter untuk set data temporary di options */
   private counter = -1;
@@ -97,6 +97,8 @@ export class IAutocompleteComponent extends Utilities implements OnInit, OnDestr
 
   /* List data yang akan digunakan sebagai data dasar untuk ditampilkan di option */
   @Input() targetOptions: { [key: string]: any }[] | Function;
+
+  @Input() withFilter: ((data: any[], text: string) => any[]);
 
   /**
    * Asumsi jika @options merupakan Function untuk fetch data ke endpoint,
@@ -150,7 +152,7 @@ export class IAutocompleteComponent extends Utilities implements OnInit, OnDestr
   /* jika arraynya kosong, maka diasumsikan akan berpengaruh ke semua properti yang ada pada formgroup */
   // @Input() affectedTo: ( PropDisplay | string)[] = [];
 
-  // @Output() optionSelected = new EventEmitter<MatAutocompleteSelectedEvent>();
+  @Output() optionSelected = new EventEmitter<MatAutocompleteSelectedEvent>();
 
   private undoChanges: Subject<any>;
 
@@ -186,8 +188,6 @@ export class IAutocompleteComponent extends Utilities implements OnInit, OnDestr
               private controlContainer: ControlContainer,
               private cd: ChangeDetectorRef) { super(); }
 
-
-
   calculatingIndicator() {
     if (this.isEager()) {
       if (this.successOnFetch && !this.failOnFetch) {
@@ -199,7 +199,6 @@ export class IAutocompleteComponent extends Utilities implements OnInit, OnDestr
       if (this.typing) {
         return true;
       }
-
       return false;
     }
   }
@@ -207,7 +206,6 @@ export class IAutocompleteComponent extends Utilities implements OnInit, OnDestr
   hasValue() {
     return String(extractingValue(this.asGroup() ? this.formGroup.value : this.getDisplayControl().value, this.displayProp)).length > 0;
   }
-
 
   isNativeInputEmpty() {
     if (this.input) {
@@ -217,7 +215,6 @@ export class IAutocompleteComponent extends Utilities implements OnInit, OnDestr
       return true;
     }
   }
-
 
   contactingEndpoint(mode: AutoMode, key = '') {
     const currentCounter = this.counter;
@@ -237,8 +234,7 @@ export class IAutocompleteComponent extends Utilities implements OnInit, OnDestr
             } else {
               temp = this.transformFetchResult ? this.transformFetchResult(success) : success;
             }
-
-            this.tempOptions = of(this.applyFilter(this.isLazy() ? temp : this.originalData, key));
+            this.tempOptions = of(!this.withFilter ? this.applyFilter(this.isLazy() ? temp : this.originalData, key) : this.withFilter(this.isLazy() ? temp : this.originalData, key));
             this.cd.detectChanges();
           }
         },
@@ -262,19 +258,18 @@ export class IAutocompleteComponent extends Utilities implements OnInit, OnDestr
         if (!this.initialized) {
           this.contactingEndpoint(this.mode, key);
         } else {
-          this.tempOptions = of(this.applyFilter(this.originalData, key));
+          this.tempOptions = of(!this.withFilter ? this.applyFilter(this.originalData, key) : this.withFilter(this.originalData, key));
           this.cd.detectChanges();
         }
         /**/
       } else { /* LAZY */
-
         if (this.isLazy()) {
           this.contactingEndpoint(this.lazy, key);
         } else {
           if (!this.initialized) {
             this.contactingEndpoint(this.initially, key);
           } else {
-            this.tempOptions = of(this.applyFilter(this.originalData, key));
+            this.tempOptions = of(!this.withFilter ? this.applyFilter(this.originalData, key) : this.withFilter(this.originalData, key));
             this.cd.detectChanges();
           }
         }
@@ -285,7 +280,7 @@ export class IAutocompleteComponent extends Utilities implements OnInit, OnDestr
 
         /* declare with delay call */
         setTimeout(() => {
-          this.tempOptions = of(this.applyFilter(<any[]>this.targetOptions, key));
+          this.tempOptions = of(!this.withFilter ? this.applyFilter(<any[]>this.targetOptions, key) : this.withFilter(<any[]>this.targetOptions, key));
           this.cd.detectChanges();
         }, this.fakeDelay);
         /**/
@@ -297,7 +292,6 @@ export class IAutocompleteComponent extends Utilities implements OnInit, OnDestr
     /* */
     if ($event.ctrlKey && $event.key === 'Enter' || $event.key === 'Enter') {
       this.matAutoTrigger.closePanel();
-
       if (this.undoChanges) {
         this.undoChanges.complete();
       }
@@ -365,7 +359,6 @@ export class IAutocompleteComponent extends Utilities implements OnInit, OnDestr
   retry() {
     const value = this.getDisplayControl().value;
     this.typing = true;
-
     this.readyToFetch(value);
   }
 
@@ -374,6 +367,7 @@ export class IAutocompleteComponent extends Utilities implements OnInit, OnDestr
     this.selectedMatOption = $event.option;
     this.patchFormGroup(this.formGroup, $event.option.value);
     this.typing = false;
+    this.optionSelected.emit($event);
   }
 
   blur($event: any) {
@@ -500,7 +494,6 @@ export class IAutocompleteComponent extends Utilities implements OnInit, OnDestr
       this.previousValue = this.formControl.value;
     }
 
-
     if (this.disabled) {
       this.getDisplayControl().disable();
     }
@@ -516,7 +509,6 @@ export class IAutocompleteComponent extends Utilities implements OnInit, OnDestr
   }
 
   ngAfterViewInit(): void {
-
     this.subs.push(this.matAutoTrigger.panelClosingActions.subscribe(value => {
       /* jika blur event yang didapat bukan berasal dari aksi ketika telah selesai memilih salah satu nilai dari list options */
       if (this.undoChanges) {
@@ -537,6 +529,5 @@ export class IAutocompleteComponent extends Utilities implements OnInit, OnDestr
 
   writeValue(obj: any): void {
   }
-
 
 }
