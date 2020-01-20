@@ -82,6 +82,8 @@ export function extractingValue(object: any, properties: PropDisplay | string[] 
   } else {
     if (isArray(object)) {
 
+    } else {
+      return object;
     }
   }
 

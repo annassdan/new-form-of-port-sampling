@@ -503,8 +503,14 @@ export class IAutocompleteComponent extends Utilities implements OnInit, OnDestr
 
     if (this.formGroupName) {
       this.formGroup = <FormGroup>this.getFormGroupContainer().get(this.formGroupName);
+      this.previousValue = this.formGroup.value;
     } else if (this.customFormControlName) {
       this.customFormControl = <FormControl>this.getFormGroupContainer().get(this.customFormControlName);
+      this.previousValue = this.customFormControl.value;
+    } else if (this.formGroup) {
+      this.previousValue = this.formGroup.value;
+    } else if (this.customFormControl) {
+      this.previousValue = this.customFormControl.value;
     }
 
     if (this.formGroup && this.customFormControl) {
@@ -519,11 +525,6 @@ export class IAutocompleteComponent extends Utilities implements OnInit, OnDestr
   }
 
   ngAfterViewInit(): void {
-    // if (this.formGroup) {
-    //   // this.getDisplayControl().patchValue(extractingValue(this.formGroup.value, this.displayProp));
-    // } else if (this.formControl) {
-    //   // this.getDisplayControl().patchValue(extractingValue(this.formControlName.value, this.displayProp));
-    // }
 
     this.subs.push(this.matAutoTrigger.panelClosingActions.subscribe(value => {
       /* jika blur event yang didapat bukan berasal dari aksi ketika telah selesai memilih salah satu nilai dari list options */
