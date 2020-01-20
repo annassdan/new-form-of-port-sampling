@@ -9,6 +9,8 @@ import {
   TYPE_OF_STRING
 } from "./constants";
 import {PropDisplay} from "./conponents/i-autocomplete/i-autocomplete.component";
+import {ErrorStateMatcher} from "@angular/material/core";
+import {FormControl, FormGroupDirective, NgForm} from "@angular/forms";
 
 export function unsubscribes(subscribers: Subscription[]) {
   if (subscribers) {
@@ -84,4 +86,12 @@ export function extractingValue(object: any, properties: PropDisplay | string[] 
   }
 
   return object;
+}
+
+
+export class IErrorStateMatcher implements ErrorStateMatcher {
+  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
+    const isSubmitted = form && form.submitted;
+    return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
+  }
 }

@@ -2,7 +2,8 @@
   <mat-form-field [appearance]="appearance">
     <mat-label>{{label ? label : placeholder}}</mat-label>
     <input type="text" #autoInput matInput
-           appMatAutocompleteNext
+           appMatAutocompleteNext [required]="required"
+           [formControl]="getDisplayControl()"[errorStateMatcher]="matcher"
            (whenBlur)="blur($event)"
            (whenTyping)="whenTyping($event)"
            [nextTarget]="nextTo"
@@ -10,7 +11,13 @@
            [attr.aria-label]="ariaLabel"
            [placeholder]="placeholder"
            [matAutocomplete]="auto">
-
+<!--    <input type="text"  matInput [formControl]="getDisplayControl()"[errorStateMatcher]="matcher">-->
+    <mat-hint *ngIf="useHint">
+      {{hintMessage}}
+    </mat-hint>
+    <mat-error>
+      {{errorMessage}}
+    </mat-error>
     <table matSuffix>
       <tr>
         <td *ngIf="failOnFetch" class="space-between-suffix">
@@ -41,5 +48,6 @@
         {{extractingValue(option, displayProp)}}
       </mat-option>
     </mat-autocomplete>
+
   </mat-form-field>
 </div>

@@ -11,9 +11,9 @@ import {
   SkipSelf,
   ViewChild
 } from '@angular/core';
-import {ControlContainer, FormArray, FormControl, FormGroup} from "@angular/forms";
+import {ControlContainer, FormControl, FormGroup, Validators} from "@angular/forms";
 import {MatAutocompleteSelectedEvent, MatAutocompleteTrigger} from "@angular/material/autocomplete";
-import {extractingValue, isArray, isFunction, isObject, isString, unsubscribes} from "../../utils";
+import {extractingValue, IErrorStateMatcher, isArray, isFunction, isObject, isString, unsubscribes} from "../../utils";
 import {EMPTY, PK_COLUMN} from "../../constants";
 import {BehaviorSubject, Observable, of, Subject, Subscription} from "rxjs";
 import {MatFormFieldAppearance} from "@angular/material/form-field/typings/form-field";
@@ -106,6 +106,18 @@ export class IAutocompleteComponent extends Utilities implements OnInit, OnDestr
   /* when Ctrl + enter, move to previous element */
   @Input() previousTo;
 
+  @Input() validator: Function;
+
+  @Input() errorMessage = '';
+
+  @Input() required = false;
+
+  @Input() useHint = false;
+
+  @Input() hintMessage = '';
+
+  private matcher = new IErrorStateMatcher();
+
   @ViewChild('autoInput', {static: false}) input: ElementRef<HTMLInputElement>;
 
   @ViewChild(MatAutocompleteTrigger, {static: false}) matAutoTrigger: MatAutocompleteTrigger;
@@ -115,13 +127,11 @@ export class IAutocompleteComponent extends Utilities implements OnInit, OnDestr
 
   // @Output() optionSelected = new EventEmitter<MatAutocompleteSelectedEvent>();
 
-
   private undoChanges: Subject<any>;
 
-  // previousValue;
+  previousValue: any;
 
   selectedMatOption: MatOption;
-
 
   transformDisplay = (opt?) => opt ? extractingValue(opt, this.whatPropType(this.displayProp)) : EMPTY;
 
@@ -170,8 +180,15 @@ export class IAutocompleteComponent extends Utilities implements OnInit, OnDestr
   }
 
   hasValue() {
-    const value = this.formGroup.value;
-    return String(extractingValue(value, this.displayProp)).length > 0;
+    if (this.mode === 'initially') {
+      if (this.initialized) {
+        return String(extractingValue(this.formGroup.value, this.displayProp)).length > 0;
+      } else {
+        return false;
+      }
+    } else {
+      return String(extractingValue(this.formGroup.value, this.displayProp)).length > 0;
+    }
   }
 
 
@@ -188,7 +205,6 @@ export class IAutocompleteComponent extends Utilities implements OnInit, OnDestr
   contactingEndpoint(mode: AutoMode, key = '') {
     const currentCounter = this.counter;
     const obs = (<Function>this.targetOptions);
-
     setTimeout(() => {
       this.subs.push((<Observable<any[]>>obs(this.optionsParams)).subscribe(
         success => {
@@ -200,7 +216,6 @@ export class IAutocompleteComponent extends Utilities implements OnInit, OnDestr
             let temp;
             if (mode === 'eager' || mode === 'initially') {
               this.initialized = true;
-              // console.log('this.initialized', this.initialized)
               this.originalData = this.transformFetchResult ? this.transformFetchResult(success) : success;
             } else {
               temp = this.transformFetchResult ? this.transformFetchResult(success) : success;
@@ -221,7 +236,6 @@ export class IAutocompleteComponent extends Utilities implements OnInit, OnDestr
       ));
     }, this.fakeDelay);
   }
-
 
   fetchingData(key: string = '') {
 
@@ -262,26 +276,40 @@ export class IAutocompleteComponent extends Utilities implements OnInit, OnDestr
     }
   }
 
-
   whenTyping($event: any) {
     /* */
     if ($event.ctrlKey && $event.key === 'Enter' || $event.key === 'Enter') {
       this.matAutoTrigger.closePanel();
-      this.undoChanges.complete();
+
+      if (this.undoChanges) {
+        this.undoChanges.complete();
+      }
     }
 
-    let value = $event.srcElement.value;
+    let value = this.getDisplayControl().value;
     value = String(value).trim();
     const v = this.formGroup.value;
-    if (value === extractingValue(v, this.displayProp)) {
-      this.failOnFetch = false;
-      if (this.initialized) {
-        this.tempOptions = of(this.originalData);
-      } else {
-        this.tempOptions = of([]);
+
+    if (this.previousValue) {
+      if (value === extractingValue(this.previousValue, this.displayProp)) {
+        this.failOnFetch = false;
+        if (this.initialized) {
+          this.tempOptions = of(this.originalData);
+        } else {
+          this.tempOptions = of([]);
+        }
+        return;
       }
-      return;
     }
+    // else {
+    //   this.failOnFetch = false;
+    //   if (this.initialized) {
+    //     this.tempOptions = of(this.originalData);
+    //     return;
+    //   } else {
+    //     this.tempOptions = of([]);
+    //   }
+    // }
 
     if (!this.typing && !this.initialized) {
       this.typing = true;
@@ -328,18 +356,17 @@ export class IAutocompleteComponent extends Utilities implements OnInit, OnDestr
   }
 
   retry() {
-    const value = this.input.nativeElement.value;
+    // const value = this.input.nativeElement.value;
+    const value = this.getDisplayControl().value;
     this.typing = true;
 
     this.readyToFetch(value);
   }
 
   onSelected($event: MatAutocompleteSelectedEvent) {
-    // console.log('selected...')
-    // this.previousValue = $event.option.value;
+    this.previousValue = $event.option.value;
     this.selectedMatOption = $event.option;
     this.patchFormGroup(this.formGroup, $event.option.value);
-    // this.formGroup.patchValue($event.option.value);
     this.typing = false;
   }
 
@@ -352,22 +379,20 @@ export class IAutocompleteComponent extends Utilities implements OnInit, OnDestr
     }, error => {
     }, () => {
       if (subsToUndoChanges) {
-        const currentTextDisplayed = String(this.input.nativeElement.value).trim();
-        const realTextDisplayed = String(extractingValue(this.formGroup.value, this.displayProp));
-        if (currentTextDisplayed !== realTextDisplayed) {
-          // console.log('must be undo');
-          this.input.nativeElement.value = realTextDisplayed;
+        if (this.previousValue) {
+          if (this.getDisplayControl().value !== extractingValue(this.previousValue, this.displayProp)) {
+            this.getDisplayControl().patchValue(extractingValue(this.previousValue, this.displayProp));
+          }
+        } else {
+          this.getDisplayControl().patchValue('');
         }
 
         subsToUndoChanges.unsubscribe();
       }
     });
-
-    // console.log('blur')
   }
 
   clear() {
-    // console.log('clear...');
     this.resetFormGroup();
     this.cleared = true;
     this.matAutoTrigger.closePanel();
@@ -376,31 +401,85 @@ export class IAutocompleteComponent extends Utilities implements OnInit, OnDestr
       this.tempOptions = of(this.originalData);
     }
 
-    this.selectedMatOption.deselect();
-    this.input.nativeElement.blur();
-    this.input.nativeElement.value = '';
-
+    try {
+      this.previousValue = undefined;
+      this.input.nativeElement.blur();
+      this.input.nativeElement.value = '';
+      this.selectedMatOption.deselect();
+    } catch (e) {
+    }
   }
 
 
-
   opened() {
-    // console.log('opened')
     if (this.cleared) {
       this.cleared = false;
       this.input.nativeElement.blur();
     }
   }
 
+  returnControl(fg: FormGroup, display = this.displayProp) {
+
+    if (isString(display)) {
+      return <FormControl> fg.controls[<string>display];
+    } else if (isArray(display)) {
+      const arr = <string[]> display;
+
+      if (arr.length === 0) {
+        throw new Error('Display properti cannot empty');
+      }
+
+      if (arr.length === 1) {
+        return <FormControl> fg.controls[arr[0]];
+      } else {
+        const ds = arr.length > 1 ? arr.shift() : [];
+        const tempFg = <FormGroup> fg.controls[arr[0]]
+        return this.returnControl(tempFg, ds);
+      }
+    } else if (isObject(display)) {
+      const d = <PropDisplay> display;
+      return <FormControl> fg.controls[d.local];
+    }
+
+    return undefined;
+  }
+
+  getDisplayControl(): FormControl {
+    if (!this.formGroup) {
+      return new FormControl('');
+    }
+
+    return this.returnControl(this.formGroup, this.displayProp);
+  }
+
+  isDisplayTextEmpty() {
+    if (!this.formGroup) {
+      return false;
+    }
+    return String(extractingValue(this.formGroup, this.displayProp)).length === 0;
+  }
+
+  getPkControl(): FormControl {
+    if (!this.formGroup) {
+      return new FormControl('');
+    }
+
+    let control: FormControl;
+    if (isString(this.idProp)) {
+      const prop = <string>this.idProp;
+      control = (<FormControl>this.formGroup.controls[prop]);
+    } else {
+      const prop = <PropDisplay>this.idProp;
+      control = (<FormControl>this.formGroup.controls[prop.local]);
+    }
+
+    return control;
+  }
 
   ngOnInit() {
     if (this.formGroupName) {
       this.formGroup = <FormGroup>this.controlContainer.control.get(this.formGroupName);
     }
-
-    // if (this.formGroup) {
-    //   this.previousValue = this.formGroup.value;
-    // }
 
     if (this.mode === 'eager') {
       this.fetchingData();
