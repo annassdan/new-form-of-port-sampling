@@ -27,8 +27,8 @@
       displayProp="nama"
       mode="initially"
       filterOnProp="nama"
-      [nextTo]="targetSumberdaya"
       [previousTo]="targetOrganisasi"
+      [nextTo]="targetSumberdaya"
       [targetOptions]="pencatatSource">
     </i-autocomplete>
 
@@ -59,36 +59,52 @@
       displayProp="namaSumberdaya"
       mode="initially"
       filterOnProp="namaSumberdaya"
-      [nextTo]="targetWpp"
+      required="true"
+      errorMessage="Sumberdaya tidak boleh kosong"
       [previousTo]="targetPencatat"
+      [nextTo]="targetWpp"
       [targetOptions]="sumberDayaSource">
     </i-autocomplete>
   </div>
 
   <div class="col-md-6">
-    <mat-form-field appearance="outline">
-      <mat-label>WPP</mat-label>
-      <input #targetWpp="matAutocompleteTrigger" [matAutocomplete]="autoWpp"
-             formControlName="wpp"
-             autocomplete="off" matInput placeholder="WPP"
-             appMatAutocompleteNext
-             required="true"
-             [previousTarget]="targetSumberdaya"
-             [nextTarget]="targetLokasiPendaratan">
-      <mat-autocomplete #autoWpp="matAutocomplete">
-        <mat-option value="571">571</mat-option>
-        <mat-option value="572">572</mat-option>
-        <mat-option value="573">573</mat-option>
-        <mat-option value="711">711</mat-option>
-        <mat-option value="712">712</mat-option>
-        <mat-option value="713">713</mat-option>
-        <mat-option value="714">714</mat-option>
-        <mat-option value="715">715</mat-option>
-        <mat-option value="716">716</mat-option>
-        <mat-option value="717">717</mat-option>
-        <mat-option value="718">718</mat-option>
-      </mat-autocomplete>
-    </mat-form-field>
+    <i-autocomplete
+      #targetWpp="iAutocomplete"
+      appearance="outline"
+      placeholder="WPP"
+      formControlName="wpp"
+      mode="initially"
+      required="true"
+      errorMessage="WPP tidak boleh kosong"
+      [previousTo]="targetSumberdaya"
+      [nextTo]="targetLokasiPendaratan"
+      [targetOptions]="wppSource">
+    </i-autocomplete>
+
+
+<!--    <mat-form-field appearance="outline">-->
+<!--      <mat-label>WPP</mat-label>-->
+<!--      <input #targetWpp="matAutocompleteTrigger" [matAutocomplete]="autoWpp"-->
+<!--             formControlName="wpp"-->
+<!--             autocomplete="off" matInput placeholder="WPP"-->
+<!--             appMatAutocompleteNext-->
+<!--             required="true"-->
+<!--             [previousTarget]="targetSumberdaya"-->
+<!--             [nextTarget]="targetLokasiPendaratan">-->
+<!--      <mat-autocomplete #autoWpp="matAutocomplete">-->
+<!--        <mat-option value="571">571</mat-option>-->
+<!--        <mat-option value="572">572</mat-option>-->
+<!--        <mat-option value="573">573</mat-option>-->
+<!--        <mat-option value="711">711</mat-option>-->
+<!--        <mat-option value="712">712</mat-option>-->
+<!--        <mat-option value="713">713</mat-option>-->
+<!--        <mat-option value="714">714</mat-option>-->
+<!--        <mat-option value="715">715</mat-option>-->
+<!--        <mat-option value="716">716</mat-option>-->
+<!--        <mat-option value="717">717</mat-option>-->
+<!--        <mat-option value="718">718</mat-option>-->
+<!--      </mat-autocomplete>-->
+<!--    </mat-form-field>-->
   </div>
 
   <!-- Tanggal pendaratan -->
