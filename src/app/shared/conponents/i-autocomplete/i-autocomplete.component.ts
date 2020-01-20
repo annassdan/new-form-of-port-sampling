@@ -11,7 +11,7 @@ import {
   SkipSelf,
   ViewChild
 } from '@angular/core';
-import {ControlContainer, FormControl, FormGroup, Validators} from "@angular/forms";
+import {ControlContainer, FormControl, FormGroup, NG_VALUE_ACCESSOR} from "@angular/forms";
 import {MatAutocompleteSelectedEvent, MatAutocompleteTrigger} from "@angular/material/autocomplete";
 import {extractingValue, IErrorStateMatcher, isArray, isFunction, isObject, isString, unsubscribes} from "../../utils";
 import {EMPTY, PK_COLUMN} from "../../constants";
@@ -35,7 +35,12 @@ export type PropDisplay = {
   selector: 'i-autocomplete',
   exportAs: 'iAutocomplete',
   templateUrl: './i-autocomplete.component.html',
-  styleUrls: ['./i-autocomplete.component.scss']
+  styleUrls: ['./i-autocomplete.component.scss'],
+  providers: [{
+    provide: NG_VALUE_ACCESSOR,
+    useExisting: IAutocompleteComponent,
+    multi: true
+  }]
 })
 export class IAutocompleteComponent extends Utilities implements OnInit, OnDestroy, AfterViewInit {
 
@@ -66,9 +71,9 @@ export class IAutocompleteComponent extends Utilities implements OnInit, OnDestr
 
   @Input() formGroupName: string;
 
-  @Input() customFormControl: FormControl;
+  @Input() formControl: FormControl;
 
-  @Input() customFormControlName: string;
+  @Input() formControlName: string;
 
 
   @Input() clearButton = true;
@@ -462,8 +467,8 @@ export class IAutocompleteComponent extends Utilities implements OnInit, OnDestr
 
   getDisplayControl(): FormControl {
     if (!this.formGroup || !this.formGroupName) {
-      return this.customFormControlName ? (<FormControl>this.getFormGroupContainer().get(this.customFormControlName)) : this.customFormControl;
-    } else if (!this.customFormControlName || !this.customFormControl) {
+      return this.formControlName ? (<FormControl>this.getFormGroupContainer().get(this.formControlName)) : this.formControl;
+    } else if (!this.formControlName || !this.formControl) {
       return this.returnControl(this.formGroup, this.displayProp);
     } else {
       return new FormControl();
@@ -496,7 +501,7 @@ export class IAutocompleteComponent extends Utilities implements OnInit, OnDestr
 
   ngOnInit() {
     /* check control name */
-    if (this.formGroupName && this.customFormControlName) {
+    if (this.formGroupName && this.formControlName) {
       throw new Error('formGroupName & formControlName cannot be declaring in the same time..');
       return;
     }
@@ -504,16 +509,16 @@ export class IAutocompleteComponent extends Utilities implements OnInit, OnDestr
     if (this.formGroupName) {
       this.formGroup = <FormGroup>this.getFormGroupContainer().get(this.formGroupName);
       this.previousValue = this.formGroup.value;
-    } else if (this.customFormControlName) {
-      this.customFormControl = <FormControl>this.getFormGroupContainer().get(this.customFormControlName);
-      this.previousValue = this.customFormControl.value;
+    } else if (this.formControlName) {
+      this.formControl = <FormControl>this.getFormGroupContainer().get(this.formControlName);
+      this.previousValue = this.formControl.value;
     } else if (this.formGroup) {
       this.previousValue = this.formGroup.value;
-    } else if (this.customFormControl) {
-      this.previousValue = this.customFormControl.value;
+    } else if (this.formControl) {
+      this.previousValue = this.formControl.value;
     }
 
-    if (this.formGroup && this.customFormControl) {
+    if (this.formGroup && this.formControl) {
       throw new Error('formGroup & formControl cannot be declaring in the same time..');
       return;
     }
@@ -537,5 +542,6 @@ export class IAutocompleteComponent extends Utilities implements OnInit, OnDestr
   ngOnDestroy(): void {
     this.subs = unsubscribes(this.subs);
   }
+
 
 }
