@@ -31,7 +31,7 @@
           <mat-progress-spinner mode="indeterminate" diameter="29">
           </mat-progress-spinner>
         </td>
-        <td *ngIf="clearButton && hasValue() && !isNativeInputEmpty()" class="space-between-suffix">
+        <td *ngIf="!disabled && clearButton && hasValue() && !isNativeInputEmpty()" class="space-between-suffix">
           <button mat-icon-button (click)="clear()">
             <mat-icon matTooltip="Bersihkan" color="warn">close</mat-icon>
           </button>

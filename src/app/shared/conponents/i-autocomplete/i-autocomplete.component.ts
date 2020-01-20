@@ -19,6 +19,8 @@ import {BehaviorSubject, Observable, of, Subject, Subscription} from "rxjs";
 import {MatFormFieldAppearance} from "@angular/material/form-field/typings/form-field";
 import {Utilities} from "../../utilities";
 import {MatOption} from "@angular/material/core";
+import * as reactForm from '../../reactive-form-modeling';
+import * as utilities from '../../utils';
 
 export type SearchType = 'includes' | 'equals';
 
@@ -43,6 +45,18 @@ export type PropDisplay = {
   }]
 })
 export class IAutocompleteComponent extends Utilities implements OnInit, OnDestroy, AfterViewInit, ControlValueAccessor {
+
+  readonly isEager = () => this.mode === 'eager';
+
+  readonly eager: AutoMode = 'eager';
+
+  readonly isLazy = () => this.mode === 'lazy';
+
+  readonly lazy: AutoMode = 'lazy';
+
+  readonly isInitially = () => this.mode === 'initially';
+
+  readonly initially: AutoMode = 'initially';
 
   @Input() fakeDelay = 1000;
 
@@ -109,6 +123,8 @@ export class IAutocompleteComponent extends Utilities implements OnInit, OnDestr
 
   @Input() filterOnProp: PropDisplay | string[] | string;
 
+  @Input() disabled = false;
+
   /* when enter, move to next element */
   @Input() nextTo;
 
@@ -164,15 +180,6 @@ export class IAutocompleteComponent extends Utilities implements OnInit, OnDestr
       : d.filter(e => String(extractingValue(e, this.whatPropType(searchToProperty))).toLowerCase() === String(key).toLowerCase());
   };
 
-  readonly isEager = () => this.mode === 'eager';
-  readonly eager: AutoMode = 'eager';
-
-  readonly isLazy = () => this.mode === 'lazy';
-  readonly lazy: AutoMode = 'lazy';
-
-  readonly isInitially = () => this.mode === 'initially';
-  readonly initially: AutoMode = 'initially';
-
   asGroup = () => !(!this.formGroup || !this.formGroupName);
 
   constructor(@Optional() @Host() @SkipSelf()
@@ -198,15 +205,7 @@ export class IAutocompleteComponent extends Utilities implements OnInit, OnDestr
   }
 
   hasValue() {
-    if (this.isInitially()) {
-      if (this.initialized) {
-        return String(extractingValue(this.asGroup() ? this.formGroup.value : this.getDisplayControl().value, this.displayProp)).length > 0;
-      } else {
-        return false;
-      }
-    } else {
-      return String(extractingValue(this.asGroup() ? this.formGroup.value : this.getDisplayControl().value, this.displayProp)).length > 0;
-    }
+    return String(extractingValue(this.asGroup() ? this.formGroup.value : this.getDisplayControl().value, this.displayProp)).length > 0;
   }
 
 
@@ -318,15 +317,6 @@ export class IAutocompleteComponent extends Utilities implements OnInit, OnDestr
         return;
       }
     }
-    // else {
-    //   this.failOnFetch = false;
-    //   if (this.initialized) {
-    //     this.tempOptions = of(this.originalData);
-    //     return;
-    //   } else {
-    //     this.tempOptions = of([]);
-    //   }
-    // }
 
     if (!this.typing && !this.initialized) {
       this.typing = true;
@@ -349,7 +339,6 @@ export class IAutocompleteComponent extends Utilities implements OnInit, OnDestr
     if (this.asGroup() && (value === undefined || this.filterOnProp === undefined)) {
         return;
     }
-
 
     this.readyToFetch(value);
   }
@@ -408,7 +397,7 @@ export class IAutocompleteComponent extends Utilities implements OnInit, OnDestr
   }
 
   clear() {
-    this.resetFormGroup();
+    this.resetFormGroup(this.formGroup);
     this.cleared = true;
     this.matAutoTrigger.closePanel();
 
@@ -475,13 +464,6 @@ export class IAutocompleteComponent extends Utilities implements OnInit, OnDestr
     }
   }
 
-  // isDisplayTextEmpty() {
-  //   if (!this.formGroup) {
-  //     return false;
-  //   }
-  //   return String(extractingValue(this.formGroup, this.displayProp)).length === 0;
-  // }
-
   getPkControl(): FormControl {
     if (!this.formGroup) {
       return new FormControl('');
@@ -518,11 +500,15 @@ export class IAutocompleteComponent extends Utilities implements OnInit, OnDestr
       this.previousValue = this.formControl.value;
     }
 
+
+    if (this.disabled) {
+      this.getDisplayControl().disable();
+    }
+
     if (this.formGroup && this.formControl) {
       throw new Error('formGroup & formControl cannot be declaring in the same time..');
       return;
     }
-
 
     if (this.isEager()) {
       this.fetchingData();

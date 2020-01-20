@@ -197,7 +197,7 @@ export function patchFormGroup(formGroup: FormGroup, patchValue: any) {
   }
 }
 
-export function resetFormGroup(fg: FormGroup = this.formGroup, asString = false) {
+export function resetFormGroup(fg: FormGroup, asString = false) {
   if (fg) {
     for (const control in fg.controls) {
       if (fg.controls[control] instanceof FormGroup) {
