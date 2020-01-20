@@ -11,7 +11,7 @@ import {
   SkipSelf,
   ViewChild
 } from '@angular/core';
-import {ControlContainer, FormControl, FormGroup, NG_VALUE_ACCESSOR} from "@angular/forms";
+import {ControlContainer, ControlValueAccessor, FormControl, FormGroup, NG_VALUE_ACCESSOR} from "@angular/forms";
 import {MatAutocompleteSelectedEvent, MatAutocompleteTrigger} from "@angular/material/autocomplete";
 import {extractingValue, IErrorStateMatcher, isArray, isFunction, isObject, isString, unsubscribes} from "../../utils";
 import {EMPTY, PK_COLUMN} from "../../constants";
@@ -42,9 +42,9 @@ export type PropDisplay = {
     multi: true
   }]
 })
-export class IAutocompleteComponent extends Utilities implements OnInit, OnDestroy, AfterViewInit {
+export class IAutocompleteComponent extends Utilities implements OnInit, OnDestroy, AfterViewInit, ControlValueAccessor {
 
-  fakeDelay = 1000;
+  @Input() fakeDelay = 1000;
 
   /* digunakan sebagai counter parameter untuk set data temporary di options */
   private counter = -1;
@@ -541,6 +541,15 @@ export class IAutocompleteComponent extends Utilities implements OnInit, OnDestr
 
   ngOnDestroy(): void {
     this.subs = unsubscribes(this.subs);
+  }
+
+  registerOnChange(fn: any): void {
+  }
+
+  registerOnTouched(fn: any): void {
+  }
+
+  writeValue(obj: any): void {
   }
 
 
