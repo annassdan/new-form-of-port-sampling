@@ -66,6 +66,10 @@ export class IAutocompleteComponent extends Utilities implements OnInit, OnDestr
 
   @Input() formGroupName: string;
 
+  @Input() customFormControl: FormControl;
+
+  @Input() customFormControlName: string;
+
 
   @Input() clearButton = true;
 
@@ -94,11 +98,11 @@ export class IAutocompleteComponent extends Utilities implements OnInit, OnDestr
 
   @Input() ariaLabel: string = '';
 
-  @Input() displayProp: PropDisplay | string[] | string = [];
+  @Input() displayProp: PropDisplay | string[] | string;
 
   @Input() idProp: string | PropDisplay = PK_COLUMN;
 
-  @Input() filterOnProp: PropDisplay | string[] | string = [];
+  @Input() filterOnProp: PropDisplay | string[] | string;
 
   /* when enter, move to next element */
   @Input() nextTo;
@@ -133,6 +137,9 @@ export class IAutocompleteComponent extends Utilities implements OnInit, OnDestr
 
   selectedMatOption: MatOption;
 
+  /* jika user malakukan pendeklarasian formGroupName dan formControlName secara pada komponen ini */
+  hasErrorWhileSelectingDefineControlType = false;
+
   transformDisplay = (opt?) => opt ? extractingValue(opt, this.whatPropType(this.displayProp)) : EMPTY;
 
   whatPropType = (prop, whichProp = 'api') => {
@@ -152,16 +159,22 @@ export class IAutocompleteComponent extends Utilities implements OnInit, OnDestr
       : d.filter(e => String(extractingValue(e, this.whatPropType(searchToProperty))).toLowerCase() === String(key).toLowerCase());
   };
 
-  isEager = () => this.mode === 'eager';
+  readonly isEager = () => this.mode === 'eager';
+  readonly eager: AutoMode = 'eager';
 
-  isLazy = () => this.mode === 'lazy';
+  readonly isLazy = () => this.mode === 'lazy';
+  readonly lazy: AutoMode = 'lazy';
+
+  readonly isInitially = () => this.mode === 'initially';
+  readonly initially: AutoMode = 'initially';
+
+  asGroup = () => !(!this.formGroup || !this.formGroupName);
 
   constructor(@Optional() @Host() @SkipSelf()
               private controlContainer: ControlContainer,
-              private cd: ChangeDetectorRef) {
-    super();
+              private cd: ChangeDetectorRef) { super(); }
 
-  }
+
 
   calculatingIndicator() {
     if (this.isEager()) {
@@ -180,14 +193,14 @@ export class IAutocompleteComponent extends Utilities implements OnInit, OnDestr
   }
 
   hasValue() {
-    if (this.mode === 'initially') {
+    if (this.isInitially()) {
       if (this.initialized) {
-        return String(extractingValue(this.formGroup.value, this.displayProp)).length > 0;
+        return String(extractingValue(this.asGroup() ? this.formGroup.value : this.getDisplayControl().value, this.displayProp)).length > 0;
       } else {
         return false;
       }
     } else {
-      return String(extractingValue(this.formGroup.value, this.displayProp)).length > 0;
+      return String(extractingValue(this.asGroup() ? this.formGroup.value : this.getDisplayControl().value, this.displayProp)).length > 0;
     }
   }
 
@@ -214,14 +227,14 @@ export class IAutocompleteComponent extends Utilities implements OnInit, OnDestr
             this.failOnFetch = false;
 
             let temp;
-            if (mode === 'eager' || mode === 'initially') {
+            if (this.isEager() || this.isInitially()) {
               this.initialized = true;
               this.originalData = this.transformFetchResult ? this.transformFetchResult(success) : success;
             } else {
               temp = this.transformFetchResult ? this.transformFetchResult(success) : success;
             }
 
-            this.tempOptions = of(this.applyFilter(mode === 'lazy' ? temp : this.originalData, key));
+            this.tempOptions = of(this.applyFilter(this.isLazy() ? temp : this.originalData, key));
             this.cd.detectChanges();
           }
         },
@@ -229,7 +242,7 @@ export class IAutocompleteComponent extends Utilities implements OnInit, OnDestr
           this.typing = false;
           this.failOnFetch = true;
           this.successOnFetch = false;
-          if (mode === 'eager') {
+          if (this.isEager()) {
             this.tempOptions = of([]);
           }
         }
@@ -252,10 +265,10 @@ export class IAutocompleteComponent extends Utilities implements OnInit, OnDestr
       } else { /* LAZY */
 
         if (this.isLazy()) {
-          this.contactingEndpoint('lazy', key);
+          this.contactingEndpoint(this.lazy, key);
         } else {
           if (!this.initialized) {
-            this.contactingEndpoint('initially', key);
+            this.contactingEndpoint(this.initially, key);
           } else {
             this.tempOptions = of(this.applyFilter(this.originalData, key));
             this.cd.detectChanges();
@@ -264,7 +277,7 @@ export class IAutocompleteComponent extends Utilities implements OnInit, OnDestr
 
       }
     } else if (isArray(this.targetOptions)) {
-      if (this.isEager) {
+      if (this.isEager()) {
 
         /* declare with delay call */
         setTimeout(() => {
@@ -288,7 +301,6 @@ export class IAutocompleteComponent extends Utilities implements OnInit, OnDestr
 
     let value = this.getDisplayControl().value;
     value = String(value).trim();
-    const v = this.formGroup.value;
 
     if (this.previousValue) {
       if (value === extractingValue(this.previousValue, this.displayProp)) {
@@ -328,9 +340,9 @@ export class IAutocompleteComponent extends Utilities implements OnInit, OnDestr
       }
     }
 
-    //
-    if (value === undefined || this.filterOnProp === undefined) {
-      return;
+    /* hanya kana diterapakan jika */
+    if (this.asGroup() && (value === undefined || this.filterOnProp === undefined)) {
+        return;
     }
 
 
@@ -344,7 +356,7 @@ export class IAutocompleteComponent extends Utilities implements OnInit, OnDestr
       this.successOnFetch = false;
     }
 
-    let key = EMPTY;
+    let key = value;
     if (isArray(this.displayProp)) {
       key = extractingValue(value, (<any[]>this.displayProp));
     } else if (isObject(this.displayProp)) {
@@ -352,11 +364,11 @@ export class IAutocompleteComponent extends Utilities implements OnInit, OnDestr
     } else if (isString(this.displayProp)) {
       key = extractingValue(value, (<string>this.displayProp));
     }
+
     this.fetchingData(key);
   }
 
   retry() {
-    // const value = this.input.nativeElement.value;
     const value = this.getDisplayControl().value;
     this.typing = true;
 
@@ -375,9 +387,7 @@ export class IAutocompleteComponent extends Utilities implements OnInit, OnDestr
     /* to handle changes on input, when they dont pick someone from list option */
     let subsToUndoChanges: Subscription;
     this.undoChanges = new BehaviorSubject(undefined);
-    subsToUndoChanges = this.undoChanges.asObservable().subscribe(value => {
-    }, error => {
-    }, () => {
+    subsToUndoChanges = this.undoChanges.asObservable().subscribe(value => {}, error => {}, () => {
       if (subsToUndoChanges) {
         if (this.previousValue) {
           if (this.getDisplayControl().value !== extractingValue(this.previousValue, this.displayProp)) {
@@ -406,8 +416,7 @@ export class IAutocompleteComponent extends Utilities implements OnInit, OnDestr
       this.input.nativeElement.blur();
       this.input.nativeElement.value = '';
       this.selectedMatOption.deselect();
-    } catch (e) {
-    }
+    } catch (e) {}
   }
 
 
@@ -419,6 +428,9 @@ export class IAutocompleteComponent extends Utilities implements OnInit, OnDestr
   }
 
   returnControl(fg: FormGroup, display = this.displayProp) {
+    if (!this.formGroup) {
+      return new FormControl('');
+    }
 
     if (isString(display)) {
       return <FormControl> fg.controls[<string>display];
@@ -444,20 +456,26 @@ export class IAutocompleteComponent extends Utilities implements OnInit, OnDestr
     return undefined;
   }
 
+  getFormGroupContainer() {
+    return <FormGroup> this.controlContainer.control;
+  }
+
   getDisplayControl(): FormControl {
-    if (!this.formGroup) {
-      return new FormControl('');
+    if (!this.formGroup || !this.formGroupName) {
+      return this.customFormControlName ? (<FormControl>this.getFormGroupContainer().get(this.customFormControlName)) : this.customFormControl;
+    } else if (!this.customFormControlName || !this.customFormControl) {
+      return this.returnControl(this.formGroup, this.displayProp);
+    } else {
+      return new FormControl();
     }
-
-    return this.returnControl(this.formGroup, this.displayProp);
   }
 
-  isDisplayTextEmpty() {
-    if (!this.formGroup) {
-      return false;
-    }
-    return String(extractingValue(this.formGroup, this.displayProp)).length === 0;
-  }
+  // isDisplayTextEmpty() {
+  //   if (!this.formGroup) {
+  //     return false;
+  //   }
+  //   return String(extractingValue(this.formGroup, this.displayProp)).length === 0;
+  // }
 
   getPkControl(): FormControl {
     if (!this.formGroup) {
@@ -477,19 +495,35 @@ export class IAutocompleteComponent extends Utilities implements OnInit, OnDestr
   }
 
   ngOnInit() {
-    if (this.formGroupName) {
-      this.formGroup = <FormGroup>this.controlContainer.control.get(this.formGroupName);
+    /* check control name */
+    if (this.formGroupName && this.customFormControlName) {
+      throw new Error('formGroupName & formControlName cannot be declaring in the same time..');
+      return;
     }
 
-    if (this.mode === 'eager') {
+    if (this.formGroupName) {
+      this.formGroup = <FormGroup>this.getFormGroupContainer().get(this.formGroupName);
+    } else if (this.customFormControlName) {
+      this.customFormControl = <FormControl>this.getFormGroupContainer().get(this.customFormControlName);
+    }
+
+    if (this.formGroup && this.customFormControl) {
+      throw new Error('formGroup & formControl cannot be declaring in the same time..');
+      return;
+    }
+
+
+    if (this.isEager()) {
       this.fetchingData();
     }
   }
 
   ngAfterViewInit(): void {
-    if (this.formGroup) {
-      this.input.nativeElement.value = extractingValue(this.formGroup.value, this.displayProp);
-    }
+    // if (this.formGroup) {
+    //   // this.getDisplayControl().patchValue(extractingValue(this.formGroup.value, this.displayProp));
+    // } else if (this.formControl) {
+    //   // this.getDisplayControl().patchValue(extractingValue(this.formControlName.value, this.displayProp));
+    // }
 
     this.subs.push(this.matAutoTrigger.panelClosingActions.subscribe(value => {
       /* jika blur event yang didapat bukan berasal dari aksi ketika telah selesai memilih salah satu nilai dari list options */
@@ -502,6 +536,5 @@ export class IAutocompleteComponent extends Utilities implements OnInit, OnDestr
   ngOnDestroy(): void {
     this.subs = unsubscribes(this.subs);
   }
-
 
 }
