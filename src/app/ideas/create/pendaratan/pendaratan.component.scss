@@ -31,64 +31,49 @@
   }
 
 
-  .card-rincian-pendaratan {
-
-    ::ng-deep .mat-list-base {
-      padding-top: 0;
+  @media screen and (max-width: 767px) {
+    .mat-card {
+      margin-left: -($default-padding + 6);
+      margin-right: -($default-padding);
     }
 
-    .mat-card {
-      padding: 0;
+    .card-rincian-pendaratan {
 
-      @media screen and (max-width: 767px) {
+      ::ng-deep .mat-list-base {
+        padding-top: 0;
+      }
+
+      .mat-card {
+        padding: 0;
+
         .mat-card-header {
           padding: 25px 25px 0 25px;
-          //background: $mat-header-bg-color;
         }
 
-        .mat-card-content {
-          padding: 0;
-
-        }
-
-          .button-add-rincian {
+        .button-add-rincian {
           margin-top: -23px;
           margin-right: -4px;
         }
-      }
 
-      @media screen and (min-width: 768px) {
-        .mat-card-header {
-          padding: 30px 35px 0 35px;
-          //background: $mat-header-bg-color;
+        .mat-card-content {
+          padding: 0 !important;
 
-          .button-add-rincian {
-            margin-top: -25px;
-            margin-right: -7px;
-          }
-        }
-      }
-
-      .mat-card-content {
-        padding: 0 !important;
-
-        .row {
-          margin-top: -10px;
-          margin-left: 0;
-        }
-
-        .col-md-12 {
-          padding: 0;
-        }
-
-        .list-rincian-pendaratan-container {
-          margin-top: 10px;
-
-          ::ng-deep .mat-pseudo-checkbox {
-            display: none;
+          .row {
+            margin-top: -10px;
+            margin-left: 0;
           }
 
-          @media screen and (max-width: 767px) {
+          .col-md-12 {
+            padding: 0;
+          }
+
+          .list-rincian-pendaratan-container {
+            margin-top: 10px;
+
+            ::ng-deep .mat-pseudo-checkbox {
+              display: none;
+            }
+
             .box-options {
               width: auto;
               position: absolute;
@@ -96,23 +81,66 @@
               display: inline-flex;
             }
           }
+        }
+      }
 
-          @media screen and (min-width: 768px) {
+    }
+  }
+
+  @media screen and (min-width: 768px) {
+    .card-rincian-pendaratan {
+
+      ::ng-deep .mat-list-base {
+        padding-top: 0;
+      }
+
+      .mat-card {
+        padding: 0;
+
+        .mat-card-header {
+          padding: 30px 35px 0 35px;
+          .button-add-rincian {
+            margin-top: -25px;
+            margin-right: -7px;
+          }
+        }
+
+        .mat-card-content {
+          padding: 0 !important;
+
+          .row {
+            margin-top: -10px;
+            margin-left: 0;
+          }
+
+          .col-md-12 {
+            padding: 0;
+          }
+
+          .list-rincian-pendaratan-container {
+            margin-top: 10px;
+
+            ::ng-deep .mat-pseudo-checkbox {
+              display: none;
+            }
+
             .box-options {
               width: auto;
               position: absolute;
               right: 30px;
               display: inline-flex;
             }
+
           }
-
-
-
         }
       }
-    }
 
+    }
   }
+
+
+
+
 
 
 

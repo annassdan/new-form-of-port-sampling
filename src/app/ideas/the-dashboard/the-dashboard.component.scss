@@ -98,7 +98,8 @@ $main-progress-height: 3px;
 @media screen and (max-width: 767px) {
   #mainContentContainerId {
     background: $the-bg-color;
-    //padding: 23px 24px 24px 29px;
+    //margin-left: ($default-padding + 6);
+    //margin-right: ($default-padding);
 
     padding: ($default-padding + 5) $default-padding $default-padding ($default-padding + 5);
   }
