@@ -71,18 +71,18 @@ export class IAutocompleteComponent extends Utilities implements OnInit, OnDestr
   @Input() fakeDelay = 1000;
 
   /* digunakan sebagai counter parameter untuk set data temporary di options */
-  private counter = -1;
+  public counter = -1;
 
   /* ketika user mulai melakukan typing */
-  private typing = false;
+  public typing = false;
 
-  private failOnFetch = false;
+  public failOnFetch = false;
 
-  private successOnFetch = false;
+  public successOnFetch = false;
 
-  private initialized = false;
+  public initialized = false;
 
-  private subs: Subscription[] = [];
+  public subs: Subscription[] = [];
 
   @Input() mode: AutoMode = 'eager';
 
@@ -103,7 +103,7 @@ export class IAutocompleteComponent extends Utilities implements OnInit, OnDestr
   @Input() clearButton = true;
 
   /* untuk mengindikasikan bahwa tombol clear telah ditekan */
-  private cleared = false;
+  public cleared = false;
 
   /* List data yang akan digunakan sebagai data dasar untuk ditampilkan di option */
   @Input() targetOptions: { [key: string]: any }[] | Function;
@@ -153,7 +153,7 @@ export class IAutocompleteComponent extends Utilities implements OnInit, OnDestr
 
   @Input() hintMessage = '';
 
-  private matcher = new IErrorStateMatcher();
+  public matcher = new IErrorStateMatcher();
 
   @ViewChild('autoInput', {static: false}) input: ElementRef<HTMLInputElement>;
 
@@ -164,7 +164,7 @@ export class IAutocompleteComponent extends Utilities implements OnInit, OnDestr
 
   @Output() optionSelected = new EventEmitter<MatAutocompleteSelectedEvent>();
 
-  private undoChanges: Subject<any>;
+  public undoChanges: Subject<any>;
 
   previousValue: any;
 
@@ -195,8 +195,8 @@ export class IAutocompleteComponent extends Utilities implements OnInit, OnDestr
   asGroup = () => !(!this.formGroup || !this.formGroupName);
 
   constructor(@Optional() @Host() @SkipSelf()
-              private controlContainer: ControlContainer,
-              private cd: ChangeDetectorRef) { super(); }
+              public controlContainer: ControlContainer,
+              public cd: ChangeDetectorRef) { super(); }
 
   calculatingIndicator() {
     if (this.isEager()) {
