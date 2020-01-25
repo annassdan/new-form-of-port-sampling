@@ -1,6 +1,7 @@
 
+export type CanOptional = { [key: string]: any };
 
-export const model = {
+export const model: CanOptional = {
   uuid: '',
   dibuatPadaTanggal: '',
   terakhirDiubahPadaTanggal: '',
@@ -9,7 +10,7 @@ export const model = {
 };
 export type Model = typeof model;
 
-export const fotoDokumentasi = {
+export const fotoDokumentasi: CanOptional = {
   foto: '',
   path: ''
 };

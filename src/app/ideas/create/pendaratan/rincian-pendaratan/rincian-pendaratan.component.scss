@@ -11,14 +11,55 @@
   font-size: $the-font-size-1;
 }
 
+
+
 #dialog-rincian-pendaratan {
 
   padding-bottom: 55px;
 
+
+  //.mat-card {
+  //  padding: 25px 25px 35px 25px !important;
+  //  border: 1px solid $mat-card-container-border-color;
+  //  max-width: 100%;
+  //  margin-bottom: 24px;
+  //  margin-top: 5px;
+  //  border-radius: 5px;
+  //  box-shadow: rgba(0, 0, 0, 0.45) 0 0 0 0;
+  //}
+  //
+  //.mat-card:hover {
+  //  box-shadow: rgba(0, 0, 0, 0.26) 0 2px 6px 0;
+  //}
+
+
+
+  ::ng-deep .mat-step-header:hover {
+    background: none;
+    cursor: default;
+  }
+  //
+  //.cdk-focused {
+  //  background: red !important;
+  //}
+  //
+  //.cdk-program-focused {
+  //  background: greenyellow !important;
+  //}
+
+  //::ng-deep .mat-vertical-stepper-header {
+  //  pointer-events: none !important;
+  //}
+
+  ::ng-deep .mat-step-header:focus {
+    background: none;
+    cursor: default;
+  }
+
   ::ng-deep .mat-vertical-content {
     padding: 0 0 0 0 !important;
   }
-p
+
   .table-of-hasil-tangkapan {
     margin-top: 20px;
   }
@@ -71,14 +112,13 @@ p
   }
 
   .no-margin {
-    margin: 0 0 0 0  !important;
+    margin: 0 0 0 0 !important;
   }
 
   .dialog-toolbar {
     position: fixed;
     z-index: 7;
   }
-
 
 
   .hasil-tangkapan-spesies {
@@ -96,9 +136,9 @@ p
   }
 
   .form-rincian-pendaratan {
-    .form-content-wrapper {
-      padding: 87px 25px 0 25px;
-    }
+    //.form-content-wrapper {
+    //  padding: 87px 25px 0 25px;
+    //}
   }
 }
 

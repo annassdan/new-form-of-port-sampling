@@ -1,190 +1,210 @@
-<div class="row form-pendaratan" [formGroup]="formPendaratan">
+<div class="row" id="form-pendaratan" [formGroup]="formPendaratan">
 
-  <div class="col-md-6">
-    <mat-form-field appearance="outline">
-      <mat-label>Organisasi</mat-label>
-      <input [matAutocomplete]="autoOrganisasi"
-             #targetOrganisasi="matAutocompleteTrigger"
-             formControlName="organisasi"
-             autocomplete="off" matInput placeholder="Organisasi"
-             appMatAutocompleteNext
-             [nextTarget]="targetPencatat">
-      <mat-autocomplete #autoOrganisasi="matAutocomplete">
-        <mat-option value="Balai Riset Perikanan Laut">BRPL</mat-option>
-        <mat-option value="The Nature Conservation">TNC</mat-option>
-        <mat-option value="WCS Indonesia">WCS Indonesia</mat-option>
-        <mat-option value="WWF Indonesia">WWF Indonesia</mat-option>
-      </mat-autocomplete>
-    </mat-form-field>
+
+  <div class="col-md-12">
+    <mat-card>
+      <mat-card-header>
+        <div mat-card-avatar class="example-header-image"></div>
+        <mat-card-title>Informasi Umum</mat-card-title>
+        <mat-card-subtitle>Informasi utama yang diperlukan untuk Form Pendaratan</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+
+        <div class="row">
+          <!--Organisasi-->
+          <div class="col-md-6">
+            <i-autocomplete
+              #targetOrganisasi="iAutocomplete"
+              appearance="outline"
+              placeholder="Organisasi"
+              formGroupName="organisasi"
+              displayProp="namaOrganisasi"
+              mode="initially"
+              filterOnProp="namaOrganisasi"
+              [nextTo]="targetPencatat"
+              [targetOptions]="organisasiService.getAll">
+            </i-autocomplete>
+          </div>
+
+          <!--Pencatat-->
+          <div class="col-md-6">
+            <i-autocomplete
+              #targetPencatat="iAutocomplete"
+              appearance="outline"
+              placeholder="Pencatat"
+              formGroupName="uuidEnumerator"
+              displayProp="nama"
+              mode="initially"
+              filterOnProp="nama"
+              [previousTo]="targetOrganisasi"
+              [nextTo]="targetSumberdaya"
+              [targetOptions]="pencatatSource">
+            </i-autocomplete>
+          </div>
+
+          <!--Sumberdaya-->
+          <div class="col-md-6">
+            <i-autocomplete
+              #targetSumberdaya="iAutocomplete"
+              appearance="outline"
+              placeholder="Sumberdaya"
+              formGroupName="uuidSumberDaya"
+              displayProp="namaSumberdaya"
+              mode="initially"
+              filterOnProp="namaSumberdaya"
+              required="true"
+              errorMessage="Sumberdaya tidak boleh kosong"
+              [previousTo]="targetPencatat"
+              [nextTo]="targetWpp"
+              [targetOptions]="sumberdayaService.getAll">
+            </i-autocomplete>
+          </div>
+
+          <!--WPP-->
+          <div class="col-md-6">
+            <i-autocomplete
+              #targetWpp="iAutocomplete"
+              appearance="outline"
+              placeholder="WPP"
+              formControlName="wpp"
+              mode="initially"
+              required="true"
+              errorMessage="WPP tidak boleh kosong"
+              [previousTo]="targetSumberdaya"
+              [nextTo]="targetLokasiPendaratan"
+              [targetOptions]="wpp">
+            </i-autocomplete>
+          </div>
+
+          <!-- Lokasi pendaratan -->
+          <div class="col-md-6">
+            <mat-form-field appearance="outline">
+              <mat-label>Lokasi Pendaratan</mat-label>
+              <input #targetLokasiPendaratan autocomplete="off"
+                     formControlName="namaLokasiPendaratan"
+                     appMatInputNext
+                     [nextTarget]="targetTanggalPendaratan"
+                     [previousTarget]="targetWpp"
+                     matInput placeholder="Lokasi Pendaratan">
+            </mat-form-field>
+          </div>
+
+          <!--Tanggal Pendaratan-->
+          <div class="col-md-6">
+            <mat-form-field appearance="outline">
+              <mat-label>Tanggal Pendaratan</mat-label>
+              <input #targetTanggalPendaratan="matDatepickerInput" matInput autocomplete="off"
+                     placeholder="Tanggal Pendaratan"
+                     formControlName="tanggalPendaratan"
+                     appMatDatepickerNext
+                     [nextTarget]="tombolTambahPendaratan"
+                     [previousTarget]="targetLokasiPendaratan"
+                     (focus)="datepickerTanggalPendaratan.open()"
+                     (click)="datepickerTanggalPendaratan.open()"
+                     [matDatepicker]="datepickerTanggalPendaratan">
+              <mat-datepicker #datepickerTanggalPendaratan></mat-datepicker>
+            </mat-form-field>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
   </div>
 
-  <div class="col-md-6">
-    <i-autocomplete
-      #targetPencatat="iAutocomplete"
-      appearance="outline"
-      placeholder="Pencatat"
-      formGroupName="uuidEnumerator"
-      displayProp="nama"
-      mode="initially"
-      filterOnProp="nama"
-      [previousTo]="targetOrganisasi"
-      [nextTo]="targetSumberdaya"
-      [targetOptions]="pencatatSource">
-    </i-autocomplete>
-
-<!--    <mat-form-field appearance="outline">-->
-<!--      <mat-label>Pencatat</mat-label>-->
-<!--      <input [matAutocomplete]="autoPencatat"-->
-<!--             #targetPencatat="matAutocompleteTrigger" autocomplete="off"-->
-<!--             formControlName="uuidEnumerator"-->
-<!--             matInput placeholder="Pencatat"-->
-<!--             appMatAutocompleteNext-->
-<!--             required="true"-->
-<!--             [nextTarget]="targetSumberdaya"-->
-<!--             [previousTarget]="targetOrganisasi">-->
-<!--      <mat-autocomplete #autoPencatat="matAutocomplete">-->
-<!--        <mat-option value="Muhammad Nur Annas">Muhammad Nur Annas</mat-option>-->
-<!--        <mat-option value="I Komang Suryana">I Komang Suryana</mat-option>-->
-<!--        <mat-option value="Syaifullah">Syaifullah</mat-option>-->
-<!--      </mat-autocomplete>-->
-<!--    </mat-form-field>-->
-  </div>
-
-  <div class="col-md-6">
-    <i-autocomplete
-      #targetSumberdaya="iAutocomplete"
-      appearance="outline"
-      placeholder="Sumberdaya"
-      formGroupName="uuidSumberDaya"
-      displayProp="namaSumberdaya"
-      mode="initially"
-      filterOnProp="namaSumberdaya"
-      required="true"
-      errorMessage="Sumberdaya tidak boleh kosong"
-      [previousTo]="targetPencatat"
-      [nextTo]="targetWpp"
-      [targetOptions]="sumberDayaSource">
-    </i-autocomplete>
-  </div>
-
-  <div class="col-md-6">
-    <i-autocomplete
-      #targetWpp="iAutocomplete"
-      appearance="outline"
-      placeholder="WPP"
-      formControlName="wpp"
-      mode="initially"
-      required="true"
-      errorMessage="WPP tidak boleh kosong"
-      [previousTo]="targetSumberdaya"
-      [nextTo]="targetLokasiPendaratan"
-      [targetOptions]="wppSource">
-    </i-autocomplete>
-
-
-<!--    <mat-form-field appearance="outline">-->
-<!--      <mat-label>WPP</mat-label>-->
-<!--      <input #targetWpp="matAutocompleteTrigger" [matAutocomplete]="autoWpp"-->
-<!--             formControlName="wpp"-->
-<!--             autocomplete="off" matInput placeholder="WPP"-->
-<!--             appMatAutocompleteNext-->
-<!--             required="true"-->
-<!--             [previousTarget]="targetSumberdaya"-->
-<!--             [nextTarget]="targetLokasiPendaratan">-->
-<!--      <mat-autocomplete #autoWpp="matAutocomplete">-->
-<!--        <mat-option value="571">571</mat-option>-->
-<!--        <mat-option value="572">572</mat-option>-->
-<!--        <mat-option value="573">573</mat-option>-->
-<!--        <mat-option value="711">711</mat-option>-->
-<!--        <mat-option value="712">712</mat-option>-->
-<!--        <mat-option value="713">713</mat-option>-->
-<!--        <mat-option value="714">714</mat-option>-->
-<!--        <mat-option value="715">715</mat-option>-->
-<!--        <mat-option value="716">716</mat-option>-->
-<!--        <mat-option value="717">717</mat-option>-->
-<!--        <mat-option value="718">718</mat-option>-->
-<!--      </mat-autocomplete>-->
-<!--    </mat-form-field>-->
-  </div>
-
-  <!-- Tanggal pendaratan -->
-  <div class="col-md-6">
-    <mat-form-field appearance="outline">
-      <mat-label>Lokasi Pendaratan</mat-label>
-      <input #targetLokasiPendaratan autocomplete="off"
-             formControlName="namaLokasiPendaratan"
-             appMatInputNext
-             [nextTarget]="targetTanggalPendaratan"
-             [previousTarget]="targetWpp"
-             matInput placeholder="Lokasi Pendaratan">
-    </mat-form-field>
-  </div>
-
-  <div class="col-md-6">
-    <mat-form-field appearance="outline">
-      <mat-label>Tanggal Pendaratan</mat-label>
-      <input #targetTanggalPendaratan="matDatepickerInput" matInput autocomplete="off" placeholder="Tanggal Pendaratan"
-             formControlName="tanggalPendaratan"
-             appMatDatepickerNext
-             [nextTarget]="tombolTambahPendaratan"
-             [previousTarget]="targetLokasiPendaratan"
-             (focus)="datepickerTanggalPendaratan.open()"
-             (click)="datepickerTanggalPendaratan.open()"
-             [matDatepicker]="datepickerTanggalPendaratan">
-      <mat-datepicker #datepickerTanggalPendaratan></mat-datepicker>
-    </mat-form-field>
-  </div>
-
-  <!--  <div class="col-md-12">-->
-  <!--    -->
-  <!--  </div>-->
 
   <div class="col-md-12 rincian-pendaratan-container">
-    <button (click)="addRincianPendaratan('dataRincianPendaratan')"
-            class="floating-to-right" #tombolTambahPendaratan
-            mat-raised-button color="primary">
-      <mat-icon class="icon-inside-button">add</mat-icon>&nbsp;&nbsp;Tambah Rincian Pendaratan
-    </button>
+
+  </div>
 
 
-    <mat-selection-list class="remove-outline" #shoes>
-      <label *ngIf="listOfRincianPendaratan('dataRincianPendaratan').length > 0; else emptyRincianPendaratan"
-             mat-subheader>
-        Daftar Rincian Pendaratan&nbsp;&nbsp;<span
-        class="primary">({{listOfRincianPendaratan('dataRincianPendaratan').length}})</span>
-      </label>
-      <ng-template #emptyRincianPendaratan>
-        <label class="warn" mat-subheader>Belum Ada Rincian Pendaratan</label>
-      </ng-template>
+  <div class="col-md-12 card-rincian-pendaratan">
+    <mat-card>
+      <mat-card-header fxLayout="row">
+        <div mat-card-avatar class="example-header-image"></div>
+        <mat-card-title>
+          <label *ngIf="listOfRincianPendaratan('dataRincianPendaratan').length > 0; else emptyRincianPendaratan">
+            Daftar Rincian Pendaratan&nbsp;&nbsp;<span
+            class="primary">({{listOfRincianPendaratan('dataRincianPendaratan').length}})</span>
+          </label>
+          <ng-template #emptyRincianPendaratan>
+            <label class="warn">Belum Ada Rincian Pendaratan</label>
+          </ng-template>
+        </mat-card-title>
+        <mat-card-subtitle>Informasi utama yang diperlukan untuk Form Pendaratan</mat-card-subtitle>
 
-      <div class="list-rincian-pendaratan-container">
-        <mat-divider *ngIf="listOfRincianPendaratan('dataRincianPendaratan').length > 0"></mat-divider>
-        <div
-          *ngFor="let rincianPendaratan of listOfRincianPendaratan('dataRincianPendaratan'); index as rincianPendaratanIndex">
-          <mat-list-option>
-            <mat-icon class="my-color" mat-list-icon>folder</mat-icon>
-            <h4 class="my-color-hard" mat-line>{{extractFormControlValue('namaKapal', rincianPendaratan, '-')}}</h4>
-            <p class="my-color" mat-line> Detail Item </p>
-
-            <button #targetButtonOpenRincianPendaratan
-                    (click)="openRincianPendaratan(rincianPendaratan, targetButtonOpenRincianPendaratan)" mat-line
-                    mat-icon-button class="new-window-position">
-              <mat-icon class="my-color" matTooltip="Buka Rincian" matTooltipPosition="before">open_in_new</mat-icon>
-            </button>
-            <button (click)="removeRincianPendaratan('dataRincianPendaratan', rincianPendaratanIndex)" mat-line
-                    mat-icon-button class="remove-rincian-pendaratan">
-              <mat-icon color="warn" matTooltip="Hapus" matTooltipPosition="before">delete</mat-icon>
-            </button>
-          </mat-list-option>
-          <mat-divider></mat-divider>
+        <div fxFlex></div>
+        <div class="button-add-rincian" fxLayoutAlign="center center">
+          <button (click)="addRincianPendaratan('dataRincianPendaratan')" #tombolTambahPendaratan
+                  matTooltip="Tambahkan Rincian Pendaratan"
+                  matTooltipPosition="before"
+                  mat-fab color="primary">
+            <mat-icon class="icon-inside-button">add</mat-icon>
+          </button>
         </div>
-      </div>
-    </mat-selection-list>
+      </mat-card-header>
+      <mat-card-content>
+
+        <div class="row">
+          <div class="col-md-12">
+
+            <div *ngIf="listOfRincianPendaratan('dataRincianPendaratan').length === 0" style="padding:25px 0;">
+              <app-no-content message="Tidak Ada Rincian Pendaratan" bgColor="#fafafa"></app-no-content>
+            </div>
 
 
-    <!--    <p>-->
-    <!--      Options selected: {{shoes.selectedOptions.selected.length}}-->
-    <!--    </p>-->
+            <mat-selection-list>
+              <div class="list-rincian-pendaratan-container">
+                <mat-divider *ngIf="listOfRincianPendaratan('dataRincianPendaratan').length > 0"></mat-divider>
+                <div
+                  *ngFor="let tempFormRincianPendaratan of listOfRincianPendaratan('dataRincianPendaratan'); index as rincianPendaratanIndex">
+                  <mat-list-option (click)="test()">
+                    <mat-icon class="my-color" mat-list-icon>folder</mat-icon>
+                    <h4 class="my-color-hard"
+                        mat-line>{{extractFormControlValue('namaKapal', tempFormRincianPendaratan, '-')}}</h4>
+                    <p class="my-color" mat-line> Detail Item </p>
+
+
+                    <!--            <button #targetButtonOpenOperasional-->
+                    <!--                    (click)="addOperasional(tempFormRincianPendaratan)" mat-line-->
+                    <!--                    mat-icon-button class="new-window-position">-->
+                    <!--              <mat-icon class="my-color" matTooltip="Tambah Operasional" matTooltipPosition="before">open_in_new</mat-icon>-->
+                    <!--            </button>-->
+                    <!--            <button #targetButtonOpenRincianPendaratan-->
+                    <!--                    (click)="openRincianPendaratan(tempFormRincianPendaratan, targetButtonOpenRincianPendaratan)" mat-line-->
+                    <!--                    mat-icon-button class="new-window-position">-->
+                    <!--              <mat-icon class="my-color" matTooltip="Buka Rincian" matTooltipPosition="before">open_in_new</mat-icon>-->
+                    <!--            </button>-->
+
+                    <!--            <button (click)="removeRincianPendaratan('dataRincianPendaratan', rincianPendaratanIndex)"-->
+                    <!--                    mat-icon-button>-->
+                    <!--              <mat-icon  matTooltip="Hapus" matTooltipPosition="before">info</mat-icon>-->
+                    <!--            </button>-->
+
+                    <!--            class="remove-rincian-pendaratan"-->
+
+                    <div class="box-options" mat-line>
+                      <button #targetButtonOpenRincianPendaratan
+                              (click)="openRincianPendaratan(tempFormRincianPendaratan, targetButtonOpenRincianPendaratan)"
+                              mat-icon-button>
+                        <mat-icon class="my-color" matTooltip="Buka Rincian" matTooltipPosition="before">open_in_new
+                        </mat-icon>
+                      </button>
+                      <button (click)="addOperasional(tempFormRincianPendaratan)" mat-icon-button>
+                        <mat-icon color="warn" matTooltip="Hapus" matTooltipPosition="before">delete</mat-icon>
+                      </button>
+                      <button (click)="openOperasional(tempFormRincianPendaratan)"
+                              mat-icon-button>
+                        <mat-icon matTooltip="Hapus" matTooltipPosition="before">info</mat-icon>
+                      </button>
+                    </div>
+                  </mat-list-option>
+                  <mat-divider></mat-divider>
+                </div>
+              </div>
+            </mat-selection-list>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
   </div>
 
 

@@ -1,8 +1,9 @@
-import {model} from '../model';
+import {CanOptional, model} from '../model';
 import {general} from '../general';
+import {REF_TO_RINCIAN_PENDARATAN} from "../../shared/constants";
 
 
-export const rincianBiologiUkuran = {
+export const rincianBiologiUkuran: CanOptional = {
   ...model,
   /* relasi ke tabel spesies */
   uuidSpesies: '',
@@ -12,7 +13,7 @@ export const rincianBiologiUkuran = {
 export type  RincianBiologiUkuran = typeof rincianBiologiUkuran;
 
 
-export const sampelBiologiUkuran = {
+export const sampelBiologiUkuran: CanOptional = {
   ...model,
   /* relasi ke tabel spesies */
   uuidSpesies: '',
@@ -25,8 +26,12 @@ export const sampelBiologiUkuran = {
 export type SampelBiologiUkuran = typeof sampelBiologiUkuran;
 
 
-export const biologiUkuran = {
+export const biologiUkuran: CanOptional = {
   ...general,
+
+  /* reference ke tabel rincian pendaratan yang mana untuk menentukan kapal mana yang di sampling */
+  rincian_pendaratan: '',
+
   namaLokasiSampling: '',
   tanggalSampling: '',
   namaKapal: '',

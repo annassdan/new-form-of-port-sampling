@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {MainStateService} from '../../../../shared/services/main-state.service';
 
 @Component({
@@ -7,6 +7,16 @@ import {MainStateService} from '../../../../shared/services/main-state.service';
   styleUrls: ['./no-content.component.scss']
 })
 export class NoContentComponent implements OnInit {
+
+  @Input() bgColor;
+
+  @Input() message = 'Tidak Ada Konten';
+
+  @Input() messageStyle = {
+    fontSize: '14px',
+    fontWeight: 'bold',
+    color: '#dedede'
+  };
 
   constructor(public rootState: MainStateService) { }
 

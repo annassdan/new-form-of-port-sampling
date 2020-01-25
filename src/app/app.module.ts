@@ -47,8 +47,20 @@ import {RincianPendaratanComponent} from './ideas/create/pendaratan/rincian-pend
 import {RincianPendaratanContainer} from './ideas/create/pendaratan/rincian-pendaratan/rincian-pendaratan-container ';
 import {MatStepperModule} from "@angular/material/stepper";
 import {TextMaskModule} from "angular2-text-mask";
-import { IAutocompleteComponent } from './shared/conponents/i-autocomplete/i-autocomplete.component';
+import {IAutocompleteComponent} from './shared/conponents/i-autocomplete/i-autocomplete.component';
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
+import {ITextInputComponent} from './shared/conponents/i-text-input/i-text-input.component';
+import {CdkStepperModule} from "@angular/cdk/stepper";
+import { OperasionalComponent } from './ideas/create/pendaratan/operasional/operasional.component';
+import { UkuranComponent } from './ideas/create/pendaratan/ukuran/ukuran.component';
+import { ReproduksiComponent } from './ideas/create/pendaratan/reproduksi/reproduksi.component';
+import {HttpClientModule} from "@angular/common/http";
+import {OperasionalContainer} from "./ideas/create/pendaratan/operasional/operasional.container";
+import {ReproduksiContainer} from "./ideas/create/pendaratan/reproduksi/reproduksi.container";
+import {UkuranContainer} from "./ideas/create/pendaratan/ukuran/ukuran.container";
+import {MatCardModule} from "@angular/material/card";
+import { InitializingComponent } from './ideas/the-dashboard/ghosts/initializing/initializing.component';
+import {FlexLayoutModule} from "@angular/flex-layout";
 
 @NgModule({
   declarations: [
@@ -66,7 +78,15 @@ import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
     MatDatepickerNextDirective,
     RincianPendaratanComponent,
     RincianPendaratanContainer,
-    IAutocompleteComponent
+    IAutocompleteComponent,
+    ITextInputComponent,
+    OperasionalComponent,
+    UkuranComponent,
+    ReproduksiComponent,
+    OperasionalContainer,
+    ReproduksiContainer,
+    UkuranContainer,
+    InitializingComponent,
   ],
   imports: [
     BrowserModule,
@@ -75,8 +95,11 @@ import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 
     NgxElectronModule,
 
+    HttpClientModule,
+
     /* dari angular cdk */
     LayoutModule,
+    MatCardModule,
 
     MatFormFieldModule,
     MatInputModule,
@@ -102,9 +125,13 @@ import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
     MatSlideToggleModule,
     TextMaskModule,
     MatProgressSpinnerModule,
+    FlexLayoutModule
   ],
   entryComponents: [
-    RincianPendaratanComponent
+    RincianPendaratanComponent,
+    OperasionalComponent,
+    UkuranComponent,
+    ReproduksiComponent
   ],
   providers: [
     /* Provide formating tanggal emnggunakan moment js dan angular */

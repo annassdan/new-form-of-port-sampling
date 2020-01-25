@@ -1,8 +1,9 @@
-import {model} from '../model';
+import {CanOptional, model} from '../model';
 import {general} from '../general';
+import {REF_TO_RINCIAN_PENDARATAN} from "../../shared/constants";
 
 
-export const hasilTangkapanOperasional = {
+export const hasilTangkapanOperasional: CanOptional = {
   ...model,
   /* relasi ke tabel spesies */
   uuidSpesies: '',
@@ -18,7 +19,7 @@ export const hasilTangkapanOperasional = {
 export type HasilTangkapanOperasional = typeof hasilTangkapanOperasional;
 
 
-export const spesifikasiAlatTangkapOperasional = {
+export const spesifikasiAlatTangkapOperasional: CanOptional = {
   ...model,
   /* relasi ke tabel alat tangkap */
   uuidAlatTangkap: '',
@@ -29,8 +30,12 @@ export const spesifikasiAlatTangkapOperasional = {
 export type SpesifikasiAlatTangkapOperasional = typeof spesifikasiAlatTangkapOperasional;
 
 
-export const operasional = {
+export const operasional: CanOptional = {
   ...general,
+
+  /* reference ke tabel rincian pendaratan yang mana untuk menentukan kapal mana yang di sampling */
+  rincian_pendaratan: '',
+
   /* any untuk kemungkinan pengubahan menjadi object */
   namaLokasiPendaratan: '',
   jamSampling: '',
@@ -42,6 +47,7 @@ export const operasional = {
   tandaSelar: '',
   tanggalKembali: '',
   namaPemilikKapal: '',
+  pelabuhanAsal: '',
   namaKapten: '',
   jumlahAbk: 0,
   // double

@@ -2,7 +2,14 @@
 @import '../node_modules/@angular/material/theming';
 @include mat-core();
 
-$the-bg-color: #ededed;
+$the-bg-color: #f2f2f2;
+$the-sidenav-bg-color: white;
+$the-sidenav-border-color: #e3e3e3;
+$mat-card-container-border-color: #cdcdcd;
+
+$mat-header-bg-color: #fafafa;
+$mat-input-bg-color: #fbfbfb;
+
 $the-on-search-bg-color: #dfdfdf;
 $the-on-search-box-border-color: #cdcdcd;
 $the-hover-component: #d7d7d7;
@@ -27,7 +34,8 @@ $color-warn: $mat-deep-orange;
 
 $the-primary: mat-palette($color-primary, A700);
 //$the-accent: mat-palette($color-accent, A200);
-$the-accent: mat-palette($color-accent, 900);
+$the-accent: mat-palette($color-accent, 800);
+//$the-accent: mat-palette($color-accent, 900);
 $the-warn: mat-palette($color-warn);
 
 
@@ -45,12 +53,81 @@ $the-warn: mat-palette($color-warn);
 
 .conditional-accent { color: mat-color(mat-palette($color-accent, 500)) !important; }
 
+::ng-deep .mat-form-field-outline {
+  background: $mat-input-bg-color;
+}
+
+
+::ng-deep .mat-form-field-outline, .mat-form-field-outline-thick {
+  background: $mat-input-bg-color;
+}
 
 
 
 ::ng-deep .mat-option {
   font-size: $the-font-size-1 !important;
 }
+
+
+
+@media screen and (max-width: 767px) {
+  .mat-card {
+    padding: 0 0 25px 0;
+
+    border: 1px solid $mat-card-container-border-color;
+    border-radius: 5px;
+    margin-bottom: 30px;
+    //box-shadow: rgba(0, 0, 0, 0.45) 0 0px 0px 0;
+    box-shadow: rgba(0, 0, 0, 0.26) 0 2px 6px 0;
+
+    .mat-card-header {
+      padding: 25px 25px 0 25px;
+      background: $mat-header-bg-color;
+      //border-bottom: $mat-card-container-border-color;
+    }
+
+    .mat-card-content {
+      padding: 25px 25px 0 25px;
+    }
+
+
+
+  }
+
+  //.mat-card:hover {
+  //  box-shadow: rgba(0, 0, 0, 0.26) 0 2px 6px 0;
+  //}
+}
+
+@media screen and (min-width: 768px) {
+  .mat-card {
+    padding: 0 0 25px 0;
+    border: 1px solid $mat-card-container-border-color;
+    border-radius: 5px;
+    margin-bottom: 30px;
+    //box-shadow: rgba(0, 0, 0, 0.45) 0 0 0 0 !important;
+    box-shadow: rgba(0, 0, 0, 0.26) 0 2px 6px 0;
+
+    .mat-card-header {
+      padding: 30px 35px 10px 35px;
+      background: $mat-header-bg-color;
+      //border-bottom: 1px solid $mat-card-container-border-color;
+    }
+
+    .mat-card-content {
+      padding: 35px 35px 0 35px;
+    }
+
+
+
+  }
+
+  //.mat-card:hover {
+  //  box-shadow: rgba(0, 0, 0, 0.26) 0 1px 4px 0 !important;
+  //}
+}
+
+
 
 /* inisialisasi tema */
 $the-light-theme: mat-light-theme($the-primary, $the-accent, $the-warn);
@@ -68,7 +145,6 @@ $general-typography: mat-typography-config(
   $body-1:        mat-typography-level($the-font-size-1, $the-font-size-2, 500),
   $title: mat-typography-level($the-font-size-2, $the-font-size-3, 600),
   $subheading-2: mat-typography-level($the-font-size-1-point-5, $the-font-size-2, 600)
-
 );
 
 @include mat-core($general-typography);

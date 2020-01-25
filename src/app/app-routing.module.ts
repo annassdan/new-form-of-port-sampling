@@ -2,6 +2,9 @@ import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {RincianPendaratanContainer} from './ideas/create/pendaratan/rincian-pendaratan/rincian-pendaratan-container ';
 import {TheDashboardComponent} from './ideas/the-dashboard/the-dashboard.component';
+import {OperasionalContainer} from "./ideas/create/pendaratan/operasional/operasional.container";
+import {UkuranContainer} from "./ideas/create/pendaratan/ukuran/ukuran.container";
+import {ReproduksiContainer} from "./ideas/create/pendaratan/reproduksi/reproduksi.container";
 
 
 const routes: Routes = [
@@ -10,8 +13,20 @@ const routes: Routes = [
     component: TheDashboardComponent,
     children: [
       {
-        path: 'rincian-pendaratan',
+        path: 'rincian-pendaratan/:uuid',
         component: RincianPendaratanContainer
+      },
+      {
+        path: 'operasional/:uuid',
+        component: OperasionalContainer
+      },
+      {
+        path: 'ukuran/:uuid',
+        component: UkuranContainer
+      },
+      {
+        path: 'reproduksi/:uuid',
+        component: ReproduksiContainer
       },
     ]
   },

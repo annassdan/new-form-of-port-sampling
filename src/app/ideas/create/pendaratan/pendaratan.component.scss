@@ -1,6 +1,22 @@
 @import "../../../../the-theme";
 /* hanya apply pada container form pendaratan */
-.form-pendaratan {
+#form-pendaratan {
+
+
+  @media screen and (max-width: 767px) {
+    ::ng-deep .mat-list-base .mat-list-item .mat-list-item-content-reverse, .mat-list-base .mat-list-option .mat-list-item-content-reverse {
+      padding: 0 25px;
+    }
+  }
+
+  @media screen and (min-width: 768px) {
+    ::ng-deep .mat-list-base .mat-list-item .mat-list-item-content-reverse, .mat-list-base .mat-list-option .mat-list-item-content-reverse {
+      padding: 0 35px;
+    }
+  }
+
+
+
   .floating-to-right {
     float: right;
   }
@@ -14,23 +30,92 @@
     top: 0;
   }
 
-  .list-rincian-pendaratan-container {
-    margin-top: 10px;
 
-    ::ng-deep .mat-pseudo-checkbox {
-      display: none;
+  .card-rincian-pendaratan {
+
+    ::ng-deep .mat-list-base {
+      padding-top: 0;
     }
 
-    .new-window-position {
-      position: absolute;
-      right: 55px;
+    .mat-card {
+      padding: 0;
+
+      @media screen and (max-width: 767px) {
+        .mat-card-header {
+          padding: 25px 25px 0 25px;
+          //background: $mat-header-bg-color;
+        }
+
+        .mat-card-content {
+          padding: 0;
+
+        }
+
+          .button-add-rincian {
+          margin-top: -23px;
+          margin-right: -4px;
+        }
+      }
+
+      @media screen and (min-width: 768px) {
+        .mat-card-header {
+          padding: 30px 35px 0 35px;
+          //background: $mat-header-bg-color;
+
+          .button-add-rincian {
+            margin-top: -25px;
+            margin-right: -7px;
+          }
+        }
+      }
+
+      .mat-card-content {
+        padding: 0 !important;
+
+        .row {
+          margin-top: -10px;
+          margin-left: 0;
+        }
+
+        .col-md-12 {
+          padding: 0;
+        }
+
+        .list-rincian-pendaratan-container {
+          margin-top: 10px;
+
+          ::ng-deep .mat-pseudo-checkbox {
+            display: none;
+          }
+
+          @media screen and (max-width: 767px) {
+            .box-options {
+              width: auto;
+              position: absolute;
+              right: 20px;
+              display: inline-flex;
+            }
+          }
+
+          @media screen and (min-width: 768px) {
+            .box-options {
+              width: auto;
+              position: absolute;
+              right: 30px;
+              display: inline-flex;
+            }
+          }
+
+
+
+        }
+      }
     }
 
-    .remove-rincian-pendaratan {
-      position: absolute;
-      right: 15px;
-    }
   }
+
+
+
 
   .mat-subheader {
     color: $section-title-color;
@@ -39,4 +124,8 @@
     //margin-left: -15px;
     font-weight: bold;
   }
+
+
+
+
 }

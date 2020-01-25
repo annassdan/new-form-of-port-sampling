@@ -1,0 +1,66 @@
+@import "../../../../../the-theme";
+
+.full-width-table {
+  width: 100%;
+}
+
+::ng-deep .mat-dialog-container {
+  padding: 0;
+  border-radius: 0;
+  background: $the-bg-color;
+  font-size: $the-font-size-1;
+}
+
+
+#dialog-operasional {
+
+  padding-bottom: 55px;
+
+  .floating-to-right {
+    float: right;
+  }
+
+  .icon-inside-button {
+    margin-top: -3px;
+  }
+
+  .no-padding {
+    padding: 0 0 0 0 !important;
+  }
+
+  .no-margin {
+    margin: 0 0 0 0 !important;
+  }
+
+  .dialog-toolbar {
+    position: fixed;
+    z-index: 7;
+  }
+
+  //.mat-card {
+  //  padding: 25px 25px 35px 25px !important;
+  //  border: 1px solid $mat-card-container-border-color;
+  //  max-width: 100%;
+  //  margin-bottom: 24px;
+  //  margin-top: 5px;
+  //  border-radius: 5px;
+  //  box-shadow: rgba(0, 0, 0, 0.45) 0 0 0 0;
+  //}
+  //
+  //.mat-card:hover {
+  //  box-shadow: rgba(0, 0, 0, 0.26) 0 2px 6px 0;
+  //}
+
+  .example-header-image {
+    background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
+    background-size: cover;
+  }
+
+
+  .form-operasional {
+    //.form-content-wrapper {
+    //  padding: 102px 50px 0 50px;
+    //}
+  }
+
+}

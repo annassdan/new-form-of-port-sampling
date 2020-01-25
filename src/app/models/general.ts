@@ -1,29 +1,28 @@
-import {model} from './model';
+import {CanOptional, model} from './model';
+import {organisasi} from "./master/organisasi";
+import {sumberdaya} from "./master/sumberdaya";
 
 
-export const general  = {
+export const general: CanOptional = {
   ...model,
   /* relasi ke enumerator  */
   // uuidEnumerator: '',
   uuidEnumerator: {
     uuid: '1',
     nama: 'Muhammad Nur Annas',
-    posisi: ''
+    posisi: 'Enumerator'
   },
 
   /* relasi ke data sumberdaya */
   // uuidSumberDaya: '',
-  uuidSumberDaya: {
-    uuid: '',
-    namaSumberdaya: ''
-  },
+  uuidSumberDaya: {...sumberdaya},
 
 
   statusDokumen: '',
   photoNames: [],
   uuidPengupload: '',
   /* maybe to organization */
-  organisasi: '',
+  organisasi: {...organisasi},
   wpp: '',
   /* maybe to user */
   terverifikasiOleh: '',

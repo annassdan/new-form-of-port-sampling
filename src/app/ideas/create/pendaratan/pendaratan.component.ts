@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnInit} from '@angular/core';
+import {AfterViewInit, Component, HostListener, OnInit, ViewChild} from '@angular/core';
 import {FormGroup} from '@angular/forms';
 import {
   addFormArrayMember,
@@ -15,6 +15,19 @@ import {PendaratanBrigeService} from './pendaratan-brige.service';
 import {Utilities} from "../../../shared/utilities";
 import {MatAutocompleteSelectedEvent} from "@angular/material/autocomplete";
 import {Observable, of} from "rxjs";
+import {OrganisasiService} from "../../../services/master/organisasi.service";
+import {SumberdayaService} from "../../../services/master/sumberdaya.service";
+import {Operasional, operasional} from "../../../models/operasional/operasional";
+import {extractingValue, generateUUID} from "../../../shared/utils";
+import {
+  CONTROL_DATA_OPERASIONAL,
+  CONTROL_DATA_REPRODUKSI,
+  CONTROL_DATA_UKURAN,
+  PK_COLUMN,
+  REF_TO_RINCIAN_PENDARATAN
+} from "../../../shared/constants";
+import {biologiUkuran, BiologiUkuran} from "../../../models/ukuran/ukuran";
+import {BiologiReproduksi} from "../../../models/reproduksi/reproduksi";
 
 @Component({
   selector: 'app-pendaratan',
@@ -25,8 +38,12 @@ export class PendaratanComponent extends Utilities implements OnInit, AfterViewI
 
   formPendaratan: FormGroup;
 
+  @ViewChild('targetOrganisasi', { static: false }) targetOrganisasi;
+
   constructor(public currentPendaratanState: PendaratanBrigeService,
               public router: Router,
+              public organisasiService: OrganisasiService,
+              public sumberdayaService: SumberdayaService,
               public dialog: MatDialog) {
     super();
     this.formPendaratanInializing();
@@ -36,17 +53,51 @@ export class PendaratanComponent extends Utilities implements OnInit, AfterViewI
   ngOnInit() {
   }
 
+
+  hasLinkedFormTo(which: 'dataOperasional' | 'dataUkuran' | 'dataReproduksi', refId: String) {
+    if (this.formPendaratan) {
+      const fArrays = this.extractFormArray(this.formPendaratan, which);
+      return fArrays.controls.filter(f => extractingValue(f.value, REF_TO_RINCIAN_PENDARATAN) === refId).length > 0;
+    }
+
+    return false;
+  }
+
+
+  /**
+   * Mengidentifikasi spesifik form group yang reference ke spesifik rincian pendaratan
+   * @param control 'controlNameGroupArray' dari Operasional/Ukuran/Reproduksi
+   * @param refId id dari rincian pendaratan yang mana
+   */
+  specifyLinkedWithRincianPendaratan(control: string, refId: string): FormGroup {
+    if (this.formPendaratan) {
+      const fArrays = this.extractFormArray(this.formPendaratan, control);
+      if (fArrays && fArrays.length > 0) {
+        for (const formGroup of fArrays.controls) {
+          if (this.extractingValue(formGroup.value, REF_TO_RINCIAN_PENDARATAN) === refId) {
+            return <FormGroup> formGroup;
+          }
+        }
+      }
+    }
+
+    return undefined;
+  }
+
+
   /**
    * agar lebih aman untuk menempatkan initalizing yang datanya berhubungan dengn ui interface
    * maka baiknya ditempatkan pada lifecyle afterViewInit
    */
   ngAfterViewInit(): void {
-
   }
 
   formPendaratanInializing() {
-    this.formPendaratan = createFormGroup(createFormGroupContent(pendaratan));
+    this.formPendaratan = createFormGroup(createFormGroupContent({...pendaratan, uuid: generateUUID()}));
   }
+
+
+
 
 
   /**
@@ -54,7 +105,80 @@ export class PendaratanComponent extends Utilities implements OnInit, AfterViewI
    * @param formArrayControlName
    */
   addRincianPendaratan(formArrayControlName: string) {
-    addFormArrayMember(this.formPendaratan, formArrayControlName, createFormGroup(createFormGroupContent(rincianPendaratan)))
+    // if (!this.formPendaratan.valid) {
+      // this.formPendaratan.markAllAsTouched();
+    // }
+
+    const id = generateUUID();
+    console.log(id);
+    addFormArrayMember(this.formPendaratan, formArrayControlName, createFormGroup(createFormGroupContent({...rincianPendaratan, uuid: id})))
+      .then(r => {
+        console.log(this.formPendaratan.value)
+      }).catch();
+  }
+
+
+  addOperasional(refRincianPendaratan: FormGroup | any) {
+
+    console.log(refRincianPendaratan.value);
+
+    if (this.hasLinkedFormTo("dataOperasional", extractingValue(refRincianPendaratan.value, PK_COLUMN))) {
+      console.log('Sudah punya data operasional');
+      return;
+    }
+
+    if (!this.formPendaratan.valid) {
+      this.formPendaratan.markAllAsTouched();
+    }
+
+    /* mengambil ref id dari rincian pendaratan */
+    const refId = extractingValue(refRincianPendaratan.value, PK_COLUMN);
+    console.log(refId)
+    const objectInit: Operasional = {...operasional, uuid: generateUUID(), rincian_pendaratan: refId };
+
+    addFormArrayMember(this.formPendaratan, CONTROL_DATA_OPERASIONAL, createFormGroup(createFormGroupContent(objectInit)))
+      .then(r => {
+        console.log(this.formPendaratan.value)
+      }).catch();
+  }
+
+
+  addUkuran(refRincianPendaratan: FormGroup | any) {
+    if (this.hasLinkedFormTo("dataUkuran", extractingValue(refRincianPendaratan.value, PK_COLUMN))) {
+      console.log('Sudah punya data ukuran');
+      return;
+    }
+
+    if (!this.formPendaratan.valid) {
+      this.formPendaratan.markAllAsTouched();
+    }
+
+    /* mengambil ref id dari rincian pendaratan */
+    const refId = extractingValue(refRincianPendaratan.value, PK_COLUMN);
+    const objectInit: BiologiUkuran = {...biologiUkuran, uuid: generateUUID(), rincian_pendaratan: refId };
+
+    addFormArrayMember(this.formPendaratan, CONTROL_DATA_UKURAN, createFormGroup(createFormGroupContent(objectInit)))
+      .then(r => {
+        console.log(this.formPendaratan.value)
+      }).catch();
+  }
+
+
+  addReproduksi(refRincianPendaratan: FormGroup | any) {
+    if (this.hasLinkedFormTo("dataReproduksi", extractingValue(refRincianPendaratan.value, PK_COLUMN))) {
+      console.log('Sudah punya data reproduksi');
+      return;
+    }
+
+    if (!this.formPendaratan.valid) {
+      this.formPendaratan.markAllAsTouched();
+    }
+
+    /* mengambil ref id dari rincian pendaratan */
+    const refId = extractingValue(refRincianPendaratan.value, PK_COLUMN);
+    const objectInit: BiologiReproduksi = {...biologiUkuran, uuid: generateUUID(), rincian_pendaratan: refId };
+
+    addFormArrayMember(this.formPendaratan, CONTROL_DATA_REPRODUKSI, createFormGroup(createFormGroupContent(objectInit)))
       .then(r => {
         console.log(this.formPendaratan.value)
       }).catch();
@@ -75,8 +199,87 @@ export class PendaratanComponent extends Utilities implements OnInit, AfterViewI
     await fromMaterialExportAsNative(button).blur();
 
     await this.currentPendaratanState.setCurrentFormRincianPendaratan(formRincianPendaratan);
-    this.router.navigate(['rincian-pendaratan']).then(r => {}).catch();
+    this.router.navigate(['rincian-pendaratan', extractingValue(formRincianPendaratan.value, PK_COLUMN)]).then(r => {}).catch();
   }
+
+  async openOperasional(formRincianPendaratan: FormGroup | any, button?: MatButton) {
+
+    // await fromMaterialExportAsNative(button).blur();
+    const formOperasional = this.specifyLinkedWithRincianPendaratan(CONTROL_DATA_OPERASIONAL, extractingValue(formRincianPendaratan.value, PK_COLUMN));
+
+    if (formOperasional) {
+      /* dipakai untuk beberapa kebutuhan */
+      await this.currentPendaratanState.setCurrentFormRincianPendaratan(formRincianPendaratan);
+
+      await this.currentPendaratanState.setCurrentFormOperasional(formOperasional);
+      this.router.navigate(['operasional', extractingValue(formOperasional.value, PK_COLUMN)], ).then(r => {}).catch();
+    }
+  }
+
+  async openUkuran(formRincianPendaratan: FormGroup | any, button?: MatButton) {
+
+    // await fromMaterialExportAsNative(button).blur();
+    const formUkuran = this.specifyLinkedWithRincianPendaratan(CONTROL_DATA_UKURAN, extractingValue(formRincianPendaratan.value, PK_COLUMN));
+
+    if (formUkuran) {
+      /* dipakai untuk beberapa kebutuhan */
+      await this.currentPendaratanState.setCurrentFormRincianPendaratan(formRincianPendaratan);
+
+      await this.currentPendaratanState.setCurrentFormUkuran(formUkuran);
+      this.router.navigate(['ukuran', extractingValue(formUkuran.value, PK_COLUMN)]).then(r => {}).catch();
+    }
+  }
+
+  async openReproduksi(formRincianPendaratan: FormGroup | any, button?: MatButton) {
+
+    // await fromMaterialExportAsNative(button).blur();
+    const formReproduksi = this.specifyLinkedWithRincianPendaratan(CONTROL_DATA_REPRODUKSI, extractingValue(formRincianPendaratan.value, PK_COLUMN));
+
+    if (formReproduksi) {
+      /* dipakai untuk beberapa kebutuhan */
+      await this.currentPendaratanState.setCurrentFormRincianPendaratan(formRincianPendaratan);
+
+      await this.currentPendaratanState.setCurrentFormReproduksi(formReproduksi);
+      this.router.navigate(['reproduksi', extractingValue(formReproduksi.value, PK_COLUMN)]).then(r => {}).catch();
+    }
+  }
+
+
+  patchAffected(from: FormGroup, fromControl: string, to: FormGroup, toControl: string) {
+    this.extractFormControl(to, toControl).patchValue(this.extractFormControl(from, fromControl).value);
+  }
+
+
+
+  async alsoAffectedToOperasional(formRincianPendaratan: FormGroup, bothControls: { from: string, to: string}[] = [
+    { from: 'namaKapal', to: 'namaKapal' },
+  ]) {
+    if (this.hasLinkedFormTo("dataOperasional", extractingValue(formRincianPendaratan.value, PK_COLUMN))) {
+      const form = this.specifyLinkedWithRincianPendaratan(CONTROL_DATA_OPERASIONAL, extractingValue(formRincianPendaratan.value, PK_COLUMN));
+      bothControls.forEach(c => this.patchAffected(formRincianPendaratan, c.from, form, c.to));
+    }
+  }
+
+  async alsoAffectedToUkuran(formRincianPendaratan: FormGroup) {
+
+  }
+
+  async alsoAffectedToReproduksi(formRincianPendaratan: FormGroup) {
+
+  }
+
+  async affectedToPendaratanAndRincianFromOperasional(formOperasional: FormGroup) {
+
+  }
+
+  async affectedToPendaratanAndRincianFromUkuran(formUkuran: FormGroup) {
+
+  }
+
+  async affectedToPendaratanAndRincianFromReproduksi(formReproduksi: FormGroup) {
+
+  }
+
 
 
   selected($event: MatAutocompleteSelectedEvent) {
@@ -84,15 +287,6 @@ export class PendaratanComponent extends Utilities implements OnInit, AfterViewI
     // console.log(this.formPendaratan);
   }
 
-
-  sumberDayaSource = (): Observable<any[]> => {
-    return of([
-      { uuid: '1', namaSumberdaya: 'Satu' },
-      { uuid: '2', namaSumberdaya: 'Dua' },
-      { uuid: '3', namaSumberdaya: 'Tiga' },
-      { uuid: '4', namaSumberdaya: 'Empat' }
-    ]);
-  };
 
   pencatatSource = (): Observable<any[]> => {
     return of([
@@ -103,7 +297,15 @@ export class PendaratanComponent extends Utilities implements OnInit, AfterViewI
     ]);
   };
 
-  wppSource = (): Observable<any[]> => of([ '571', '572', '573', '711', '712', '713', '714', '715', '716', '717', '718']);
 
+  @HostListener('window:keyup', ['$event'])
+  keyEvent(event: KeyboardEvent) {
+    if (event.key === 'F2') {
+      fromMaterialExportAsNative(this.targetOrganisasi).focus();
+    }
+  }
 
+  test() {
+    console.log('clicked')
+  }
 }

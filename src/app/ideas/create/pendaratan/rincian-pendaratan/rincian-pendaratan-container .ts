@@ -1,13 +1,12 @@
-import {AfterViewInit, Component, OnDestroy} from '@angular/core';
+import {Component, OnDestroy} from '@angular/core';
 import {MatDialog} from '@angular/material';
 import {RincianPendaratanComponent} from './rincian-pendaratan.component';
 import {Subscription} from 'rxjs';
 import {unsubscribes} from '../../../../shared/utils';
 
-@Component({
-  template: ``,
-})
+@Component({ template: ''})
 export class RincianPendaratanContainer implements OnDestroy {
+
 
   subs: Subscription[] = [];
 
@@ -26,8 +25,10 @@ export class RincianPendaratanContainer implements OnDestroy {
 
   ngOnDestroy(): void {
     this.subs = unsubscribes(this.subs);
-    console.log('destroying...')
+    // console.log('destroying...')
   }
+
+
 
 
 }

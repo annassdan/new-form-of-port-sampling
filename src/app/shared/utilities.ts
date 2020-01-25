@@ -6,9 +6,15 @@ import {
   extractFormGroup,
   isFormControlEmpty, patchFormGroup, resetFormGroup
 } from "./reactive-form-modeling";
+import {JENIS_RUMPON, SUMBER_INFORMASI, WAKTU_SETTING, WPP} from "./constants";
+import {AfterViewInit} from "@angular/core";
 
 
-export class Utilities {
+export class Utilities implements AfterViewInit {
+
+  public readonly toolbarWidthOnSmall = '100%';
+  public readonly toolbarWidthOnBig = '80%';
+  toolbarWidth = this.toolbarWidthOnSmall;
 
   standardInputMask = standardInputMask;
 
@@ -28,7 +34,19 @@ export class Utilities {
 
   patchFormGroup = patchFormGroup;
 
+  wpp = WPP;
+
+  rumpon = JENIS_RUMPON;
+
+  waktuSetting = WAKTU_SETTING;
+
+  sumberInformasi = SUMBER_INFORMASI;
+
 
   constructor() {
+  }
+
+  ngAfterViewInit(): void {
+    setTimeout(() => this.toolbarWidth = this.toolbarWidthOnBig, 600);
   }
 }

@@ -57,7 +57,7 @@ export class MatAutocompleteNextDirective implements AfterViewInit, OnDestroy {
     this.subscription.unsubscribe();
   }
 
-  isRequired = () => this.triggerNativeElement ? this.triggerNativeElement.required : false;
+  // isRequired = () => this.triggerNativeElement ? this.triggerNativeElement.required : false;
 
   /* menutup panel dari autocomplete */
   syncWheterPanelIsOpen = () => this.trigger && this.trigger.panelOpen ? this.trigger.closePanel() : null;
@@ -83,6 +83,13 @@ export class MatAutocompleteNextDirective implements AfterViewInit, OnDestroy {
   @HostListener('keyup', ['$event'])
   async onKeyup($event) {
 
+    // if ($event.key === 'ArrowUp' ||
+    //   $event.key === 'ArrowDown' ||
+    //   $event.key === 'ArrowLeft' ||
+    //   $event.key === 'ArrowRight') {
+    //   return;
+    // }
+
     /* melakukan perpindahan fokus ke kompoenen sebelumnya */
     if ($event.ctrlKey && $event.key === 'Enter' && this.previousTarget) {
       await this.emitAction();
@@ -101,15 +108,19 @@ export class MatAutocompleteNextDirective implements AfterViewInit, OnDestroy {
 
         let next = fromMaterialExportAsNative(this.nextTarget);
         await this.emitAction();
-        if (!this.isRequired()) {
-          await this.syncWheterPanelIsOpen();
-          next.focus();
-        } else {
-          if (this.triggerText.length > 0) {
-            await this.syncWheterPanelIsOpen();
-            next.focus();
-          }
-        }
+
+        await this.syncWheterPanelIsOpen();
+        next.focus();
+
+        // if (!this.isRequired()) {
+        //   await this.syncWheterPanelIsOpen();
+        //   next.focus();
+        // } else {
+        //   if (this.triggerText.length > 0) {
+        //     await this.syncWheterPanelIsOpen();
+        //     next.focus();
+        //   }
+        // }
 
         this.whenTyping.emit($event);
       } else {

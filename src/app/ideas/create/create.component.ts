@@ -62,13 +62,5 @@ export class CreateComponent extends Shared implements OnInit, OnDestroy {
   }
 
 
-  tets() {
-    const y = {...pendaratan, namaLokasiPendaratan: 'UNKNOWN'};
 
-
-    const { namaLokasiPendaratan, tanggalPendaratan } = y;
-
-    // const form = createFormGroup(createFormGroupContent(pendaratan));
-    console.log(namaLokasiPendaratan);
-  }
 }

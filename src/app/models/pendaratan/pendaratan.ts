@@ -1,8 +1,8 @@
-import {model} from '../model';
+import {CanOptional, model} from '../model';
 import {general} from '../general';
 
 
-export const hasilTangkapanPendaratan = {
+export const hasilTangkapanPendaratan: CanOptional = {
   ...model,
   /* relasi ke tabel spesies */
   uuidSpesies: '',
@@ -13,7 +13,7 @@ export const hasilTangkapanPendaratan = {
 };
 export type HasilTangkapanPendaratan = typeof hasilTangkapanPendaratan;
 
-export const rincianPendaratan = {
+export const rincianPendaratan: CanOptional = {
   ...model,
   namaKapal: '',
   penampung: false,
@@ -36,13 +36,14 @@ export const rincianPendaratan = {
 };
 export type RincianPendaratan = typeof rincianPendaratan;
 
-export const pendaratan = {
+export const pendaratan: CanOptional = {
   ...general,
   tanggalPendaratan: '',
   namaLokasiPendaratan: '',
   dataRincianPendaratan: [],
   dataOperasional: [],
-  dataUkuran: []
+  dataUkuran: [],
+  dataReproduksi: []
 };
 export type Pendaratan = typeof pendaratan;
 

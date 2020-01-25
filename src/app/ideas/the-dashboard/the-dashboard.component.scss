@@ -15,12 +15,6 @@ $main-progress-height: 3px;
 }
 
 
-
-
-
-
-
-
 .fake-chip-on-title {
   background: white !important;
   color: mat-color($the-primary) !important;
@@ -62,10 +56,12 @@ $main-progress-height: 3px;
 }
 
 #the-sidenav {
-  border: 0px solid;
-  padding: ($default-padding - 8) ($default-padding - 4) 0px 0px;
-  width: 230px;
-  background: $the-bg-color;
+  //border: 0px solid;
+  border-right: 1px solid $the-sidenav-border-color;
+  padding: ($default-padding - 8) ($default-padding + 15) 0px 0px;
+  width: 285px;
+  //background: $the-bg-color;
+  background: $the-sidenav-bg-color;
 
   .mat-list-item {
     color: #555555;
@@ -78,7 +74,8 @@ $main-progress-height: 3px;
   }
 
   .mat-menu-item {
-    background: $the-bg-color;
+    //background: $the-bg-color;
+    background: $the-sidenav-bg-color;
     margin-top: 4px;
   }
 
@@ -98,11 +95,25 @@ $main-progress-height: 3px;
 }
 
 
-#mainContentContainerId {
-  background: $the-bg-color;
-  //padding: 23px 24px 24px 29px;
-  padding: ($default-padding + 5) $default-padding $default-padding ($default-padding + 5);
+@media screen and (max-width: 767px) {
+  #mainContentContainerId {
+    background: $the-bg-color;
+    //padding: 23px 24px 24px 29px;
+
+    padding: ($default-padding + 5) $default-padding $default-padding ($default-padding + 5);
+  }
 }
+
+@media screen and (min-width: 768px) {
+  #mainContentContainerId {
+    background: $the-bg-color;
+    //padding: 23px 24px 24px 29px;
+    padding: ($default-padding + 5) ($default-padding + 24) $default-padding ($default-padding + 29);
+  }
+
+}
+
+
 
 
 

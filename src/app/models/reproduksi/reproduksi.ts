@@ -1,8 +1,9 @@
-import {model} from '../model';
+import {CanOptional, model} from '../model';
 import {general} from '../general';
+import {REF_TO_RINCIAN_PENDARATAN} from "../../shared/constants";
 
 
-export const rincianBiologiReproduksi = {
+export const rincianBiologiReproduksi: CanOptional = {
   ...model,
   // double
   panjang: 0,
@@ -17,8 +18,12 @@ export const rincianBiologiReproduksi = {
 export type RincianBiologiReproduksi = typeof rincianBiologiReproduksi;
 
 
-export const biologiReproduksi = {
+export const biologiReproduksi: CanOptional = {
   ...general,
+
+  /* reference ke tabel rincian pendaratan yang mana untuk menentukan kapal mana yang di sampling */
+  rincian_pendaratan: '',
+
   namaLokasiSampling: '',
   namaKapal: '',
   daerahPenangkapan: '',

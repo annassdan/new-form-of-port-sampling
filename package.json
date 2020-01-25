@@ -3,10 +3,10 @@
   "version": "2.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --host 0.0.0.0",
+    "start": "ng serve --port=4200 --host 0.0.0.0",
     "build": "ng build --prod --output-hashing=none ",
     "cordova": "ng build --prod --base-href ./ --output-path C:/Users/Y/WebstormProjects/untitled1/www/",
-    "to-electron": "ng build --prod --base-href ./ --output-path C:/Users/A/WebstormProjects/angular-electron/dist/form/",
+    "to-electron": "ng build --prod --base-href ./ --output-path C:/Users/A/WebstormProjects/angular-electron/dist/new/",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
@@ -14,11 +14,11 @@
   "private": true,
   "dependencies": {
     "@angular/animations": "^8.2.0-next.1",
-    "@angular/cdk": "^8.0.2",
+    "@angular/cdk": "^8.2.3",
     "@angular/common": "~8.2.0-next.0",
     "@angular/compiler": "~8.2.0-next.0",
     "@angular/core": "~8.2.0-next.0",
-    "@angular/flex-layout": "^8.0.0-beta.26",
+    "@angular/flex-layout": "^8.0.0-beta.27",
     "@angular/forms": "~8.2.0-next.0",
     "@angular/material": "^8.0.2",
     "@angular/material-moment-adapter": "^8.2.1",
@@ -27,6 +27,7 @@
     "@angular/router": "~8.2.0-next.0",
     "@thisissoon/angular-inviewport": "^4.2.0",
     "@types/scriptjs": "0.0.2",
+    "angular2-text-mask": "^9.0.0",
     "animate.css": "^3.7.2",
     "bootstrap": "4.1.1",
     "hammerjs": "^2.0.8",
@@ -38,6 +39,7 @@
     "ngx-electron": "^2.1.1",
     "rxjs": "~6.4.0",
     "scriptjs": "^2.5.9",
+    "text-mask-addons": "^3.8.0",
     "tslib": "^1.9.0",
     "zone.js": "~0.9.1"
   },

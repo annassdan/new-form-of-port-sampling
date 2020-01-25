@@ -46,6 +46,16 @@ export type PropDisplay = {
 })
 export class IAutocompleteComponent extends Utilities implements OnInit, OnDestroy, AfterViewInit, ControlValueAccessor {
 
+  loadingStyleWhenCloseButtonExists = {
+    position: 'absolute',
+    margin: '-15px 0 0 -33px'
+  };
+
+  loadingStyleWhenCloseButtonNotExists = {
+    position: 'absolute',
+    margin: '-32px 0px 0px -41px'
+  };
+
   readonly isEager = () => this.mode === 'eager';
 
   readonly eager: AutoMode = 'eager';
@@ -58,7 +68,7 @@ export class IAutocompleteComponent extends Utilities implements OnInit, OnDestr
 
   readonly initially: AutoMode = 'initially';
 
-  @Input() fakeDelay = 300;
+  @Input() fakeDelay = 1000;
 
   /* digunakan sebagai counter parameter untuk set data temporary di options */
   private counter = -1;
@@ -196,6 +206,10 @@ export class IAutocompleteComponent extends Utilities implements OnInit, OnDestr
         return true;
       }
     } else {
+      if (this.failOnFetch) {
+        return false;
+      }
+
       if (this.typing) {
         return true;
       }
@@ -223,19 +237,21 @@ export class IAutocompleteComponent extends Utilities implements OnInit, OnDestr
       this.subs.push((<Observable<any[]>>obs(this.optionsParams)).subscribe(
         success => {
           if (currentCounter === this.counter) {
-            this.typing = false;
-            this.successOnFetch = true;
-            this.failOnFetch = false;
+            if (!this.failOnFetch) {
+              this.typing = false;
+              this.successOnFetch = true;
+              this.failOnFetch = false;
 
-            let temp;
-            if (this.isEager() || this.isInitially()) {
-              this.initialized = true;
-              this.originalData = this.transformFetchResult ? this.transformFetchResult(success) : success;
-            } else {
-              temp = this.transformFetchResult ? this.transformFetchResult(success) : success;
+              let temp;
+              if (this.isEager() || this.isInitially()) {
+                this.initialized = true;
+                this.originalData = this.transformFetchResult ? this.transformFetchResult(success) : success;
+              } else {
+                temp = this.transformFetchResult ? this.transformFetchResult(success) : success;
+              }
+              this.tempOptions = of(!this.withFilter ? this.applyFilter(this.isLazy() ? temp : this.originalData, key) : this.withFilter(this.isLazy() ? temp : this.originalData, key));
+              this.cd.detectChanges();
             }
-            this.tempOptions = of(!this.withFilter ? this.applyFilter(this.isLazy() ? temp : this.originalData, key) : this.withFilter(this.isLazy() ? temp : this.originalData, key));
-            this.cd.detectChanges();
           }
         },
         failed => {
@@ -368,6 +384,7 @@ export class IAutocompleteComponent extends Utilities implements OnInit, OnDestr
     this.patchFormGroup(this.formGroup, $event.option.value);
     this.typing = false;
     this.optionSelected.emit($event);
+    // this.cd.detectChanges();
   }
 
   blur($event: any) {
@@ -385,6 +402,7 @@ export class IAutocompleteComponent extends Utilities implements OnInit, OnDestr
           this.getDisplayControl().patchValue('');
         }
 
+        // this.cd.detectChanges();
         subsToUndoChanges.unsubscribe();
       }
     });
@@ -397,6 +415,8 @@ export class IAutocompleteComponent extends Utilities implements OnInit, OnDestr
 
     if (this.initialized) {
       this.tempOptions = of(this.originalData);
+    } else {
+      this.failOnFetch = true;
     }
 
     try {
@@ -506,6 +526,8 @@ export class IAutocompleteComponent extends Utilities implements OnInit, OnDestr
     if (this.isEager()) {
       this.fetchingData();
     }
+
+    this.cd.detectChanges();
   }
 
   ngAfterViewInit(): void {
@@ -515,6 +537,9 @@ export class IAutocompleteComponent extends Utilities implements OnInit, OnDestr
         this.undoChanges.complete();
       }
     }));
+
+
+    // this.cd.detectChanges();
   }
 
   ngOnDestroy(): void {

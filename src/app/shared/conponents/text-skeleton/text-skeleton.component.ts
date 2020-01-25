@@ -7,6 +7,8 @@ import {AfterViewInit, Component, Input, OnInit} from '@angular/core';
 })
 export class TextSkeletonComponent implements OnInit, AfterViewInit {
 
+  @Input() message = '';
+
   @Input()
   top: string = '10px';
 
@@ -49,6 +51,8 @@ export class TextSkeletonComponent implements OnInit, AfterViewInit {
       paddingBottom: `${padding}${this.heightAsPercent ? '%' : 'px'}`,
       width: w,
       borderRadius: this.borderRadius,
+      display: 'flex',
+      justifyContent: 'center',
       marginLeft: this.start,
       marginTop: this.besideOnNext ? '' : this.top,
       float: this.besideOnNext ? 'left' : '',

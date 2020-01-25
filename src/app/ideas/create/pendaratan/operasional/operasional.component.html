@@ -1,0 +1,785 @@
+<div id="dialog-operasional">
+  <div  #scrollMe *ngIf="currentPendaratanState.formOperasional$ |async"
+        [formGroup]="currentPendaratanState.formOperasional$ |async"
+        class="form-operasional">
+
+    <mat-toolbar *ngIf="!(rootState.asSmallSize$ | async) ? (toolbarWidth === toolbarWidthOnBig) : true"
+                 color="primary" class="dialog-toolbar" @fade
+                 [ngStyle]="{ width : (rootState.asSmallSize$ | async) ? toolbarWidthOnSmall : toolbarWidth}">
+
+      <!-- icon-->
+      <mat-icon class="icon-of-dialog">double_arrow</mat-icon>
+
+      <!--title-->
+      <h5>&nbsp;Operasional {{extractingValue((currentPendaratanState.formRincianPendaratan$ | async), 'namaKapal')}}</h5>
+
+      <!--invisible fake button-->
+      <button #fake mat-flat-button></button>
+      <!--spacer-->
+      <span class="spacer"></span>
+
+      <button mat-icon-button mat-dialog-close>
+        <mat-icon>clear</mat-icon>
+      </button>
+    </mat-toolbar>
+
+    <!--Contents-->
+    <div @fade *ngIf="(!(rootState.asSmallSize$ | async) ? (toolbarWidth === toolbarWidthOnBig) : true); else loading"
+      class="row form-content-wrapper">
+
+
+      <div class="col-md-12">
+        <mat-card >
+          <mat-card-header>
+            <div mat-card-avatar class="example-header-image"></div>
+            <mat-card-title>Informasi Umum</mat-card-title>
+            <mat-card-subtitle>Informasi utama yang diperlukan untuk Form Operasional</mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content>
+
+            <div class="row">
+              <!--Organisasi-->
+              <div class="col-md-6">
+                <i-autocomplete
+                  #targetOrganisasi="iAutocomplete"
+                  appearance="outline"
+                  placeholder="Organisasi"
+                  formGroupName="organisasi"
+                  displayProp="namaOrganisasi"
+                  mode="initially"
+                  filterOnProp="namaOrganisasi"
+                  [nextTo]="targetPencatat"
+                  [targetOptions]="organisasiService.getAll">
+                </i-autocomplete>
+              </div>
+
+              <!--Pencatatat-->
+              <div class="col-md-6">
+                <i-autocomplete
+                  #targetPencatat="iAutocomplete"
+                  appearance="outline"
+                  placeholder="Pencatat"
+                  formGroupName="uuidEnumerator"
+                  displayProp="nama"
+                  mode="initially"
+                  filterOnProp="nama"
+                  [previousTo]="targetOrganisasi"
+                  [nextTo]="targetSumberdaya"
+                  [targetOptions]="pencatatSource">
+                </i-autocomplete>
+              </div>
+
+              <!--sumberdaya-->
+              <div class="col-md-6">
+                <i-autocomplete
+                  #targetSumberdaya="iAutocomplete"
+                  appearance="outline"
+                  placeholder="Sumberdaya"
+                  formGroupName="uuidSumberDaya"
+                  displayProp="namaSumberdaya"
+                  mode="initially"
+                  filterOnProp="namaSumberdaya"
+                  required="true"
+                  errorMessage="Sumberdaya tidak boleh kosong"
+                  [previousTo]="targetPencatat"
+                  [nextTo]="targetWpp"
+                  [targetOptions]="sumberdayaService.getAll">
+                </i-autocomplete>
+              </div>
+
+              <!--WPP-->
+              <div class="col-md-6">
+                <i-autocomplete
+                  #targetWpp="iAutocomplete"
+                  appearance="outline"
+                  placeholder="WPP"
+                  formControlName="wpp"
+                  mode="initially"
+                  required="true"
+                  errorMessage="WPP tidak boleh kosong"
+                  [previousTo]="targetSumberdaya"
+                  [nextTo]="targetLokasiPendaratan"
+                  [targetOptions]="wpp">
+                </i-autocomplete>
+              </div>
+
+              <!-- Lokasi pendaratan -->
+              <div class="col-md-6">
+                <mat-form-field appearance="outline">
+                  <mat-label>Lokasi Pendaratan</mat-label>
+                  <input #targetLokasiPendaratan autocomplete="off"
+                         formControlName="namaLokasiPendaratan"
+                         appMatInputNext
+                         [nextTarget]="targetTanggalSampling"
+                         [previousTarget]="targetWpp"
+                         matInput placeholder="Lokasi Pendaratan">
+                </mat-form-field>
+              </div>
+
+              <!--Waktu Pendaratan-->
+              <div class="col-md-6">
+                <mat-form-field appearance="outline">
+                  <mat-label>Waktu Pendaratan</mat-label>
+                  <input #targetTanggalSampling="matDatepickerInput" matInput autocomplete="off" placeholder="Waktu Pendaratan"
+                         formControlName="tanggalSampling"
+                         appMatDatepickerNext
+                         [previousTarget]="targetLokasiPendaratan"
+                         (focus)="datepickerTanggalPendaratan.open()"
+                         (click)="datepickerTanggalPendaratan.open()"
+                         [matDatepicker]="datepickerTanggalPendaratan">
+                  <mat-datepicker #datepickerTanggalPendaratan></mat-datepicker>
+                </mat-form-field>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+
+      <!--Informasi Kapal-->
+      <div class="col-md-12">
+        <mat-card >
+          <mat-card-header>
+            <div mat-card-avatar class="example-header-image"></div>
+            <mat-card-title>Informasi Kapal</mat-card-title>
+            <mat-card-subtitle>Segala informasi yang didapat dan berhubungan dengan data kapal</mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content>
+
+            <div class="row">
+              <!-- Kapal -->
+              <div class="col-md-6">
+                <mat-form-field appearance="outline">
+                  <mat-label>Nama Kapal</mat-label>
+                  <input #targetNamaKapal autocomplete="off"
+                         formControlName="namaKapal"
+                         appMatInputNext
+                         matInput placeholder="Nama Kapal">
+                </mat-form-field>
+              </div>
+
+              <!--tanda Selar-->
+              <div class="col-md-6">
+                <mat-form-field appearance="outline">
+                  <mat-label>Tanda Selar</mat-label>
+                  <input #targetTandaSelar autocomplete="off"
+                         formControlName="tandaSelar"
+                         appMatInputNext
+                         matInput placeholder="Tanda Selar">
+                </mat-form-field>
+              </div>
+
+              <!--tanggal berangkat-->
+              <div class="col-md-6">
+                <mat-form-field appearance="outline">
+                  <mat-label>Tanggal Berangkat</mat-label>
+                  <input #targetTanggalBerangkat="matDatepickerInput" matInput autocomplete="off" placeholder="Tanggal Berangkat"
+                         formControlName="tanggalBerangkat"
+                         (focus)="datepickerTanggalBerangkat.open()"
+                         (click)="datepickerTanggalBerangkat.open()"
+                         [matDatepicker]="datepickerTanggalBerangkat">
+                  <mat-datepicker #datepickerTanggalBerangkat></mat-datepicker>
+                </mat-form-field>
+              </div>
+
+              <!--tanggal kembali-->
+              <div class="col-md-6">
+                <mat-form-field appearance="outline">
+                  <mat-label>Tanggal Kembali</mat-label>
+                  <input #targetTanggalKembali="matDatepickerInput" matInput autocomplete="off" placeholder="Tanggal Kembali"
+                         formControlName="tanggalKembali"
+                         appMatDatepickerNext
+                         (focus)="datepickerTanggalKembali.open()"
+                         (click)="datepickerTanggalKembali.open()"
+                         [matDatepicker]="datepickerTanggalKembali">
+                  <mat-datepicker #datepickerTanggalKembali></mat-datepicker>
+                </mat-form-field>
+              </div>
+
+              <!--Pelabuhan asal-->
+              <div class="col-md-6">
+                <mat-form-field appearance="outline">
+                  <mat-label>Pelabuhan Asal</mat-label>
+                  <input #targetPelabuhanAsal autocomplete="off"
+                         formControlName="pelabuhanAsal"
+                         appMatInputNext
+                         matInput placeholder="Pelabuhan Asal">
+                </mat-form-field>
+              </div>
+
+              <!--Pemilik kapal-->
+              <div class="col-md-6">
+                <mat-form-field appearance="outline">
+                  <mat-label>Nama Pemilik Kapal</mat-label>
+                  <input #targetNamaPemilikKapal autocomplete="off"
+                         formControlName="namaPemilikKapal"
+                         appMatInputNext
+                         matInput placeholder="Nama Pemilik Kapal">
+                </mat-form-field>
+              </div>
+
+              <!--Nakhoda-->
+              <div class="col-md-6">
+                <mat-form-field appearance="outline">
+                  <mat-label>Nama Nakhoda</mat-label>
+                  <input #targetNamaNakhoda autocomplete="off"
+                         formControlName="namaKapten"
+                         appMatInputNext
+                         matInput placeholder="Nama Nakhoda">
+                </mat-form-field>
+              </div>
+
+              <!--Jumlah ABK-->
+              <div class="col-md-6">
+                <mat-form-field appearance="outline">
+                  <mat-label>Jumlah ABK (orang)</mat-label>
+                  <input #targetJumlahAbk autocomplete="off"
+                         formControlName="jumlahAbk"
+                         appMatInputNext
+                         matInput placeholder="Jumlah ABK">
+                </mat-form-field>
+              </div>
+            </div>
+
+          </mat-card-content>
+        </mat-card>
+      </div>
+
+      <!--Rincian Kapal-->
+      <div class="col-md-12">
+        <mat-card >
+          <mat-card-header>
+            <div mat-card-avatar class="example-header-image"></div>
+            <mat-card-title>Rincian Kapal</mat-card-title>
+            <mat-card-subtitle>Rincian detail informasi kapal</mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content>
+
+            <div class="row">
+              <!-- Panjang Kapal -->
+              <div class="col-md-6">
+                <mat-form-field appearance="outline">
+                  <mat-label>Panjang Kapal (m)</mat-label>
+                  <input #targetPanjangKapal autocomplete="off"
+                         formControlName="panjangKapal"
+                         appMatInputNext
+                         matInput placeholder="Panjang Kapal ">
+                </mat-form-field>
+              </div>
+
+              <!--Bobot Kapal-->
+              <div class="col-md-6">
+                <mat-form-field appearance="outline">
+                  <mat-label>Bobot Kapal (GT)</mat-label>
+                  <input #targetBobotKapal autocomplete="off"
+                         formControlName="bobotKapal"
+                         appMatInputNext
+                         matInput placeholder="Bobot Kapal ">
+                </mat-form-field>
+              </div>
+
+              <!--Mesin Utama-->
+              <div class="col-md-6">
+                <mat-form-field appearance="outline">
+                  <mat-label>Mesin Utama (PK)</mat-label>
+                  <input #targetMesinUtama autocomplete="off"
+                         formControlName="mesinUtama"
+                         appMatInputNext
+                         matInput placeholder="Mesin Utama">
+                </mat-form-field>
+              </div>
+
+              <!--Mesin Bantu-->
+              <div class="col-md-6">
+                <mat-form-field appearance="outline">
+                  <mat-label>Mesin Bantu</mat-label>
+                  <input #targetMesinBantu autocomplete="off"
+                         formControlName="mesinBantu"
+                         appMatInputNext
+                         matInput placeholder="Mesin Bantu (PK)">
+                </mat-form-field>
+              </div>
+
+              <!--Material Kapal-->
+              <div class="col-md-6">
+                <mat-form-field appearance="outline">
+                  <mat-label>Material Kapal</mat-label>
+                  <input #targetMaterialKapal autocomplete="off"
+                         formControlName="materialKapal"
+                         appMatInputNext
+                         matInput placeholder="Material Kapal">
+                </mat-form-field>
+              </div>
+
+              <!--Daya Cahaya-->
+              <div class="col-md-6">
+                <mat-form-field appearance="outline">
+                  <mat-label>Daya Cahaya (watt)</mat-label>
+                  <input #targetDayaCahaya autocomplete="off"
+                         formControlName="dayaCahaya"
+                         appMatInputNext
+                         matInput placeholder="Daya Cahaya ">
+                </mat-form-field>
+              </div>
+
+              <!--Jumlah Palka-->
+              <div class="col-md-6">
+                <mat-form-field appearance="outline">
+                  <mat-label>Jumlah Palka (buah)</mat-label>
+                  <input #targetJumlahPalka autocomplete="off"
+                         formControlName="jumlahPalka"
+                         appMatInputNext
+                         matInput placeholder="Jumlah Palka">
+                </mat-form-field>
+              </div>
+
+              <!--Jumlah Boks-->
+              <div class="col-md-6">
+                <mat-form-field appearance="outline">
+                  <mat-label>Jumlah Boks (buah)</mat-label>
+                  <input #targetJumlahBoks autocomplete="off"
+                         formControlName="jumlahBoks"
+                         appMatInputNext
+                         matInput placeholder="Jumlah Boks">
+                </mat-form-field>
+              </div>
+
+              <!--Kapasitas Palka-->
+              <div class="col-md-6">
+                <mat-form-field appearance="outline">
+                  <mat-label>Kapasitas Palka/Boks/Keranjang (kg)</mat-label>
+                  <input #targetKapasitasPalkaBoksKeranjang autocomplete="off"
+                         formControlName="kapasitasPalkaBoks"
+                         appMatInputNext
+                         matInput placeholder="Kapasitas Palka/Boks/Keranjang">
+                </mat-form-field>
+              </div>
+
+              <!--Kapal Bantu-->
+              <div class="col-md-6 row cause-slide-toggle-section">
+                <div class="col-md-5 slide-toggle-section">
+                  <section>
+                    <mat-slide-toggle color="accent" formControlName="kapalBantu">Kapal Bantu</mat-slide-toggle>
+                  </section>
+                </div>
+                <div class="col-md-7 input-inside">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Ukuran Kapal Bantu (GT)</mat-label>
+                    <input #targetUkuranKapalBantu autocomplete="off"
+                           formControlName="ukuranKapalBantu"
+                           appMatInputNext
+                           matInput placeholder="Ukuran Kapal Bantu">
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <!--Freezer-->
+              <div class="col-md-6 row cause-slide-toggle-section">
+                <div class="col-md-5 slide-toggle-section">
+                  <section>
+                    <mat-slide-toggle color="accent" formControlName="freezer">Freezer</mat-slide-toggle>
+                  </section>
+                </div>
+                <div class="col-md-7 input-inside">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Kapasitas Freezer (kg)</mat-label>
+                    <input #targetKapasitasFreezer autocomplete="off"
+                           formControlName="kapasitasFreezer"
+                           appMatInputNext
+                           matInput placeholder="Kapasitas Freezer">
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <!--GPS-->
+              <div class="col-md-6 row cause-slide-toggle-section">
+                <div class="col-md-5 slide-toggle-section">
+                  <section>
+                    <mat-slide-toggle color="accent" formControlName="gps">GPS</mat-slide-toggle>
+                  </section>
+                </div>
+                <div class="col-md-7 input-inside">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Jenis GPS</mat-label>
+                    <input #targetJenisGps autocomplete="off"
+                           formControlName="jenisGps"
+                           appMatInputNext
+                           matInput placeholder="Jenis/Merk GPS">
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <!--Kapal ANdon-->
+              <div class="col-md-6 row cause-slide-toggle-section">
+                <div class="col-md-5 slide-toggle-section">
+                  <section>
+                    <mat-slide-toggle color="accent" formControlName="kapalAndon">Kapal Andon</mat-slide-toggle>
+                  </section>
+                </div>
+                <div class="col-md-7 input-inside">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Asal Kapal Andon</mat-label>
+                    <input #targetAsalKapalAndon autocomplete="off"
+                           formControlName="asalKapalAndon"
+                           appMatInputNext
+                           matInput placeholder="Asal Kapal Andon">
+                  </mat-form-field>
+                </div>
+              </div>
+
+
+            </div>
+
+          </mat-card-content>
+        </mat-card>
+      </div>
+
+      <!--Rincian Alat Tangkap-->
+      <div class="col-md-12">
+        <mat-card >
+          <mat-card-header>
+            <div mat-card-avatar class="example-header-image"></div>
+            <mat-card-title>Rincian Alat Tangkap</mat-card-title>
+            <mat-card-subtitle>Rincian pilihan alat tangkap spesifik untuk kapal ini</mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content>
+
+            <div class="row">
+
+              <!--ALat tangkap-->
+              <div class="col-md-6">
+                <i-autocomplete
+                  #targetAlatTangkap="iAutocomplete"
+                  appearance="outline"
+                  placeholder="Alat Tangkap"
+                  formGroupName="organisasi"
+                  displayProp="namaOrganisasi"
+                  mode="initially"
+                  filterOnProp="namaOrganisasi"
+                  [targetOptions]="organisasiService.getAll">
+                </i-autocomplete>
+              </div>
+
+
+              <!--Material Bahan-->
+              <div class="col-md-6">
+                <mat-form-field appearance="outline">
+                  <mat-label>Material/Bahan</mat-label>
+                  <input #targetMaterial autocomplete="off"
+                         formControlName="material"
+                         appMatInputNext
+                         matInput placeholder="Material/Bahan">
+                </mat-form-field>
+              </div>
+
+              <!--spesifikasi-->
+              <div class="col-md-12">
+              </div>
+
+
+              <!--Jumlah alat dioperasikan-->
+              <div class="col-md-6">
+                <mat-form-field appearance="outline">
+                  <mat-label>Jumlah Alat Dioperasikan (piece/unit)</mat-label>
+                  <input #targetJumlahAlatDioperasikan autocomplete="off"
+                         formControlName="jumlahAlatTangkapYangDioperasikan"
+                         appMatInputNext
+                         matInput placeholder="Jumlah Alat Dioperasikan">
+                </mat-form-field>
+              </div>
+
+              <!--Daerah Penangkapan-->
+              <div class="col-md-6">
+                <mat-form-field appearance="outline">
+                  <mat-label>Grid D. Penangkapan</mat-label>
+                  <input #targetGridDaerahPenangkapan autocomplete="off"
+                         formControlName="daerahPenangkapan"
+                         appMatInputNext
+                         matInput placeholder="Grid D. Penangkapan">
+                </mat-form-field>
+              </div>
+
+              <!--Jumlah Setting-->
+              <div class="col-md-6">
+                <mat-form-field appearance="outline">
+                  <mat-label>Jumlah Setting (kali)</mat-label>
+                  <input #targetJumlahSetting autocomplete="off"
+                         formControlName="jumlahSetting"
+                         appMatInputNext
+                         matInput placeholder="Jumlah Setting">
+                </mat-form-field>
+              </div>
+
+
+              <!--Lama Perendaman-->
+              <div class="col-md-6">
+                <mat-form-field appearance="outline">
+                  <mat-label>Lama Perendaman (jam/setting)</mat-label>
+                  <input #targetLamaPerendaman autocomplete="off"
+                         formControlName="lamaPerendaman"
+                         appMatInputNext
+                         matInput placeholder="Lama Perendaman">
+                </mat-form-field>
+              </div>
+
+              <!--Jumlah Balok Es-->
+              <div class="col-md-6">
+                <mat-form-field appearance="outline">
+                  <mat-label>Jumlah Balok Es (kg)</mat-label>
+                  <input #targetJumlahBalokEs autocomplete="off"
+                         formControlName="jumlahBalokEs"
+                         appMatInputNext
+                         matInput placeholder="Jumlah Balok Es">
+                </mat-form-field>
+              </div>
+
+              <!--Jenis Rumpon-->
+              <div class="col-md-6">
+                <i-autocomplete
+                  #targetJenisRumpon="iAutocomplete"
+                  appearance="outline"
+                  placeholder="Jenis Rumpon"
+                  formControlName="jenisRumpon"
+                  mode="initially"
+                  required="true"
+                  errorMessage="Jenis Rumpon tidak boleh kosong"
+                  [targetOptions]="rumpon">
+                </i-autocomplete>
+              </div>
+
+
+              <!--Jumlah Rumpon-->
+              <div class="col-md-12 grouping-some-input">
+                <fieldset>
+                  <legend>Jumlah Rumpon</legend>
+                  <div class="row">
+                    <!--rumpon dikunjungi-->
+                    <div class="col-md-6">
+                      <mat-form-field appearance="outline">
+                        <mat-label>Dikunjung</mat-label>
+                        <input #targetJumlahRumponDikunjungi autocomplete="off"
+                               formControlName="jumlahRumponDikunjungi"
+                               appMatInputNext
+                               matInput placeholder="Dikunjungi">
+                      </mat-form-field>
+                    </div>
+
+                    <!--rumpon berhasil-->
+                    <div class="col-md-6">
+                      <mat-form-field appearance="outline">
+                        <mat-label>Berhasil</mat-label>
+                        <input #targetJumlahRumponBerhasil autocomplete="off"
+                               formControlName="jumlahRumponBerhasil"
+                               appMatInputNext
+                               matInput placeholder="Berhasil">
+                      </mat-form-field>
+                    </div>
+                  </div>
+                </fieldset>
+              </div>
+
+
+              <!--Kedalaman Perairan (m)-->
+              <div class="col-md-12 grouping-some-input">
+                <fieldset>
+                  <legend>Kedalaman Perairan (m)</legend>
+                  <div class="row">
+                    <!--kedalaman perairan mulai-->
+                    <div class="col-md-6">
+                      <mat-form-field appearance="outline">
+                        <mat-label>Mulai (m)</mat-label>
+                        <input #targetKedalamanAirMulai autocomplete="off"
+                               formControlName="kedalamanAirMulai"
+                               appMatInputNext
+                               matInput placeholder="Mulai">
+                      </mat-form-field>
+                    </div>
+
+                    <!--Keldalaman perairan hingga-->
+                    <div class="col-md-6">
+                      <mat-form-field appearance="outline">
+                        <mat-label>Hingga (m)</mat-label>
+                        <input #targetKedalamanAirHingga autocomplete="off"
+                               formControlName="kedalamanAirHingga"
+                               appMatInputNext
+                               matInput placeholder="Hingga">
+                      </mat-form-field>
+                    </div>
+                  </div>
+                </fieldset>
+              </div>
+
+
+              <!--Jumlah Hari di Laut-->
+              <div class="col-md-12 grouping-some-input">
+                <fieldset>
+                  <legend>Jumlah Hari di Laut</legend>
+                  <div class="row">
+                    <!--Jumlah Hari per trip-->
+                    <div class="col-md-6">
+                      <mat-form-field appearance="outline">
+                        <mat-label>Jumlah Hari Per Trip (hari)</mat-label>
+                        <input #targetJumlahHariPerTrip autocomplete="off"
+                               formControlName="jumlahHariPerTrip"
+                               appMatInputNext
+                               matInput placeholder="Jumlah Hari Per Trip">
+                      </mat-form-field>
+                    </div>
+
+                    <!--Jumlah Hari menangkap-->
+                    <div class="col-md-6">
+                      <mat-form-field appearance="outline">
+                        <mat-label>Jumlah Hari Menangkap (hari)</mat-label>
+                        <input #targetJumlahHariMenangkap autocomplete="off"
+                               formControlName="jumlahHariMenangkap"
+                               appMatInputNext
+                               matInput placeholder="Jumlah Hari Menangkap">
+                      </mat-form-field>
+                    </div>
+                  </div>
+                </fieldset>
+
+
+                <!--                <mat-card-subtitle><strong>Jumlah Tangkapan untuk Dimakan di Laut</strong></mat-card-subtitle>-->
+                <!--                <mat-card-title>Rincian Hasil Tangkapan</mat-card-title>-->
+                <!--                <h5>Jumlah Tangkapan untuk Dimakan di Laut</h5>-->
+              </div>
+
+
+
+
+              <div class="col-md-12">
+                <i-autocomplete
+                  #targetWaktuSetting="iAutocomplete"
+                  appearance="outline"
+                  placeholder="Waktu Tawur/Setting"
+                  formControlName="waktuMemancing"
+                  mode="initially"
+                  required="true"
+                  errorMessage="Waktu Setting tidak boleh kosong"
+                  [targetOptions]="waktuSetting">
+                </i-autocomplete>
+              </div>
+
+
+
+              <!--Komentar -->
+              <div class="col-md-12">
+                <mat-form-field appearance="outline">
+                  <mat-label>Komentar</mat-label>
+                  <textarea #targetKomentar matInput style="height: 86px" placeholder="Komentar"
+                            formControlName="komentar"></textarea>
+                </mat-form-field>
+              </div>
+
+
+
+            </div>
+
+          </mat-card-content>
+        </mat-card>
+      </div>
+
+
+      <!--Rincian Hasil Tangkapan-->
+      <div class="col-md-12">
+        <mat-card >
+          <mat-card-header>
+            <div mat-card-avatar class="example-header-image"></div>
+            <mat-card-title>Rincian Hasil Tangkapan</mat-card-title>
+            <mat-card-subtitle>Rincian hasil tangkapan ketika melakukan sampling</mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content>
+
+            <div class="row">
+
+              <!--Sumber Informasi-->
+              <div class="col-md-12">
+                <i-autocomplete
+                  #targetWaktuSetting="iAutocomplete"
+                  appearance="outline"
+                  placeholder="Sumber Informasi"
+                  formControlName="sumberInformasi"
+                  mode="initially"
+                  required="true"
+                  errorMessage="Sumber Informasi harus diisi"
+                  [targetOptions]="sumberInformasi">
+                </i-autocomplete>
+              </div>
+
+              <div class="col-md-12 grouping-some-input">
+                <fieldset>
+                  <legend>Jumlah Tangkapan untuk Dimakan di Laut</legend>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <mat-form-field appearance="outline">
+                        <mat-label>Volume (kg)</mat-label>
+                        <input #targetJumlahTangkapanUntukDimakanDilautVolume autocomplete="off"
+                               formControlName="jumlahTangkapanUntukDimakanDilautVolume"
+                               appMatInputNext
+                               matInput placeholder="Volume">
+                      </mat-form-field>
+                    </div>
+
+                    <div class="col-md-6">
+                      <mat-form-field appearance="outline">
+                        <mat-label>Individu (ekor)</mat-label>
+                        <input #targetJumlahTangkapanUntukDimakanDilautIndividu autocomplete="off"
+                               formControlName="jumlahTangkapanUntukDimakanDilautIndividu"
+                               appMatInputNext
+                               matInput placeholder="Individu">
+                      </mat-form-field>
+                    </div>
+                  </div>
+                </fieldset>
+
+
+<!--                <mat-card-subtitle><strong>Jumlah Tangkapan untuk Dimakan di Laut</strong></mat-card-subtitle>-->
+<!--                <mat-card-title>Rincian Hasil Tangkapan</mat-card-title>-->
+<!--                <h5>Jumlah Tangkapan untuk Dimakan di Laut</h5>-->
+              </div>
+
+
+              <div class="col-md-12 grouping-some-input">
+                <fieldset>
+                  <legend>Total Hasil Tangkapan</legend>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <mat-form-field appearance="outline">
+                        <mat-label>Volume (kg)</mat-label>
+                        <input #targetJumlahTangkapanVolume autocomplete="off"
+                               formControlName="jumlahTangkapanVolume"
+                               appMatInputNext
+                               matInput placeholder="Volume">
+                      </mat-form-field>
+                    </div>
+
+                    <div class="col-md-6">
+                      <mat-form-field appearance="outline">
+                        <mat-label>Individu (ekor)</mat-label>
+                        <input #targetJumlahTangkapanIndividu autocomplete="off"
+                               formControlName="jumlahTangkapanIndividu"
+                               appMatInputNext
+                               matInput placeholder="Individu">
+                      </mat-form-field>
+                    </div>
+                  </div>
+                </fieldset>
+
+
+                <!--                <mat-card-subtitle><strong>Jumlah Tangkapan untuk Dimakan di Laut</strong></mat-card-subtitle>-->
+                <!--                <mat-card-title>Rincian Hasil Tangkapan</mat-card-title>-->
+                <!--                <h5>Jumlah Tangkapan untuk Dimakan di Laut</h5>-->
+              </div>
+
+            </div>
+
+          </mat-card-content>
+        </mat-card>
+      </div>
+
+    </div>
+    <ng-template #loading>
+      <app-initializing></app-initializing>
+    </ng-template>
+  </div>
+</div>
