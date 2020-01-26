@@ -1,6 +1,7 @@
 import {CanOptional, model} from '../model';
 import {general} from '../general';
 import {REF_TO_RINCIAN_PENDARATAN} from "../../shared/constants";
+import {organisasi} from "../master/organisasi";
 
 
 export const rincianBiologiUkuran: CanOptional = {
@@ -37,8 +38,12 @@ export const biologiUkuran: CanOptional = {
   namaKapal: '',
   /* ke tabel daerah penangkapan, karena mesti displitting by coma */
   daerahPenangkapan: '',
+
+  /*TEMPORARY*/
   /* ke table alat tangkap  */
-  uuidAlatTangkap: '',
+  uuidAlatTangkap: {...organisasi},
+
+
   penampung: false,
   penangkap: false,
   // double

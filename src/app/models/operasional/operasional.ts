@@ -1,6 +1,7 @@
 import {CanOptional, model} from '../model';
 import {general} from '../general';
 import {REF_TO_RINCIAN_PENDARATAN} from "../../shared/constants";
+import {organisasi} from "../master/organisasi";
 
 
 export const hasilTangkapanOperasional: CanOptional = {
@@ -70,8 +71,12 @@ export const operasional: CanOptional = {
   mesinBantu: 0,
   gps: false,
   jenisGps: '',
+
+  /*TEMPORARY*/
   /* relasi ke tabel alat tangkap */
-  uuidAlatTangkap: '',
+  uuidAlatTangkap: {...organisasi},
+
+
   material: '',
   jumlahAlatTangkapYangDioperasikan: 0,
   jumlahSetting: 0,

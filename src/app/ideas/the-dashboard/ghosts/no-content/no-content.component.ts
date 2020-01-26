@@ -8,6 +8,12 @@ import {MainStateService} from '../../../../shared/services/main-state.service';
 })
 export class NoContentComponent implements OnInit {
 
+  @Input() top = '25px';
+
+  @Input() width = '350px';
+
+  @Input() height = 350;
+
   @Input() bgColor;
 
   @Input() message = 'Tidak Ada Konten';

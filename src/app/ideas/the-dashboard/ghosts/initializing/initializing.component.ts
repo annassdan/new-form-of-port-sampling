@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-initializing',
@@ -6,6 +6,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./initializing.component.scss']
 })
 export class InitializingComponent implements OnInit {
+
+  @Input() message = 'Menginisialisasi';
 
   constructor() { }
 
