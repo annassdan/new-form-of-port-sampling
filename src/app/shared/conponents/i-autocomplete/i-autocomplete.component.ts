@@ -435,7 +435,7 @@ export class IAutocompleteComponent extends Utilities implements OnInit, OnDestr
     }
   }
 
-  returnControl(fg: FormGroup, display = this.displayProp) {
+  returnControl(fg: FormGroup, display = this.formGroupName ? this.formGroupName : this.displayProp) {
     if (!this.formGroup) {
       return new FormControl('');
     }

@@ -1,6 +1,8 @@
 <div class="row" id="form-pendaratan" [formGroup]="formPendaratan">
 
 
+
+
   <div class="col-md-12">
     <mat-card>
       <mat-card-header>
@@ -156,44 +158,56 @@
                 <mat-divider *ngIf="listOfRincianPendaratan('dataRincianPendaratan').length > 0"></mat-divider>
                 <div
                   *ngFor="let tempFormRincianPendaratan of listOfRincianPendaratan('dataRincianPendaratan'); index as rincianPendaratanIndex">
-                  <mat-list-option (click)="test()">
-                    <mat-icon class="my-color" mat-list-icon>folder</mat-icon>
+                  <mat-list-option (click)="rincianPendaratan(tempFormRincianPendaratan)">
+
+                    <!-- THE MENU -->
+                    <mat-menu #menu="matMenu" [overlapTrigger]="false" >
+                      <button (click)="openOperasional(tempFormRincianPendaratan)"
+                        mat-menu-item>
+                        <mat-icon>note_add</mat-icon>
+                        <span>Operasional</span>
+                      </button>
+                      <button mat-menu-item (click)="openUkuran(tempFormRincianPendaratan)">
+                        <mat-icon>hdr_weak</mat-icon>
+                        <span>Biologi Ukuran</span>
+                      </button>
+                      <mat-divider></mat-divider>
+                      <button mat-menu-item (click)="openReproduksi(tempFormRincianPendaratan)">
+                        <mat-icon>receipt</mat-icon>
+                        <span>Biologi Reproduksi</span>
+                      </button>
+                    </mat-menu>
+
+
+                    <div mat-list-icon>
+                      <button mat-mini-fab>{{rincianPendaratanIndex + 1 }}</button>
+                    </div>
                     <h4 class="my-color-hard"
-                        mat-line>{{extractFormControlValue('namaKapal', tempFormRincianPendaratan, '-')}}</h4>
-                    <p class="my-color" mat-line> Detail Item </p>
-
-
-                    <!--            <button #targetButtonOpenOperasional-->
-                    <!--                    (click)="addOperasional(tempFormRincianPendaratan)" mat-line-->
-                    <!--                    mat-icon-button class="new-window-position">-->
-                    <!--              <mat-icon class="my-color" matTooltip="Tambah Operasional" matTooltipPosition="before">open_in_new</mat-icon>-->
-                    <!--            </button>-->
-                    <!--            <button #targetButtonOpenRincianPendaratan-->
-                    <!--                    (click)="openRincianPendaratan(tempFormRincianPendaratan, targetButtonOpenRincianPendaratan)" mat-line-->
-                    <!--                    mat-icon-button class="new-window-position">-->
-                    <!--              <mat-icon class="my-color" matTooltip="Buka Rincian" matTooltipPosition="before">open_in_new</mat-icon>-->
-                    <!--            </button>-->
-
-                    <!--            <button (click)="removeRincianPendaratan('dataRincianPendaratan', rincianPendaratanIndex)"-->
-                    <!--                    mat-icon-button>-->
-                    <!--              <mat-icon  matTooltip="Hapus" matTooltipPosition="before">info</mat-icon>-->
-                    <!--            </button>-->
-
-                    <!--            class="remove-rincian-pendaratan"-->
-
+                        mat-line>{{extractFormControlValue('namaKapal', tempFormRincianPendaratan, '....')}}</h4>
+                    <p class="my-color" mat-line> Informasi Rincian Pendaratan</p>
                     <div class="box-options" mat-line>
-                      <button #targetButtonOpenRincianPendaratan
-                              (click)="openRincianPendaratan(tempFormRincianPendaratan, targetButtonOpenRincianPendaratan)"
+<!--                      <button #targetButtonOpenRincianPendaratan-->
+<!--                              (click)="openRincianPendaratan(tempFormRincianPendaratan, targetButtonOpenRincianPendaratan)"-->
+<!--                              mat-icon-button>-->
+<!--                        <mat-icon class="my-color" matTooltip="Buka Rincian" matTooltipPosition="before">open_in_new-->
+<!--                        </mat-icon>-->
+<!--                      </button>-->
+<!--                      <button (click)="addReproduksi(tempFormRincianPendaratan)" mat-icon-button>-->
+<!--                        <mat-icon color="warn" matTooltip="Hapus" matTooltipPosition="before">delete</mat-icon>-->
+<!--                      </button>-->
+<!--                      <button (click)="openReproduksi(tempFormRincianPendaratan)"-->
+<!--                              mat-icon-button>-->
+<!--                        <mat-icon matTooltip="Hapus" matTooltipPosition="before">info</mat-icon>-->
+<!--                      </button>-->
+                      <button (click)="removeRincianPendaratan('dataRincianPendaratan', rincianPendaratanIndex)"
                               mat-icon-button>
-                        <mat-icon class="my-color" matTooltip="Buka Rincian" matTooltipPosition="before">open_in_new
-                        </mat-icon>
+                        <mat-icon class="my-color" matTooltip="Hapus" matTooltipPosition="before">delete</mat-icon>
                       </button>
-                      <button (click)="addUkuran(tempFormRincianPendaratan)" mat-icon-button>
-                        <mat-icon color="warn" matTooltip="Hapus" matTooltipPosition="before">delete</mat-icon>
-                      </button>
-                      <button (click)="openUkuran(tempFormRincianPendaratan)"
-                              mat-icon-button>
-                        <mat-icon matTooltip="Hapus" matTooltipPosition="before">info</mat-icon>
+                      <button #mTrigger="matMenuTrigger" mat-icon-button
+                              (click)="clickMenu(mTrigger)"
+                              matTooltip="Aksi"
+                              matTooltipPosition="below" [matMenuTriggerFor]="menu">
+                        <mat-icon class="my-color">more_vert</mat-icon>
                       </button>
                     </div>
                   </mat-list-option>

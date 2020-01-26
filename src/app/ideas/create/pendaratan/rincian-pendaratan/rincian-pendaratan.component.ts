@@ -10,7 +10,7 @@ import {
   extractFormControlValue,
   isFormControlEmpty
 } from '../../../../shared/reactive-form-modeling';
-import {FADE_TIME, NON_STATIC_VIEW_CHILD} from "../../../../shared/constants";
+import {FADE_TIME, INIT_FADE_IN, NON_STATIC_VIEW_CHILD} from "../../../../shared/constants";
 import {MatInput} from "@angular/material/input";
 import {fromMaterialExportAsNative} from "../../../../shared/material-util";
 import {hasilTangkapanPendaratan, rincianPendaratan} from "../../../../models/pendaratan/pendaratan";
@@ -87,7 +87,7 @@ export class RincianPendaratanComponent
   }
 
   ngAfterViewInit(): void {
-    super.ngAfterViewInit();
+
     /**
      * Melakukan focus pada element input nama kapal.
      * Delay beberapa miliseccond untuk menghindari error pada change detector
@@ -97,7 +97,9 @@ export class RincianPendaratanComponent
       if (nkNative && String(nkNative.value).length === 0) {
         nkNative.focus();
       }
-     }, 500);
+     }, FADE_TIME + INIT_FADE_IN + 50);
+
+    super.ngAfterViewInit();
     /**/
   }
 

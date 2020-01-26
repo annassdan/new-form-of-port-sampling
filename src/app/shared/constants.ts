@@ -1,6 +1,5 @@
 import {Observable, of} from "rxjs";
 
-
 export const MAX_WIDTH = 960;
 export const rightArrowChar = '›';
 export const EMPTY = '';
@@ -12,6 +11,7 @@ export const ION_MOMENT_DATE_PATTERN = 'LL';
 export const NON_STATIC_VIEW_CHILD = { static: false };
 export const STATIC_VIEW_CHILD = { static: true };
 export const FADE_TIME = 500;
+export const INIT_FADE_IN = 600;
 
 export const TYPE_OF_FUNCTION = '[object Function]';
 export const TYPE_OF_STRING = '[object String]';

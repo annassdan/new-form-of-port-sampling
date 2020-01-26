@@ -28,6 +28,7 @@
       class="row form-content-wrapper">
 
 
+      <!--Informasi Umum-->
       <div class="col-md-12">
         <mat-card >
           <mat-card-header>
@@ -146,6 +147,7 @@
           <mat-card-content>
 
             <div class="row">
+
               <!-- Kapal -->
               <div class="col-md-6">
                 <mat-form-field appearance="outline">
@@ -451,7 +453,7 @@
                   #targetAlatTangkap="iAutocomplete"
                   appearance="outline"
                   placeholder="Alat Tangkap"
-                  formGroupName="organisasi"
+                  formGroupName="uuidAlatTangkap"
                   displayProp="namaOrganisasi"
                   mode="initially"
                   filterOnProp="namaOrganisasi"
@@ -637,11 +639,6 @@
                     </div>
                   </div>
                 </fieldset>
-
-
-                <!--                <mat-card-subtitle><strong>Jumlah Tangkapan untuk Dimakan di Laut</strong></mat-card-subtitle>-->
-                <!--                <mat-card-title>Rincian Hasil Tangkapan</mat-card-title>-->
-                <!--                <h5>Jumlah Tangkapan untuk Dimakan di Laut</h5>-->
               </div>
 
 
@@ -679,7 +676,6 @@
         </mat-card>
       </div>
 
-
       <!--Rincian Hasil Tangkapan-->
       <div class="col-md-12">
         <mat-card >
@@ -706,6 +702,7 @@
                 </i-autocomplete>
               </div>
 
+              <!--Jumlah Tangkapan untuk Dimakan di Laut-->
               <div class="col-md-12 grouping-some-input">
                 <fieldset>
                   <legend>Jumlah Tangkapan untuk Dimakan di Laut</legend>
@@ -738,7 +735,7 @@
 <!--                <h5>Jumlah Tangkapan untuk Dimakan di Laut</h5>-->
               </div>
 
-
+              <!--Total Hasil Tangkapan-->
               <div class="col-md-12 grouping-some-input">
                 <fieldset>
                   <legend>Total Hasil Tangkapan</legend>
@@ -764,11 +761,6 @@
                     </div>
                   </div>
                 </fieldset>
-
-
-                <!--                <mat-card-subtitle><strong>Jumlah Tangkapan untuk Dimakan di Laut</strong></mat-card-subtitle>-->
-                <!--                <mat-card-title>Rincian Hasil Tangkapan</mat-card-title>-->
-                <!--                <h5>Jumlah Tangkapan untuk Dimakan di Laut</h5>-->
               </div>
 
             </div>
@@ -779,7 +771,7 @@
 
     </div>
     <ng-template #loading>
-      <app-initializing></app-initializing>
+      <app-initializing message="Menginisialisasi Operasional"></app-initializing>
     </ng-template>
   </div>
 </div>

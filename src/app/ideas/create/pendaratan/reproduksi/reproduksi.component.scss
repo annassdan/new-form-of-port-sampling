@@ -1,0 +1,40 @@
+@import "../../../../../the-theme";
+
+.full-width-table {
+  width: 100%;
+}
+
+::ng-deep .mat-dialog-container {
+  padding: 0;
+  border-radius: 0;
+  background: $the-bg-color;
+  font-size: $the-font-size-1;
+}
+
+
+#dialog-reproduksi {
+
+  padding-bottom: 55px;
+
+  .floating-to-right {
+    float: right;
+  }
+
+  .icon-inside-button {
+    margin-top: -3px;
+  }
+
+  .no-padding {
+    padding: 0 0 0 0 !important;
+  }
+
+  .no-margin {
+    margin: 0 0 0 0 !important;
+  }
+
+  .dialog-toolbar {
+    position: fixed;
+    z-index: 7;
+  }
+
+}

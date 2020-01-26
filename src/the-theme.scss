@@ -3,9 +3,9 @@
 @include mat-core();
 
 $the-bg-color: #f2f2f2;
-$the-sidenav-bg-color: white;
+$the-sidenav-bg-color: #ededed;
 $the-sidenav-border-color: #e3e3e3;
-$mat-card-container-border-color: #cdcdcd;
+$mat-card-container-border-color: #e1e1e1;
 
 $mat-header-bg-color: #fafafa;
 $mat-input-bg-color: #fbfbfb;
@@ -136,7 +136,7 @@ $the-warn: mat-palette($color-warn);
 
     margin-bottom: 30px;
     //box-shadow: rgba(0, 0, 0, 0.45) 0 0 0 0 !important;
-    border: 1px 0 1px 0 solid $mat-card-container-border-color;
+    border: 1px solid $mat-card-container-border-color;
     box-shadow: 0px 1px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 0px 0px 0px rgba(0, 0, 0, 0.12) !important;
 
     .mat-card-header {

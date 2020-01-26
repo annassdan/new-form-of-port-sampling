@@ -1,1 +1,224 @@
-<p>reproduksi works!</p>
+<div id="dialog-reproduksi">
+  <div  #scrollMe *ngIf="currentPendaratanState.formReproduksi$ |async"
+        [formGroup]="currentPendaratanState.formReproduksi$ |async"
+        class="form-operasional">
+
+    <mat-toolbar *ngIf="!(rootState.asSmallSize$ | async) ? (toolbarWidth === toolbarWidthOnBig) : true"
+                 color="primary" class="dialog-toolbar" @fade
+                 [ngStyle]="{ width : (rootState.asSmallSize$ | async) ? toolbarWidthOnSmall : toolbarWidth}">
+
+      <!-- icon-->
+      <mat-icon class="icon-of-dialog">double_arrow</mat-icon>
+
+      <!--title-->
+      <h5>&nbsp;Data Reproduksi {{extractingValue((currentPendaratanState.formRincianPendaratan$ | async), 'namaKapal')}}</h5>
+
+      <!--invisible fake button-->
+      <button #fake mat-flat-button></button>
+      <!--spacer-->
+      <span class="spacer"></span>
+
+      <button mat-icon-button mat-dialog-close>
+        <mat-icon>clear</mat-icon>
+      </button>
+    </mat-toolbar>
+
+    <!--Contents-->
+    <div @fade *ngIf="(!(rootState.asSmallSize$ | async) ? (toolbarWidth === toolbarWidthOnBig) : true); else loading"
+         class="row form-content-wrapper">
+
+      <!--Informasi Umum-->
+      <div class="col-md-12">
+        <mat-card >
+          <mat-card-header>
+            <div mat-card-avatar class="example-header-image"></div>
+            <mat-card-title>Informasi Umum</mat-card-title>
+            <mat-card-subtitle>Informasi utama yang diperlukan untuk Form Biologi Reproduksi</mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content>
+
+            <div class="row">
+              <!--Organisasi-->
+              <div class="col-md-6">
+                <i-autocomplete
+                  #targetOrganisasi="iAutocomplete"
+                  appearance="outline"
+                  placeholder="Organisasi"
+                  formGroupName="organisasi"
+                  displayProp="namaOrganisasi"
+                  mode="initially"
+                  filterOnProp="namaOrganisasi"
+                  [nextTo]="targetPencatat"
+                  [targetOptions]="organisasiService.getAll">
+                </i-autocomplete>
+              </div>
+
+              <!--Pencatatat-->
+              <div class="col-md-6">
+                <i-autocomplete
+                  #targetPencatat="iAutocomplete"
+                  appearance="outline"
+                  placeholder="Pencatat"
+                  formGroupName="uuidEnumerator"
+                  displayProp="nama"
+                  mode="initially"
+                  filterOnProp="nama"
+                  [previousTo]="targetOrganisasi"
+                  [nextTo]="targetSumberdaya"
+                  [targetOptions]="pencatatSource">
+                </i-autocomplete>
+              </div>
+
+              <!--sumberdaya-->
+              <div class="col-md-6">
+                <i-autocomplete
+                  #targetSumberdaya="iAutocomplete"
+                  appearance="outline"
+                  placeholder="Sumberdaya"
+                  formGroupName="uuidSumberDaya"
+                  displayProp="namaSumberdaya"
+                  mode="initially"
+                  filterOnProp="namaSumberdaya"
+                  required="true"
+                  errorMessage="Sumberdaya tidak boleh kosong"
+                  [previousTo]="targetPencatat"
+                  [nextTo]="targetWpp"
+                  [targetOptions]="sumberdayaService.getAll">
+                </i-autocomplete>
+              </div>
+
+              <!--WPP-->
+              <div class="col-md-6">
+                <i-autocomplete
+                  #targetWpp="iAutocomplete"
+                  appearance="outline"
+                  placeholder="WPP"
+                  formControlName="wpp"
+                  mode="initially"
+                  required="true"
+                  errorMessage="WPP tidak boleh kosong"
+                  [previousTo]="targetSumberdaya"
+                  [nextTo]="targetLokasiPendaratan"
+                  [targetOptions]="wpp">
+                </i-autocomplete>
+              </div>
+
+              <!-- Lokasi Sampling -->
+              <div class="col-md-6">
+                <mat-form-field appearance="outline">
+                  <mat-label>Lokasi Sampling</mat-label>
+                  <input #targetLokasiPendaratan autocomplete="off"
+                         formControlName="namaLokasiSampling"
+                         appMatInputNext
+                         [nextTarget]="targetTanggalSampling"
+                         [previousTarget]="targetWpp"
+                         matInput placeholder="Lokasi Sampling">
+                </mat-form-field>
+              </div>
+
+              <!--Waktu Pendaratan-->
+              <div class="col-md-6">
+                <mat-form-field appearance="outline">
+                  <mat-label>Tanggal Sampling</mat-label>
+                  <input #targetTanggalSampling="matDatepickerInput" matInput autocomplete="off" placeholder="Tanggal Sampling"
+                         formControlName="tanggalSampling"
+                         appMatDatepickerNext
+                         [previousTarget]="targetLokasiPendaratan"
+                         (focus)="datepickerTanggalSampling.open()"
+                         (click)="datepickerTanggalSampling.open()"
+                         [matDatepicker]="datepickerTanggalSampling">
+                  <mat-datepicker #datepickerTanggalSampling></mat-datepicker>
+                </mat-form-field>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+
+
+      <!--Keterangan Penangkapan-->
+      <div class="col-md-12">
+        <mat-card >
+          <mat-card-header>
+            <div mat-card-avatar class="example-header-image"></div>
+            <mat-card-title>Informasi Umum</mat-card-title>
+            <mat-card-subtitle>Informasi utama yang diperlukan untuk Form Biologi Reproduksi</mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content>
+
+            <div class="row">
+              <!-- Kapal -->
+              <div class="col-md-6">
+                <mat-form-field appearance="outline">
+                  <mat-label>Nama Kapal</mat-label>
+                  <input #targetNamaKapal autocomplete="off"
+                         formControlName="namaKapal"
+                         appMatInputNext
+                         matInput placeholder="Nama Kapal">
+                </mat-form-field>
+              </div>
+
+              <!--ALat tangkap-->
+              <div class="col-md-6">
+                <i-autocomplete
+                  #targetAlatTangkap="iAutocomplete"
+                  appearance="outline"
+                  placeholder="Alat Tangkap"
+                  formGroupName="uuidAlatTangkap"
+                  displayProp="namaOrganisasi"
+                  mode="initially"
+                  filterOnProp="namaOrganisasi"
+                  [targetOptions]="organisasiService.getAll">
+                </i-autocomplete>
+              </div>
+
+              <!--Penampung & penangkap-->
+              <div class="col-md-6 row cause-slide-toggle-section">
+                <div class="col-md-6 slide-toggle-section">
+                  <section>
+                    <mat-slide-toggle color="accent" formControlName="penampung">Penampung</mat-slide-toggle>
+                  </section>
+                </div>
+                <div class="col-md-6 slide-toggle-section">
+                  <section>
+                    <mat-slide-toggle color="accent" formControlName="penangkap">Penangkap</mat-slide-toggle>
+                  </section>
+                </div>
+              </div>
+
+              <!--Daerah Penangkapan-->
+              <div class="col-md-6">
+                <mat-form-field appearance="outline">
+                  <mat-label>Grid D. Penangkapan</mat-label>
+                  <input #targetGridDaerahPenangkapan autocomplete="off"
+                         formControlName="daerahPenangkapan"
+                         appMatInputNext
+                         matInput placeholder="Grid D. Penangkapan">
+                </mat-form-field>
+              </div>
+
+              <!--Jenis Ikan-->
+              <div class="col-md-12">
+                <mat-form-field appearance="outline">
+                  <mat-label>Jenis Ikan</mat-label>
+                  <input #targetJenisIkan autocomplete="off"
+                         formControlName="uuidSpesies"
+                         appMatInputNext
+                         matInput placeholder="Jenis Ikan">
+                </mat-form-field>
+              </div>
+
+            </div>
+
+          </mat-card-content>
+        </mat-card>
+      </div>
+
+
+
+    </div>
+    <ng-template #loading>
+      <app-initializing message="Menginisialisasi Reproduksi"></app-initializing>
+    </ng-template>
+  </div>
+</div>

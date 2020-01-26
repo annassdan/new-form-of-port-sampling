@@ -1,6 +1,13 @@
 @import "../../../../the-theme";
+
+::ng-deep .mat-menu-panel {
+  width: 300px !important;
+}
+
 /* hanya apply pada container form pendaratan */
 #form-pendaratan {
+
+
 
 
   @media screen and (max-width: 767px) {
@@ -119,6 +126,22 @@
 
           .list-rincian-pendaratan-container {
             margin-top: 10px;
+
+            /* numbering icon style di mat list */
+            .mat-list-option {
+              .mat-list-icon {
+                margin-right: 11px;
+
+                .mat-mini-fab {
+                  background-color: $the-font-color-soft;
+                  color: white;
+                  margin-top: -10px;
+                  box-shadow: #fbfbfb 0 0 0 0 !important;
+                }
+              }
+
+
+            }
 
             ::ng-deep .mat-pseudo-checkbox {
               display: none;

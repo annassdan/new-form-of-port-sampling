@@ -165,7 +165,7 @@ export function extractAllMemberOfFormArray(fg: FormGroup | any, formArrayContro
   return fg ? ((<FormArray>  fg.get(formArrayControlName)).controls) : [];
 }
 
-export async function addFormArrayMember(formGroupParent: FormGroup, formArrayControlName: string, data: FormGroup, first = true) {
+export async function addFormArrayMember(formGroupParent: FormGroup, formArrayControlName: string, data: FormGroup, first = false) {
   const formArray = extractFormArray(formGroupParent, formArrayControlName);
   if (first) {
     await formArray.insert(0, data);

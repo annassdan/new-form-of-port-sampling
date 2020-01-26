@@ -1,7 +1,6 @@
 import {Component, OnDestroy} from "@angular/core";
 import {Subscription} from "rxjs";
 import {MatDialog} from "@angular/material/dialog";
-import {OperasionalComponent} from "../operasional/operasional.component";
 import {unsubscribes} from "../../../../shared/utils";
 import {ReproduksiComponent} from "./reproduksi.component";
 
