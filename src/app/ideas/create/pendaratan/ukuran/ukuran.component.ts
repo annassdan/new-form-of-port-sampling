@@ -7,9 +7,17 @@ import {MatDialogRef} from "@angular/material/dialog";
 import {PendaratanBrigeService} from "../pendaratan-brige.service";
 import {OrganisasiService} from "../../../../services/master/organisasi.service";
 import {SumberdayaService} from "../../../../services/master/sumberdaya.service";
-import {unsubscribes} from "../../../../shared/utils";
+import {generateUUID, unsubscribes} from "../../../../shared/utils";
 import {FormGroup} from "@angular/forms";
 import {Observable, of, Subscription} from "rxjs";
+import {
+  addFormArrayMember,
+  createFormGroup,
+  createFormGroupContent,
+  extractAllMemberOfFormArray,
+  removeFormArrayMember
+} from "../../../../shared/reactive-form-modeling";
+import {rincianBiologiUkuran, sampelBiologiUkuran} from "../../../../models/ukuran/ukuran";
 
 @Component({
   selector: 'app-ukuran',
@@ -53,6 +61,39 @@ export class UkuranComponent extends Utilities implements OnInit, OnDestroy, Aft
 
   ngOnDestroy(): void {
     this.subs = unsubscribes(this.subs);
+  }
+
+  listOfJenisSampel(formArrayControlName: string) {
+    return extractAllMemberOfFormArray(this.formUkuran, formArrayControlName);
+  }
+
+  addJenisSampel(formArrayControlName: string) {
+    const id = generateUUID();
+    addFormArrayMember(this.formUkuran, formArrayControlName, createFormGroup(createFormGroupContent({...sampelBiologiUkuran, uuid: id})))
+      .then(r => {
+        console.log(this.formUkuran.value)
+      }).catch();
+  }
+
+  removeJenisSampel(formArrayControlName: string, index: number) {
+    removeFormArrayMember(this.formUkuran, formArrayControlName, index);
+  }
+
+
+  listOfRincianKomposisiUkuran(formArrayControlName: string) {
+    return extractAllMemberOfFormArray(this.formUkuran, formArrayControlName);
+  }
+
+  addRincianKomposisiUkuran(formArrayControlName: string) {
+    const id = generateUUID();
+    addFormArrayMember(this.formUkuran, formArrayControlName, createFormGroup(createFormGroupContent({...rincianBiologiUkuran, uuid: id})))
+      .then(r => {
+        console.log(this.formUkuran.value)
+      }).catch();
+  }
+
+  removeRincianKomposisiUkuran(formArrayControlName: string, index: number) {
+    removeFormArrayMember(this.formUkuran, formArrayControlName, index);
   }
 
 

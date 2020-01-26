@@ -1,8 +1,6 @@
 <div class="row" id="form-pendaratan" [formGroup]="formPendaratan">
 
 
-
-
   <div class="col-md-12">
     <mat-card>
       <mat-card-header>
@@ -124,14 +122,14 @@
         <div mat-card-avatar class="example-header-image"></div>
         <mat-card-title>
           <label *ngIf="listOfRincianPendaratan('dataRincianPendaratan').length > 0; else emptyRincianPendaratan">
-            Daftar Rincian Pendaratan&nbsp;&nbsp;<span
-            class="primary">({{listOfRincianPendaratan('dataRincianPendaratan').length}})</span>
+            <span class="primary">{{listOfRincianPendaratan('dataRincianPendaratan').length}}</span>
+            Data Rincian Pendaratan&nbsp;&nbsp;
           </label>
           <ng-template #emptyRincianPendaratan>
             <label class="warn">Belum Ada Rincian Pendaratan</label>
           </ng-template>
         </mat-card-title>
-        <mat-card-subtitle>Informasi utama yang diperlukan untuk Form Pendaratan</mat-card-subtitle>
+        <mat-card-subtitle>Informasi detail pendaratan tiap kapal</mat-card-subtitle>
 
         <div fxFlex></div>
         <div class="button-add-rincian" fxLayoutAlign="center center">
@@ -149,7 +147,7 @@
           <div class="col-md-12">
 
             <div *ngIf="listOfRincianPendaratan('dataRincianPendaratan').length === 0" style="padding:25px 0;">
-              <app-no-content message="Tidak Ada Rincian Pendaratan" bgColor="#fafafa"></app-no-content>
+              <app-no-content message="Tidak Ada Data Rincian Pendaratan" bgColor="#fafafa"></app-no-content>
             </div>
 
 
@@ -161,9 +159,9 @@
                   <mat-list-option (click)="rincianPendaratan(tempFormRincianPendaratan)">
 
                     <!-- THE MENU -->
-                    <mat-menu #menu="matMenu" [overlapTrigger]="false" >
+                    <mat-menu #menu="matMenu" [overlapTrigger]="false">
                       <button (click)="openOperasional(tempFormRincianPendaratan)"
-                        mat-menu-item>
+                              mat-menu-item>
                         <mat-icon>note_add</mat-icon>
                         <span>Operasional</span>
                       </button>
@@ -180,25 +178,14 @@
 
 
                     <div mat-list-icon>
-                      <button mat-mini-fab>{{rincianPendaratanIndex + 1 }}</button>
+                      <button mat-mini-fab [ngClass]="'empty'">{{rincianPendaratanIndex + 1 }}</button>
                     </div>
                     <h4 class="my-color-hard"
                         mat-line>{{extractFormControlValue('namaKapal', tempFormRincianPendaratan, '....')}}</h4>
                     <p class="my-color" mat-line> Informasi Rincian Pendaratan</p>
                     <div class="box-options" mat-line>
-<!--                      <button #targetButtonOpenRincianPendaratan-->
-<!--                              (click)="openRincianPendaratan(tempFormRincianPendaratan, targetButtonOpenRincianPendaratan)"-->
-<!--                              mat-icon-button>-->
-<!--                        <mat-icon class="my-color" matTooltip="Buka Rincian" matTooltipPosition="before">open_in_new-->
-<!--                        </mat-icon>-->
-<!--                      </button>-->
-<!--                      <button (click)="addReproduksi(tempFormRincianPendaratan)" mat-icon-button>-->
-<!--                        <mat-icon color="warn" matTooltip="Hapus" matTooltipPosition="before">delete</mat-icon>-->
-<!--                      </button>-->
-<!--                      <button (click)="openReproduksi(tempFormRincianPendaratan)"-->
-<!--                              mat-icon-button>-->
-<!--                        <mat-icon matTooltip="Hapus" matTooltipPosition="before">info</mat-icon>-->
-<!--                      </button>-->
+
+
                       <button (click)="removeRincianPendaratan('dataRincianPendaratan', rincianPendaratanIndex)"
                               mat-icon-button>
                         <mat-icon class="my-color" matTooltip="Hapus" matTooltipPosition="before">delete</mat-icon>

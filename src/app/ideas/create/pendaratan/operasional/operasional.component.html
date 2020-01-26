@@ -1,7 +1,7 @@
 <div id="dialog-operasional">
-  <div  #scrollMe *ngIf="currentPendaratanState.formOperasional$ |async"
-        [formGroup]="currentPendaratanState.formOperasional$ |async"
-        class="form-operasional">
+  <div #scrollMe *ngIf="currentPendaratanState.formOperasional$ |async"
+       [formGroup]="currentPendaratanState.formOperasional$ |async"
+       class="form-operasional">
 
     <mat-toolbar *ngIf="!(rootState.asSmallSize$ | async) ? (toolbarWidth === toolbarWidthOnBig) : true"
                  color="primary" class="dialog-toolbar" @fade
@@ -11,7 +11,8 @@
       <mat-icon class="icon-of-dialog">double_arrow</mat-icon>
 
       <!--title-->
-      <h5>&nbsp;Operasional {{extractingValue((currentPendaratanState.formRincianPendaratan$ | async), 'namaKapal')}}</h5>
+      <h5>
+        &nbsp;Operasional {{extractingValue((currentPendaratanState.formRincianPendaratan$ | async), 'namaKapal')}}</h5>
 
       <!--invisible fake button-->
       <button #fake mat-flat-button></button>
@@ -25,12 +26,12 @@
 
     <!--Contents-->
     <div @fade *ngIf="(!(rootState.asSmallSize$ | async) ? (toolbarWidth === toolbarWidthOnBig) : true); else loading"
-      class="row form-content-wrapper">
+         class="row form-content-wrapper">
 
 
       <!--Informasi Umum-->
       <div class="col-md-12">
-        <mat-card >
+        <mat-card>
           <mat-card-header>
             <div mat-card-avatar class="example-header-image"></div>
             <mat-card-title>Informasi Umum</mat-card-title>
@@ -121,7 +122,8 @@
               <div class="col-md-6">
                 <mat-form-field appearance="outline">
                   <mat-label>Waktu Pendaratan</mat-label>
-                  <input #targetTanggalSampling="matDatepickerInput" matInput autocomplete="off" placeholder="Waktu Pendaratan"
+                  <input #targetTanggalSampling="matDatepickerInput" matInput autocomplete="off"
+                         placeholder="Waktu Pendaratan"
                          formControlName="tanggalSampling"
                          appMatDatepickerNext
                          [previousTarget]="targetLokasiPendaratan"
@@ -138,7 +140,7 @@
 
       <!--Informasi Kapal-->
       <div class="col-md-12">
-        <mat-card >
+        <mat-card>
           <mat-card-header>
             <div mat-card-avatar class="example-header-image"></div>
             <mat-card-title>Informasi Kapal</mat-card-title>
@@ -174,7 +176,8 @@
               <div class="col-md-6">
                 <mat-form-field appearance="outline">
                   <mat-label>Tanggal Berangkat</mat-label>
-                  <input #targetTanggalBerangkat="matDatepickerInput" matInput autocomplete="off" placeholder="Tanggal Berangkat"
+                  <input #targetTanggalBerangkat="matDatepickerInput" matInput autocomplete="off"
+                         placeholder="Tanggal Berangkat"
                          formControlName="tanggalBerangkat"
                          (focus)="datepickerTanggalBerangkat.open()"
                          (click)="datepickerTanggalBerangkat.open()"
@@ -187,7 +190,8 @@
               <div class="col-md-6">
                 <mat-form-field appearance="outline">
                   <mat-label>Tanggal Kembali</mat-label>
-                  <input #targetTanggalKembali="matDatepickerInput" matInput autocomplete="off" placeholder="Tanggal Kembali"
+                  <input #targetTanggalKembali="matDatepickerInput" matInput autocomplete="off"
+                         placeholder="Tanggal Kembali"
                          formControlName="tanggalKembali"
                          appMatDatepickerNext
                          (focus)="datepickerTanggalKembali.open()"
@@ -248,7 +252,7 @@
 
       <!--Rincian Kapal-->
       <div class="col-md-12">
-        <mat-card >
+        <mat-card>
           <mat-card-header>
             <div mat-card-avatar class="example-header-image"></div>
             <mat-card-title>Rincian Kapal</mat-card-title>
@@ -437,7 +441,7 @@
 
       <!--Rincian Alat Tangkap-->
       <div class="col-md-12">
-        <mat-card >
+        <mat-card>
           <mat-card-header>
             <div mat-card-avatar class="example-header-image"></div>
             <mat-card-title>Rincian Alat Tangkap</mat-card-title>
@@ -642,8 +646,6 @@
               </div>
 
 
-
-
               <div class="col-md-12">
                 <i-autocomplete
                   #targetWaktuSetting="iAutocomplete"
@@ -658,7 +660,6 @@
               </div>
 
 
-
               <!--Komentar -->
               <div class="col-md-12">
                 <mat-form-field appearance="outline">
@@ -669,20 +670,19 @@
               </div>
 
 
-
             </div>
 
           </mat-card-content>
         </mat-card>
       </div>
 
-      <!--Rincian Hasil Tangkapan-->
+      <!--Hasil Tangkapan-->
       <div class="col-md-12">
-        <mat-card >
+        <mat-card>
           <mat-card-header>
             <div mat-card-avatar class="example-header-image"></div>
-            <mat-card-title>Rincian Hasil Tangkapan</mat-card-title>
-            <mat-card-subtitle>Rincian hasil tangkapan ketika melakukan sampling</mat-card-subtitle>
+            <mat-card-title>Hasil Tangkapan</mat-card-title>
+            <mat-card-subtitle>Informasi umum hasil tangkapan</mat-card-subtitle>
           </mat-card-header>
           <mat-card-content>
 
@@ -730,9 +730,9 @@
                 </fieldset>
 
 
-<!--                <mat-card-subtitle><strong>Jumlah Tangkapan untuk Dimakan di Laut</strong></mat-card-subtitle>-->
-<!--                <mat-card-title>Rincian Hasil Tangkapan</mat-card-title>-->
-<!--                <h5>Jumlah Tangkapan untuk Dimakan di Laut</h5>-->
+                <!--                <mat-card-subtitle><strong>Jumlah Tangkapan untuk Dimakan di Laut</strong></mat-card-subtitle>-->
+                <!--                <mat-card-title>Rincian Hasil Tangkapan</mat-card-title>-->
+                <!--                <h5>Jumlah Tangkapan untuk Dimakan di Laut</h5>-->
               </div>
 
               <!--Total Hasil Tangkapan-->
@@ -768,6 +768,80 @@
           </mat-card-content>
         </mat-card>
       </div>
+
+      <!--Rincian Ikan Hasil Tangkapan-->
+      <div class="col-md-12 card-rincian-ikan-hasil-tangkapan">
+        <mat-card>
+          <mat-card-header fxLayout="row">
+            <div mat-card-avatar class="example-header-image"></div>
+            <mat-card-title>
+              <label *ngIf="listOfIkanHasilTangkapan('dataOperasionalDetailTangkapan').length > 0; else emptyRincianIkanHasilTangkapan">
+                <span class="primary">{{listOfIkanHasilTangkapan('dataOperasionalDetailTangkapan').length}}</span>
+                Data Ikan Hasil Tangkapan&nbsp;&nbsp;
+              </label>
+              <ng-template #emptyRincianIkanHasilTangkapan>
+                <label class="warn">Belum Ada Rincian Ikan Hasil Tangkapan</label>
+              </ng-template>
+            </mat-card-title>
+            <mat-card-subtitle>Informasi jenis ikan hasil tangkapan</mat-card-subtitle>
+
+            <div fxFlex></div>
+            <div class="button-add-rincian" fxLayoutAlign="center center">
+              <button (click)="addIkanHasilTangkapan('dataOperasionalDetailTangkapan')" #tombolTambahIkanHasilTangkapan
+                      matTooltip="Tambahkan Ikan Hasil Tangkapan"
+                      matTooltipPosition="before"
+                      mat-fab color="primary">
+                <mat-icon class="icon-inside-button">add</mat-icon>
+              </button>
+            </div>
+          </mat-card-header>
+          <mat-card-content>
+
+            <div class="row">
+
+              <div class="col-md-12">
+                <div *ngIf="listOfIkanHasilTangkapan('dataOperasionalDetailTangkapan').length === 0" style="padding:25px 0;">
+                  <app-no-content message="Tidak Ada Data Ikan Hasil Tangkapan" bgColor="#fafafa"></app-no-content>
+                </div>
+
+
+                <!-- konten utama-->
+                <mat-list>
+                  <div class="list-rincian-ikan-hasil-tangkapan-container">
+                    <mat-divider *ngIf="listOfIkanHasilTangkapan('dataOperasionalDetailTangkapan').length > 0"></mat-divider>
+                    <div
+                      *ngFor="let tempFormIkanHasilTangkapan of listOfIkanHasilTangkapan('dataOperasionalDetailTangkapan'); index as rincianIkanHasilTangkapanIndex">
+                      <mat-list-item>
+                        <div mat-list-icon>
+                          <button mat-mini-fab [ngClass]="'empty'">{{rincianIkanHasilTangkapanIndex + 1 }}</button>
+                        </div>
+                        <h4 class="my-color-hard"
+                            mat-line>{{extractFormControlValue('uuidSpesies', tempFormIkanHasilTangkapan, '....')}}</h4>
+                        <p class="my-color" mat-line>Ikan Hasil Tangkapan</p>
+                        <div class="box-options" mat-line>
+                          <button (click)="removeIkanHasilTangkapan('dataOperasionalDetailTangkapan', rincianIkanHasilTangkapanIndex)"
+                                  mat-icon-button>
+                            <mat-icon class="my-color" matTooltip="Hapus" matTooltipPosition="before">delete</mat-icon>
+                          </button>
+                        </div>
+                        <mat-divider></mat-divider>
+
+                      </mat-list-item>
+                    </div>
+                  </div>
+                </mat-list>
+              </div>
+
+
+
+
+            </div>
+
+
+          </mat-card-content>
+        </mat-card>
+      </div>
+
 
     </div>
     <ng-template #loading>

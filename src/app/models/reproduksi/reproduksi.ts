@@ -1,6 +1,5 @@
 import {CanOptional, model} from '../model';
 import {general} from '../general';
-import {REF_TO_RINCIAN_PENDARATAN} from "../../shared/constants";
 import {organisasi} from "../master/organisasi";
 
 

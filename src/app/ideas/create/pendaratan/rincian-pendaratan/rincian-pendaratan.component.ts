@@ -92,12 +92,14 @@ export class RincianPendaratanComponent
      * Melakukan focus pada element input nama kapal.
      * Delay beberapa miliseccond untuk menghindari error pada change detector
      */
-     setTimeout(() => {
-      const nkNative = fromMaterialExportAsNative(this.namaKapalElement);
-      if (nkNative && String(nkNative.value).length === 0) {
-        nkNative.focus();
-      }
-     }, FADE_TIME + INIT_FADE_IN + 50);
+    this.subs.push(this.rootState.asSmallSize$.subscribe(stat => {
+      setTimeout(() => {
+        const nkNative = fromMaterialExportAsNative(this.namaKapalElement);
+        if (nkNative && String(nkNative.value).length === 0) {
+          nkNative.focus();
+        }
+      }, !stat ? (FADE_TIME + INIT_FADE_IN + 50) : 450);
+    }));
 
     super.ngAfterViewInit();
     /**/

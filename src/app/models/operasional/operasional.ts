@@ -1,6 +1,5 @@
 import {CanOptional, model} from '../model';
 import {general} from '../general';
-import {REF_TO_RINCIAN_PENDARATAN} from "../../shared/constants";
 import {organisasi} from "../master/organisasi";
 
 
@@ -99,11 +98,16 @@ export const operasional: CanOptional = {
   jumlahTangkapanUntukDimakanDilautVolume: 0,
   jumlahTangkapanUntukDimakanDilautIndividu: 0,
   dataSpesifikasiAlatTangkap: [],
+
+  /* ikan hasil tangkapan */
   dataOperasionalDetailTangkapan: [],
+
   // double
   jumlahTangkapanVolume: 0,
   jumlahTangkapanIndividu: 0,
   // double
   lamaPerendaman: 0,
+
+
 };
 export type Operasional = typeof operasional;

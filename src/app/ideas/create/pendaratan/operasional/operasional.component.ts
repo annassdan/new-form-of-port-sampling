@@ -3,13 +3,19 @@ import {FormGroup} from "@angular/forms";
 import {MainStateService} from "../../../../shared/services/main-state.service";
 import {PendaratanBrigeService} from "../pendaratan-brige.service";
 import {MatDialogRef} from "@angular/material/dialog";
-import {unsubscribes} from "../../../../shared/utils";
+import {generateUUID, unsubscribes} from "../../../../shared/utils";
 import {Observable, of, Subscription} from "rxjs";
 import {Utilities} from "../../../../shared/utilities";
 import {OrganisasiService} from "../../../../services/master/organisasi.service";
 import {SumberdayaService} from "../../../../services/master/sumberdaya.service";
 import {FADE_TIME, NON_STATIC_VIEW_CHILD} from "../../../../shared/constants";
 import {animate, style, transition, trigger} from "@angular/animations";
+import {
+  addFormArrayMember,
+  createFormGroup, createFormGroupContent,
+  extractAllMemberOfFormArray, removeFormArrayMember
+} from "../../../../shared/reactive-form-modeling";
+import {hasilTangkapanOperasional} from "../../../../models/operasional/operasional";
 
 @Component({
   selector: 'app-operasional',
@@ -61,6 +67,24 @@ export class OperasionalComponent extends Utilities implements OnInit, OnDestroy
 
   ngOnDestroy(): void {
     this.subs = unsubscribes(this.subs);
+  }
+
+  listOfIkanHasilTangkapan(formArrayControlName: string) {
+    return extractAllMemberOfFormArray(this.formOperasional, formArrayControlName);
+  }
+
+
+  addIkanHasilTangkapan(formArrayControlName: string) {
+    const id = generateUUID();
+    addFormArrayMember(this.formOperasional, formArrayControlName, createFormGroup(createFormGroupContent({...hasilTangkapanOperasional, uuid: id})))
+      .then(r => {
+        console.log(this.formOperasional.value)
+      }).catch();
+  }
+
+
+  removeIkanHasilTangkapan(formArrayControlName: string, index: number) {
+    removeFormArrayMember(this.formOperasional, formArrayControlName, index);
   }
 
 

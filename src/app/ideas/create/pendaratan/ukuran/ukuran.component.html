@@ -259,6 +259,149 @@
         </mat-card>
       </div>
 
+      <!--Rincian Jenis Sampel-->
+      <div class="col-md-12 card-rincian-jenis-sampel">
+        <mat-card>
+          <mat-card-header fxLayout="row">
+            <div mat-card-avatar class="example-header-image"></div>
+            <mat-card-title>
+              <label *ngIf="listOfJenisSampel('dataSampleDetail').length > 0; else emptySampel">
+                <span class="primary">{{listOfJenisSampel('dataSampleDetail').length}}</span>
+                Data Rincian Jenis Sampel
+              </label>
+              <ng-template #emptySampel>
+                <label class="warn">Belum Ada Data Rincian Jenis Sampel</label>
+              </ng-template>
+            </mat-card-title>
+            <mat-card-subtitle>Informasi jenis sampel ikan yang dipakai untuk proses pengukuran</mat-card-subtitle>
+
+            <div fxFlex></div>
+            <div class="button-add-rincian" fxLayoutAlign="center center">
+              <button (click)="addJenisSampel('dataSampleDetail')" #tombolTambahJenisSampel
+                      matTooltip="Tambahkan Rincian Jenis Sampel"
+                      matTooltipPosition="before"
+                      mat-fab color="primary">
+                <mat-icon class="icon-inside-button">add</mat-icon>
+              </button>
+            </div>
+          </mat-card-header>
+          <mat-card-content>
+
+            <div class="row">
+
+              <div class="col-md-12">
+                <div *ngIf="listOfJenisSampel('dataSampleDetail').length === 0" style="padding:25px 0;">
+                  <app-no-content message="Tidak Ada Data Rincian Jenis Sampel" bgColor="#fafafa"></app-no-content>
+                </div>
+
+
+                <!-- konten utama-->
+                <mat-list>
+                  <div class="list-rincian-jenis-sampel-container">
+                    <mat-divider *ngIf="listOfJenisSampel('dataSampleDetail').length > 0"></mat-divider>
+                    <div
+                      *ngFor="let tempFormRincianJenisSampel of listOfJenisSampel('dataSampleDetail'); index as rincianJenisSampelIndex">
+                      <mat-list-item>
+                        <div mat-list-icon>
+                          <button mat-mini-fab [ngClass]="'empty'">{{rincianJenisSampelIndex + 1 }}</button>
+                        </div>
+                        <h4 class="my-color-hard"
+                            mat-line>{{extractFormControlValue('uuidSpesies', tempFormRincianJenisSampel, '....')}}</h4>
+                        <p class="my-color" mat-line>Rincian Jenis Sampel</p>
+                        <div class="box-options" mat-line>
+                          <button (click)="removeJenisSampel('dataSampleDetail', rincianJenisSampelIndex)"
+                                  mat-icon-button>
+                            <mat-icon class="my-color" matTooltip="Hapus" matTooltipPosition="before">delete</mat-icon>
+                          </button>
+                        </div>
+                        <mat-divider></mat-divider>
+
+                      </mat-list-item>
+                    </div>
+                  </div>
+                </mat-list>
+              </div>
+
+            </div>
+
+
+          </mat-card-content>
+        </mat-card>
+      </div>
+
+
+      <!--Komposisi Ukuran Ikan-->
+      <div class="col-md-12 card-rincian-jenis-sampel">
+        <mat-card>
+          <mat-card-header fxLayout="row">
+            <div mat-card-avatar class="example-header-image"></div>
+            <mat-card-title>
+              <label *ngIf="listOfRincianKomposisiUkuran('dataUkuranDetail').length > 0; else emptyRincianIkanHasilTangkapan">
+                <span class="primary">{{listOfRincianKomposisiUkuran('dataUkuranDetail').length}}</span>
+                Data Komposisi Ukuran
+              </label>
+              <ng-template #emptyRincianIkanHasilTangkapan>
+                <label class="warn">Belum Ada Data Komposisi Ukuran</label>
+              </ng-template>
+            </mat-card-title>
+            <mat-card-subtitle>Informasi kompoisis ukuran ikan yang didata</mat-card-subtitle>
+
+            <div fxFlex></div>
+            <div class="button-add-rincian" fxLayoutAlign="center center">
+              <button (click)="addRincianKomposisiUkuran('dataUkuranDetail')" #tombolTambahKomposisiUkuran
+                      matTooltip="Tambahkan Komposisi Ukuran"
+                      matTooltipPosition="before"
+                      mat-fab color="primary">
+                <mat-icon class="icon-inside-button">add</mat-icon>
+              </button>
+            </div>
+          </mat-card-header>
+          <mat-card-content>
+
+            <div class="row">
+
+              <div class="col-md-12">
+                <div *ngIf="listOfRincianKomposisiUkuran('dataUkuranDetail').length === 0" style="padding:25px 0;">
+                  <app-no-content message="Tidak Ada Data Komposisi Ukuran" bgColor="#fafafa"></app-no-content>
+                </div>
+
+
+                <!-- konten utama-->
+                <mat-list>
+                  <div class="list-rincian-jenis-sampel-container">
+                    <mat-divider *ngIf="listOfRincianKomposisiUkuran('dataUkuranDetail').length > 0"></mat-divider>
+                    <div
+                      *ngFor="let tempFormKomposisiUkuran of listOfRincianKomposisiUkuran('dataUkuranDetail'); index as rincianKomposisiUkuranIndex">
+                      <mat-list-item>
+                        <div mat-list-icon>
+                          <button mat-mini-fab [ngClass]="'empty'">{{rincianKomposisiUkuranIndex + 1 }}</button>
+                        </div>
+                        <h4 class="my-color-hard"
+                            mat-line>{{extractFormControlValue('uuidSpesies', tempFormKomposisiUkuran, '....')}}</h4>
+                        <p class="my-color" mat-line>Komposisi Ukuran</p>
+                        <div class="box-options" mat-line>
+                          <button (click)="removeRincianKomposisiUkuran('dataUkuranDetail', rincianKomposisiUkuranIndex)"
+                                  mat-icon-button>
+                            <mat-icon class="my-color" matTooltip="Hapus" matTooltipPosition="before">delete</mat-icon>
+                          </button>
+                        </div>
+                        <mat-divider></mat-divider>
+
+                      </mat-list-item>
+                    </div>
+                  </div>
+                </mat-list>
+              </div>
+
+            </div>
+
+
+          </mat-card-content>
+        </mat-card>
+      </div>
+
+
+
     </div>
     <ng-template #loading>
       <app-initializing message="Menginisialisasi Ukuran"></app-initializing>

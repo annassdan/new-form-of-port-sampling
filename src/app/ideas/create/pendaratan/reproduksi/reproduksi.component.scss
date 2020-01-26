@@ -37,4 +37,157 @@
     z-index: 7;
   }
 
+  @media screen and (max-width: 767px) {
+
+    .card-rincian-sampling-biologi {
+
+      ::ng-deep .mat-list-base {
+        padding-top: 0;
+      }
+
+      .mat-card {
+        padding: 0;
+
+        .mat-card-header {
+          padding: 25px 25px 0 36px;
+        }
+
+        .button-add-rincian {
+          margin-top: -23px;
+          margin-right: -4px;
+        }
+
+        .mat-card-content {
+          padding: 0 !important;
+
+          .row {
+            margin-top: -10px;
+            margin-left: 0;
+          }
+
+          .col-md-12 {
+            padding: 0;
+          }
+
+          .list-rincian-sampling-biologi-container {
+            margin-top: 10px;
+
+            /* numbering icon style di mat list */
+            .mat-list-item {
+              .mat-list-icon {
+                margin-right: 28px;
+
+                .mat-mini-fab {
+                  background-color: mat-color(mat-palette($color-warn));
+                  color: white;
+                  top: -9px;
+                  left: 15px;
+                  box-shadow: #fbfbfb 0 0 0 0 !important;
+                }
+
+                .mat-mini-fab:not(.empty) {
+                  background-color: mat-color(mat-palette($mat-green));
+                  color: white;
+                  top: -9px;
+                  left: 15px;
+                  box-shadow: #fbfbfb 0 0 0 0 !important;
+                }
+              }
+
+
+            }
+
+            ::ng-deep .mat-pseudo-checkbox {
+              display: none;
+            }
+
+            .box-options {
+              width: auto;
+              position: absolute;
+              right: 20px;
+              display: inline-flex;
+            }
+          }
+        }
+      }
+
+    }
+  }
+
+  @media screen and (min-width: 768px) {
+    .card-rincian-sampling-biologi {
+
+      ::ng-deep .mat-list-base {
+        padding-top: 0;
+      }
+
+      .mat-card {
+        padding: 0;
+
+        .mat-card-header {
+          padding: 30px 35px 0 35px;
+          .button-add-rincian {
+            margin-top: -25px;
+            margin-right: -7px;
+          }
+        }
+
+        .mat-card-content {
+          padding: 0 !important;
+
+          .row {
+            margin-top: -10px;
+            margin-left: 0;
+          }
+
+          .col-md-12 {
+            padding: 0;
+          }
+
+          .list-rincian-sampling-biologi-container {
+            margin-top: 10px;
+
+            /* numbering icon style di mat list */
+            .mat-list-item {
+              .mat-list-icon {
+                margin-right: 28px;
+
+                .mat-mini-fab {
+                  background-color: mat-color(mat-palette($color-warn));
+                  color: white;
+                  top: -9px;
+                  left: 15px;
+                  box-shadow: #fbfbfb 0 0 0 0 !important;
+                }
+
+                .mat-mini-fab:not(.empty) {
+                  background-color: mat-color(mat-palette($mat-green));
+                  color: white;
+                  top: -9px;
+                  left: 15px;
+                  box-shadow: #fbfbfb 0 0 0 0 !important;
+                }
+              }
+
+
+            }
+
+            ::ng-deep .mat-pseudo-checkbox {
+              display: none;
+            }
+
+            .box-options {
+              width: auto;
+              position: absolute;
+              right: 30px;
+              display: inline-flex;
+            }
+
+          }
+        }
+      }
+
+    }
+  }
+
 }

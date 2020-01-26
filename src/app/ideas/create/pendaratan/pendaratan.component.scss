@@ -1,7 +1,7 @@
 @import "../../../../the-theme";
 
 ::ng-deep .mat-menu-panel {
-  width: 300px !important;
+  width: 250px !important;
 }
 
 /* hanya apply pada container form pendaratan */
@@ -77,6 +77,30 @@
           .list-rincian-pendaratan-container {
             margin-top: 10px;
 
+            /* numbering icon style di mat list */
+            .mat-list-option {
+              .mat-list-icon {
+                margin-right: 11px;
+
+                .mat-mini-fab {
+                  background-color: mat-color(mat-palette($color-warn));
+                  color: white;
+                  margin-top: -10px;
+                  box-shadow: #fbfbfb 0 0 0 0 !important;
+                }
+
+                .mat-mini-fab:not(.empty) {
+                  background-color: mat-color(mat-palette($mat-green));
+                  color: white;
+                  margin-top: -10px;
+                  box-shadow: #fbfbfb 0 0 0 0 !important;
+                }
+
+              }
+
+
+            }
+
             ::ng-deep .mat-pseudo-checkbox {
               display: none;
             }
@@ -133,7 +157,14 @@
                 margin-right: 11px;
 
                 .mat-mini-fab {
-                  background-color: $the-font-color-soft;
+                  background-color: mat-color(mat-palette($color-warn));
+                  color: white;
+                  margin-top: -10px;
+                  box-shadow: #fbfbfb 0 0 0 0 !important;
+                }
+
+                .mat-mini-fab:not(.empty) {
+                  background-color: mat-color(mat-palette($mat-green));
                   color: white;
                   margin-top: -10px;
                   box-shadow: #fbfbfb 0 0 0 0 !important;
@@ -160,13 +191,6 @@
 
     }
   }
-
-
-
-
-
-
-
 
   .mat-subheader {
     color: $section-title-color;

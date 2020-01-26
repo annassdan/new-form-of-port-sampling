@@ -1,6 +1,6 @@
 import {AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
 import {Observable, of, Subscription} from "rxjs";
-import {unsubscribes} from "../../../../shared/utils";
+import {generateUUID, unsubscribes} from "../../../../shared/utils";
 import {FormGroup} from "@angular/forms";
 import {Utilities} from "../../../../shared/utilities";
 import {animate, style, transition, trigger} from "@angular/animations";
@@ -10,6 +10,13 @@ import {MatDialogRef} from "@angular/material/dialog";
 import {PendaratanBrigeService} from "../pendaratan-brige.service";
 import {OrganisasiService} from "../../../../services/master/organisasi.service";
 import {SumberdayaService} from "../../../../services/master/sumberdaya.service";
+import {
+  addFormArrayMember,
+  createFormGroup, createFormGroupContent,
+  extractAllMemberOfFormArray, removeFormArrayMember
+} from "../../../../shared/reactive-form-modeling";
+import {hasilTangkapanOperasional} from "../../../../models/operasional/operasional";
+import {rincianBiologiReproduksi} from "../../../../models/reproduksi/reproduksi";
 
 @Component({
   selector: 'app-reproduksi',
@@ -54,6 +61,25 @@ export class ReproduksiComponent extends Utilities implements OnInit, OnDestroy,
   ngOnDestroy(): void {
     this.subs = unsubscribes(this.subs);
   }
+
+  listOfRincianSamplingBiologi(formArrayControlName: string) {
+    return extractAllMemberOfFormArray(this.formReproduksi, formArrayControlName);
+  }
+
+
+  addRincianSamplingBiologi(formArrayControlName: string) {
+    const id = generateUUID();
+    addFormArrayMember(this.formReproduksi, formArrayControlName, createFormGroup(createFormGroupContent({...rincianBiologiReproduksi, uuid: id})))
+      .then(r => {
+        console.log(this.formReproduksi.value)
+      }).catch();
+  }
+
+
+  removeRincianSamplingBiologi(formArrayControlName: string, index: number) {
+    removeFormArrayMember(this.formReproduksi, formArrayControlName, index);
+  }
+
 
   pencatatSource = (): Observable<any[]> => {
     return of([

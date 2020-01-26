@@ -215,6 +215,77 @@
       </div>
 
 
+      <!--Rincian Sampling Biologi-->
+      <div class="col-md-12 card-rincian-sampling-biologi">
+        <mat-card>
+          <mat-card-header fxLayout="row">
+            <div mat-card-avatar class="example-header-image"></div>
+            <mat-card-title>
+              <label *ngIf="listOfRincianSamplingBiologi('dataDetailReproduksi').length > 0; else emptyRincianIkanHasilTangkapan">
+                <span class="primary">{{listOfRincianSamplingBiologi('dataDetailReproduksi').length}}</span>
+                Data Sampling Biologi
+              </label>
+              <ng-template #emptyRincianIkanHasilTangkapan>
+                <label class="warn">Belum Ada Data Sampling Biologi</label>
+              </ng-template>
+            </mat-card-title>
+            <mat-card-subtitle>Informasi hasil sampling biologi reproduksi</mat-card-subtitle>
+
+            <div fxFlex></div>
+            <div class="button-add-rincian" fxLayoutAlign="center center">
+              <button (click)="addRincianSamplingBiologi('dataDetailReproduksi')" #tombolTambahIkanRincianSamplingBiologi
+                      matTooltip="Tambahkan Rincian Sampling Biologi"
+                      matTooltipPosition="before"
+                      mat-fab color="primary">
+                <mat-icon class="icon-inside-button">add</mat-icon>
+              </button>
+            </div>
+          </mat-card-header>
+          <mat-card-content>
+
+            <div class="row">
+
+              <div class="col-md-12">
+                <div *ngIf="listOfRincianSamplingBiologi('dataDetailReproduksi').length === 0" style="padding:25px 0;">
+                  <app-no-content message="Tidak Ada Data Sampling Biologi" bgColor="#fafafa"></app-no-content>
+                </div>
+
+
+                <!-- konten utama-->
+                <mat-list>
+                  <div class="list-rincian-sampling-biologi-container">
+                    <mat-divider *ngIf="listOfRincianSamplingBiologi('dataDetailReproduksi').length > 0"></mat-divider>
+                    <div
+                      *ngFor="let tempFormRincianSamplingBiologi of listOfRincianSamplingBiologi('dataDetailReproduksi'); index as rincianSamplingBiologiIndex">
+                      <mat-list-item>
+                        <div mat-list-icon>
+                          <button mat-mini-fab [ngClass]="'empty'">{{rincianSamplingBiologiIndex + 1 }}</button>
+                        </div>
+                        <h4 class="my-color-hard"
+                            mat-line>{{extractFormControlValue('tkg', tempFormRincianSamplingBiologi, '....')}}</h4>
+                        <p class="my-color" mat-line>Rincian Sampling Biologi</p>
+                        <div class="box-options" mat-line>
+                          <button (click)="removeRincianSamplingBiologi('dataDetailReproduksi', rincianSamplingBiologiIndex)"
+                                  mat-icon-button>
+                            <mat-icon class="my-color" matTooltip="Hapus" matTooltipPosition="before">delete</mat-icon>
+                          </button>
+                        </div>
+                        <mat-divider></mat-divider>
+
+                      </mat-list-item>
+                    </div>
+                  </div>
+                </mat-list>
+              </div>
+
+            </div>
+
+
+          </mat-card-content>
+        </mat-card>
+      </div>
+
+
 
     </div>
     <ng-template #loading>
