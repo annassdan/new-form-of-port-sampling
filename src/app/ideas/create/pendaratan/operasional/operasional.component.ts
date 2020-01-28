@@ -43,7 +43,7 @@ export class OperasionalComponent extends Utilities implements OnInit, OnDestroy
               public dialogRef: MatDialogRef<OperasionalComponent>,
               public currentPendaratanState: PendaratanBrigeService,
               public organisasiService: OrganisasiService,
-              public sumberdayaService: SumberdayaService) { super(); }
+              public sumberdayaService: SumberdayaService) { super(changeDetector); }
 
   ngOnInit() {
     this.subs.push(this.currentPendaratanState.formOperasional$.subscribe(async value => {
@@ -68,6 +68,9 @@ export class OperasionalComponent extends Utilities implements OnInit, OnDestroy
   ngOnDestroy(): void {
     this.subs = unsubscribes(this.subs);
   }
+
+
+
 
   listOfIkanHasilTangkapan(formArrayControlName: string) {
     return extractAllMemberOfFormArray(this.formOperasional, formArrayControlName);

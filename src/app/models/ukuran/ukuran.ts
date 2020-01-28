@@ -1,7 +1,7 @@
 import {CanOptional, model} from '../model';
 import {general} from '../general';
 import {REF_TO_RINCIAN_PENDARATAN} from "../../shared/constants";
-import {organisasi} from "../master/organisasi";
+import {alatTangkap, organisasi} from "../master/organisasi";
 
 
 export const rincianBiologiUkuran: CanOptional = {
@@ -41,7 +41,7 @@ export const biologiUkuran: CanOptional = {
 
   /*TEMPORARY*/
   /* ke table alat tangkap  */
-  uuidAlatTangkap: {...organisasi},
+  uuidAlatTangkap: {...alatTangkap},
 
 
   penampung: false,

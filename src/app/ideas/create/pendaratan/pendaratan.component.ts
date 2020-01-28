@@ -29,6 +29,12 @@ import {
 import {biologiUkuran, BiologiUkuran} from "../../../models/ukuran/ukuran";
 import {biologiReproduksi, BiologiReproduksi} from "../../../models/reproduksi/reproduksi";
 import {MatMenu, MatMenuTrigger} from "@angular/material/menu";
+import {
+  PENDARATAN_X_OPERASIONAL, PENDARATAN_X_REPRODUKSI, PENDARATAN_X_UKURAN,
+  RINCIAN_PENDARATAN_X_OPERASIONAL, RINCIAN_PENDARATAN_X_REPRODUKSI, RINCIAN_PENDARATAN_X_UKURAN,
+  TransformModel,
+  TransformType
+} from "../../../models/feat";
 
 @Component({
   selector: 'app-pendaratan',
@@ -222,8 +228,11 @@ export class PendaratanComponent extends Utilities implements OnInit, AfterViewI
       const formOperasional = this.specifyLinkedWithRincianPendaratan(CONTROL_DATA_OPERASIONAL, extractingValue(formRincianPendaratan.value, PK_COLUMN));
 
       if (formOperasional) {
+        this.alsoAffectedToOperasional(formRincianPendaratan);
+
         /* dipakai untuk beberapa kebutuhan */
         await this.currentPendaratanState.setCurrentFormRincianPendaratan(formRincianPendaratan);
+
 
         await this.currentPendaratanState.setCurrentFormOperasional(formOperasional);
         this.router.navigate(['operasional', extractingValue(formOperasional.value, PK_COLUMN)], ).then(r => {}).catch();
@@ -237,6 +246,8 @@ export class PendaratanComponent extends Utilities implements OnInit, AfterViewI
       const formUkuran = this.specifyLinkedWithRincianPendaratan(CONTROL_DATA_UKURAN, extractingValue(formRincianPendaratan.value, PK_COLUMN));
 
       if (formUkuran) {
+        this.alsoAffectedToUkuran(formRincianPendaratan);
+
         /* dipakai untuk beberapa kebutuhan */
         await this.currentPendaratanState.setCurrentFormRincianPendaratan(formRincianPendaratan);
 
@@ -252,6 +263,8 @@ export class PendaratanComponent extends Utilities implements OnInit, AfterViewI
       const formReproduksi = this.specifyLinkedWithRincianPendaratan(CONTROL_DATA_REPRODUKSI, extractingValue(formRincianPendaratan.value, PK_COLUMN));
 
       if (formReproduksi) {
+        this.alsoAffectedToReproduksi(formRincianPendaratan);
+
         /* dipakai untuk beberapa kebutuhan */
         await this.currentPendaratanState.setCurrentFormRincianPendaratan(formRincianPendaratan);
 
@@ -262,27 +275,55 @@ export class PendaratanComponent extends Utilities implements OnInit, AfterViewI
   }
 
 
-  patchAffected(from: FormGroup, fromControl: string, to: FormGroup, toControl: string) {
-    this.extractFormControl(to, toControl).patchValue(this.extractFormControl(from, fromControl).value);
-  }
-
-
-
-  async alsoAffectedToOperasional(formRincianPendaratan: FormGroup, bothControls: { from: string, to: string}[] = [
-    { from: 'namaKapal', to: 'namaKapal' },
-  ]) {
-    if (this.hasLinkedFormTo("dataOperasional", extractingValue(formRincianPendaratan.value, PK_COLUMN))) {
-      const form = this.specifyLinkedWithRincianPendaratan(CONTROL_DATA_OPERASIONAL, extractingValue(formRincianPendaratan.value, PK_COLUMN));
-      bothControls.forEach(c => this.patchAffected(formRincianPendaratan, c.from, form, c.to));
+  patchAffected(from: FormGroup, fromControl: string, to: FormGroup, toControl: string, type: TransformType) {
+    if (type === "FormGroup") {
+      const fTo = this.extractFormGroup(to, toControl);
+      // console.log(fTo)
+      const fromValue = this.extractFormGroup(from, fromControl).value;
+      console.log(fromValue)
+      this.patchFormGroup(fTo, fromValue);
+    } else if (type === "FormControl") {
+      const v = this.extractFormControl(from, fromControl).value;
+      this.extractFormControl(to, toControl).patchValue(v);
     }
   }
 
-  async alsoAffectedToUkuran(formRincianPendaratan: FormGroup) {
 
+
+  async alsoAffectedToOperasional(formRincianPendaratan: FormGroup, reverse = false) {
+    if (reverse) {
+
+    } else {
+      if (this.hasLinkedFormTo(CONTROL_DATA_OPERASIONAL, extractingValue(formRincianPendaratan.value, PK_COLUMN))) {
+        const form = this.specifyLinkedWithRincianPendaratan(CONTROL_DATA_OPERASIONAL, extractingValue(formRincianPendaratan.value, PK_COLUMN));
+        RINCIAN_PENDARATAN_X_OPERASIONAL.forEach(c => this.patchAffected(formRincianPendaratan, c.from, form, c.to, c.type));
+        PENDARATAN_X_OPERASIONAL.forEach(c => this.patchAffected(this.formPendaratan, c.from, form, c.to, c.type));
+      }
+    }
   }
 
-  async alsoAffectedToReproduksi(formRincianPendaratan: FormGroup) {
+  async alsoAffectedToUkuran(formRincianPendaratan: FormGroup, reverse = false) {
+    if (reverse) {
 
+    } else {
+      if (this.hasLinkedFormTo(CONTROL_DATA_UKURAN, extractingValue(formRincianPendaratan.value, PK_COLUMN))) {
+        const form = this.specifyLinkedWithRincianPendaratan(CONTROL_DATA_UKURAN, extractingValue(formRincianPendaratan.value, PK_COLUMN));
+        RINCIAN_PENDARATAN_X_UKURAN.forEach(c => this.patchAffected(formRincianPendaratan, c.from, form, c.to, c.type));
+        PENDARATAN_X_UKURAN.forEach(c => this.patchAffected(this.formPendaratan, c.from, form, c.to, c.type));
+      }
+    }
+  }
+
+  async alsoAffectedToReproduksi(formRincianPendaratan: FormGroup, reverse = false) {
+    if (reverse) {
+
+    } else {
+      if (this.hasLinkedFormTo(CONTROL_DATA_REPRODUKSI, extractingValue(formRincianPendaratan.value, PK_COLUMN))) {
+        const form = this.specifyLinkedWithRincianPendaratan(CONTROL_DATA_REPRODUKSI, extractingValue(formRincianPendaratan.value, PK_COLUMN));
+        RINCIAN_PENDARATAN_X_REPRODUKSI.forEach(c => this.patchAffected(formRincianPendaratan, c.from, form, c.to, c.type));
+        PENDARATAN_X_REPRODUKSI.forEach(c => this.patchAffected(this.formPendaratan, c.from, form, c.to, c.type));
+      }
+    }
   }
 
   async affectedToPendaratanAndRincianFromOperasional(formOperasional: FormGroup) {

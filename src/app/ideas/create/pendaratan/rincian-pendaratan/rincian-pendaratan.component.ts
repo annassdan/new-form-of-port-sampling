@@ -16,6 +16,8 @@ import {fromMaterialExportAsNative} from "../../../../shared/material-util";
 import {hasilTangkapanPendaratan, rincianPendaratan} from "../../../../models/pendaratan/pendaratan";
 import {Utilities} from "../../../../shared/utilities";
 import {animate, style, transition, trigger} from "@angular/animations";
+import {OrganisasiService} from "../../../../services/master/organisasi.service";
+import {SumberdayaService} from "../../../../services/master/sumberdaya.service";
 
 const SPESIES = 'spesies';
 const VOLUME = 'volume';
@@ -48,11 +50,10 @@ export class RincianPendaratanComponent
   formRincianPendaratan: FormGroup;
 
   constructor(public rootState: MainStateService,
+              public organisasiService: OrganisasiService,
               public changeDetector: ChangeDetectorRef,
               public dialogRef: MatDialogRef<RincianPendaratanComponent>,
-              public currentPendaratanState: PendaratanBrigeService) {
-    super();
-  }
+              public currentPendaratanState: PendaratanBrigeService) { super(changeDetector); }
 
   ngOnInit() {
     this.subs.push(this.currentPendaratanState.formRincianPendaratan$.subscribe(async value => {

@@ -4,6 +4,7 @@ import {MainStateService} from '../../shared/services/main-state.service';
 import {MatButton} from '@angular/material';
 import {rightArrowChar} from '../../shared/constants';
 import {ElectronService} from 'ngx-electron';
+import {Platform} from "@angular/cdk/platform";
 
 
 export interface ToRoot {
@@ -143,6 +144,7 @@ export class TheDashboardComponent implements OnInit, OnDestroy, AfterViewInit {
     public electronService: ElectronService,
     public rootState: MainStateService,
     private changeDetector: ChangeDetectorRef,
+    public platform: Platform,
     public breakpointObserver: BreakpointObserver) {
     this.showMenu(this.currentMenu);
     console.log('this.electronService.ipcRenderer', this.electronService.ipcRenderer);

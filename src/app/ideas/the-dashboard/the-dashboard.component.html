@@ -68,12 +68,13 @@
       </h3>
 
       <!-- user menu on wide device -->
-      <button mat-icon-button
+      <button mat-icon-button *ngIf="!platform.ANDROID && !platform.IOS"
               (click)="minimizeElectronWindow()"
               style="margin-top: -4px">
         <mat-icon>minimize</mat-icon>
       </button>
-      <button mat-icon-button (click)="closeElectronWindow()">
+      <button mat-icon-button *ngIf="!platform.ANDROID && !platform.IOS"
+              (click)="closeElectronWindow()">
         <mat-icon>clear</mat-icon>
       </button>
     </mat-toolbar>

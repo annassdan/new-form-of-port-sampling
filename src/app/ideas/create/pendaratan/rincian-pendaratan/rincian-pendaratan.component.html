@@ -16,7 +16,7 @@
       <!--spacer-->
       <span class="spacer"></span>
 
-      <button mat-icon-button mat-dialog-close>
+      <button mat-icon-button (click)="closeDialog()">
         <mat-icon>clear</mat-icon>
       </button>
     </mat-toolbar>
@@ -48,20 +48,32 @@
               </div>
 
               <!--Alat Tangkap-->
+<!--              <div class="col-md-6">-->
+<!--                <mat-form-field appearance="outline">-->
+<!--                  <mat-label>Alat Tangkap</mat-label>-->
+<!--                  <input [matAutocomplete]="autoAlatTangkap"-->
+<!--                         #targetAlatTangkap="matAutocompleteTrigger"-->
+<!--                         formControlName="uuidAlatTangkap"-->
+<!--                         autocomplete="off" matInput placeholder="Alat Tangkap"-->
+<!--                         appMatAutocompleteNext [nextTarget]="targetJumlahKapalPenangkap"-->
+<!--                         [previousTarget]="targetNamaKapal">-->
+<!--                  <mat-autocomplete #autoAlatTangkap="matAutocomplete">-->
+<!--                    <mat-option value="Pukat Cincin">Pukat Cincin</mat-option>-->
+<!--                    <mat-option value="Pukat Rawai">Pukat Rawai</mat-option>-->
+<!--                  </mat-autocomplete>-->
+<!--                </mat-form-field>-->
+<!--              </div>-->
               <div class="col-md-6">
-                <mat-form-field appearance="outline">
-                  <mat-label>Alat Tangkap</mat-label>
-                  <input [matAutocomplete]="autoAlatTangkap"
-                         #targetAlatTangkap="matAutocompleteTrigger"
-                         formControlName="uuidAlatTangkap"
-                         autocomplete="off" matInput placeholder="Alat Tangkap"
-                         appMatAutocompleteNext [nextTarget]="targetJumlahKapalPenangkap"
-                         [previousTarget]="targetNamaKapal">
-                  <mat-autocomplete #autoAlatTangkap="matAutocomplete">
-                    <mat-option value="Pukat Cincin">Pukat Cincin</mat-option>
-                    <mat-option value="Pukat Rawai">Pukat Rawai</mat-option>
-                  </mat-autocomplete>
-                </mat-form-field>
+                <i-autocomplete
+                  #targetAlatTangkap="iAutocomplete"
+                  appearance="outline"
+                  placeholder="Alat Tangkap"
+                  formGroupName="uuidAlatTangkap"
+                  displayProp="namaAlatTangkap"
+                  mode="initially"
+                  filterOnProp="namaAlatTangkap"
+                  [targetOptions]="organisasiService.getAlatTangkap">
+                </i-autocomplete>
               </div>
 
               <!--Penampung & penangkap-->

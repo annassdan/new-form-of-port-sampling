@@ -1,1 +1,22 @@
-<p>i-text-input works!</p>
+<div id="i-text">
+  <mat-form-field appearance="outline">
+    <mat-label>{{label}}</mat-label>
+    <input #iText autocomplete="off"
+           [formControl]="getDisplayControl()"
+           [required]="required"
+           [errorStateMatcher]="matcher"
+           appMatInputNext
+           [nextTarget]="nextTo"
+           [previousTarget]="previousTo"
+           matInput [placeholder]="placeholder">
+    <mat-hint *ngIf="useHint">
+      {{hintMessage}}
+    </mat-hint>
+    <mat-error>
+      {{errorMessage}}
+    </mat-error>
+    <button matSuffix *ngIf="clearButton && hasValue() && !isNativeInputEmpty()" mat-icon-button (click)="clear()">
+      <mat-icon matTooltip="Bersihkan" color="warn">close</mat-icon>
+    </button>
+  </mat-form-field>
+</div>

@@ -10,6 +10,17 @@ export class OrganisasiService {
 
   constructor(http: HttpClient) { }
 
+  getAlatTangkap = (): Observable<any[]> => of([
+    { uuid: '1', dibuatOleh: '', dibuatPadaTanggal: '', terakhirDiubahOleh: '', terakhirDiubahPadaTanggal: '', namaAlatTangkap: 'Bubu Ikan', deskripsiAlatTangkap: '' },
+    { uuid: '2', dibuatOleh: '', dibuatPadaTanggal: '', terakhirDiubahOleh: '', terakhirDiubahPadaTanggal: '', namaAlatTangkap: 'Cantrang', deskripsiAlatTangkap: '' },
+    { uuid: '3', dibuatOleh: '', dibuatPadaTanggal: '', terakhirDiubahOleh: '', terakhirDiubahPadaTanggal: '', namaAlatTangkap: 'Jaring Insang Dasar/Tetap', deskripsiAlatTangkap: '' },
+    { uuid: '4', dibuatOleh: '', dibuatPadaTanggal: '', terakhirDiubahOleh: '', terakhirDiubahPadaTanggal: '', namaAlatTangkap: 'Muroami', deskripsiAlatTangkap: '' },
+    { uuid: '5', dibuatOleh: '', dibuatPadaTanggal: '', terakhirDiubahOleh: '', terakhirDiubahPadaTanggal: '', namaAlatTangkap: 'Panah', deskripsiAlatTangkap: '' },
+    { uuid: '6', dibuatOleh: '', dibuatPadaTanggal: '', terakhirDiubahOleh: '', terakhirDiubahPadaTanggal: '', namaAlatTangkap: 'Pancing Ulur', deskripsiAlatTangkap: '' },
+    { uuid: '7', dibuatOleh: '', dibuatPadaTanggal: '', terakhirDiubahOleh: '', terakhirDiubahPadaTanggal: '', namaAlatTangkap: 'Pukat Dasar', deskripsiAlatTangkap: '' },
+    { uuid: '8', dibuatOleh: '', dibuatPadaTanggal: '', terakhirDiubahOleh: '', terakhirDiubahPadaTanggal: '', namaAlatTangkap: 'Rawai Dasar', deskripsiAlatTangkap: '' },
+  ]);
+
   getAll = (): Observable<Organisasi[]> => of([
     { uuid: '1', dibuatOleh: '', dibuatPadaTanggal: '', terakhirDiubahOleh: '', terakhirDiubahPadaTanggal: '', namaOrganisasi: 'BRPL', deskripsiOrganisasi: 'Balai Riset Perikanan Laut' },
     { uuid: '2', dibuatOleh: '', dibuatPadaTanggal: '', terakhirDiubahOleh: '', terakhirDiubahPadaTanggal: '', namaOrganisasi: 'WWF Indonesia', deskripsiOrganisasi: '' },

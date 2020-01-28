@@ -19,7 +19,7 @@
     </mat-error>
     <table matSuffix>
       <tr>
-        <td *ngIf="failOnFetch" class="space-between-suffix">
+        <td *ngIf="failOnFetch && !init" class="space-between-suffix">
           <mat-chip-list>
             <mat-chip (click)="retry()" color="warn" selected>
               <mat-icon>refresh</mat-icon>

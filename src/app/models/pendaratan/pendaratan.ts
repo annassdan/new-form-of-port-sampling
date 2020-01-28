@@ -1,5 +1,6 @@
 import {CanOptional, model} from '../model';
 import {general} from '../general';
+import {alatTangkap} from "../master/organisasi";
 
 
 export const hasilTangkapanPendaratan: CanOptional = {
@@ -20,7 +21,7 @@ export const rincianPendaratan: CanOptional = {
   penangkap: false,
   jumlahKapalPenangkap: 0,
   /* relasi ke tabel alat tangkap */
-  uuidAlatTangkap: '',
+  uuidAlatTangkap: {...alatTangkap},
   jumlahSetting: 0,
   jumlahMataPancing: 0,
   rumpon: false,

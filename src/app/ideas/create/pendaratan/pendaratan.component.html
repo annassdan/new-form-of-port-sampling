@@ -78,15 +78,23 @@
 
           <!-- Lokasi pendaratan -->
           <div class="col-md-6">
-            <mat-form-field appearance="outline">
-              <mat-label>Lokasi Pendaratan</mat-label>
-              <input #targetLokasiPendaratan autocomplete="off"
-                     formControlName="namaLokasiPendaratan"
-                     appMatInputNext
-                     [nextTarget]="targetTanggalPendaratan"
-                     [previousTarget]="targetWpp"
-                     matInput placeholder="Lokasi Pendaratan">
-            </mat-form-field>
+            <i-text-input #targetLokasiPendaratan=iText
+                          formControlName="namaLokasiPendaratan"
+                          placeholder="Lokasi Pendaratan"
+                          [nextTo]="targetTanggalPendaratan"
+                          [previousTo]="targetWpp"
+                          label="Lokasi Pendaratan">
+            </i-text-input>
+
+<!--            <mat-form-field appearance="outline">-->
+<!--              <mat-label>Lokasi Pendaratan</mat-label>-->
+<!--              <input #targetLokasiPendaratan autocomplete="off"-->
+<!--                     formControlName="namaLokasiPendaratan"-->
+<!--                     appMatInputNext-->
+<!--                     [nextTarget]="targetTanggalPendaratan"-->
+<!--                     [previousTarget]="targetWpp"-->
+<!--                     matInput placeholder="Lokasi Pendaratan">-->
+<!--            </mat-form-field>-->
           </div>
 
           <!--Tanggal Pendaratan-->

@@ -1,5 +1,6 @@
 import {MatAutocompleteTrigger, MatButton, MatDatepickerInput, MatInput} from '@angular/material';
 import {IAutocompleteComponent} from "./conponents/i-autocomplete/i-autocomplete.component";
+import {ITextInputComponent} from "./conponents/i-text-input/i-text-input.component";
 
 /**
  * Melakukan generate native element dari kustom component material
@@ -32,6 +33,10 @@ export function fromMaterialExportAsNative(tag: any): any {
 
   else if (tag instanceof IAutocompleteComponent) {
     nativeElement = tag['matAutoTrigger']['_element']['nativeElement'];
+  }
+
+  else if (tag instanceof ITextInputComponent) {
+    nativeElement = tag['matInput']['_elementRef']['nativeElement'];
   }
 
   return nativeElement;

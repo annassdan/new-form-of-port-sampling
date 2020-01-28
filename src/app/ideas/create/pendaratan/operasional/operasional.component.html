@@ -19,7 +19,7 @@
       <!--spacer-->
       <span class="spacer"></span>
 
-      <button mat-icon-button mat-dialog-close>
+      <button mat-icon-button (click)="closeDialog()">
         <mat-icon>clear</mat-icon>
       </button>
     </mat-toolbar>
@@ -458,10 +458,10 @@
                   appearance="outline"
                   placeholder="Alat Tangkap"
                   formGroupName="uuidAlatTangkap"
-                  displayProp="namaOrganisasi"
+                  displayProp="namaAlatTangkap"
                   mode="initially"
-                  filterOnProp="namaOrganisasi"
-                  [targetOptions]="organisasiService.getAll">
+                  filterOnProp="namaAlatTangkap"
+                  [targetOptions]="organisasiService.getAlatTangkap">
                 </i-autocomplete>
               </div>
 

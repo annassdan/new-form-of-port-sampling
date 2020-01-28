@@ -1,6 +1,6 @@
 import {CanOptional, model} from '../model';
 import {general} from '../general';
-import {organisasi} from "../master/organisasi";
+import {alatTangkap, organisasi} from "../master/organisasi";
 
 
 export const hasilTangkapanOperasional: CanOptional = {
@@ -73,7 +73,7 @@ export const operasional: CanOptional = {
 
   /*TEMPORARY*/
   /* relasi ke tabel alat tangkap */
-  uuidAlatTangkap: {...organisasi},
+  uuidAlatTangkap: {...alatTangkap},
 
 
   material: '',

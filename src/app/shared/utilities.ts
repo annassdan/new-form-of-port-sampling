@@ -9,7 +9,7 @@ import {
   resetFormGroup
 } from "./reactive-form-modeling";
 import {INIT_FADE_IN, JENIS_RUMPON, SUMBER_INFORMASI, WAKTU_SETTING, WPP} from "./constants";
-import {AfterViewInit} from "@angular/core";
+import {AfterViewInit, ChangeDetectorRef} from "@angular/core";
 
 
 export class Utilities implements AfterViewInit {
@@ -44,10 +44,21 @@ export class Utilities implements AfterViewInit {
 
   sumberInformasi = SUMBER_INFORMASI;
 
-  constructor() {
+  constructor(public ccd?: ChangeDetectorRef) {
   }
 
   ngAfterViewInit(): void {
-    setTimeout(() => this.toolbarWidth = this.toolbarWidthOnBig, INIT_FADE_IN);
+    setTimeout(() => {
+      this.toolbarWidth = this.toolbarWidthOnBig;
+      if (this.ccd) {
+        this.ccd.detectChanges();
+      }
+
+    }, INIT_FADE_IN);
+  }
+
+
+  closeDialog() {
+    history.back();
   }
 }

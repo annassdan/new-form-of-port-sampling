@@ -41,7 +41,7 @@ export class ReproduksiComponent extends Utilities implements OnInit, OnDestroy,
               public dialogRef: MatDialogRef<ReproduksiComponent>,
               public currentPendaratanState: PendaratanBrigeService,
               public organisasiService: OrganisasiService,
-              public sumberdayaService: SumberdayaService) { super(); }
+              public sumberdayaService: SumberdayaService) { super(changeDetector); }
 
   ngOnInit() {
     this.subs.push(this.currentPendaratanState.formReproduksi$.subscribe(async value => {

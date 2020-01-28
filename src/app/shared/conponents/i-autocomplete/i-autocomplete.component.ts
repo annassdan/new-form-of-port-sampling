@@ -68,7 +68,7 @@ export class IAutocompleteComponent extends Utilities implements OnInit, OnDestr
 
   readonly initially: AutoMode = 'initially';
 
-  @Input() fakeDelay = 1000;
+  @Input() fakeDelay = 50;
 
   /* digunakan sebagai counter parameter untuk set data temporary di options */
   public counter = -1;
@@ -155,6 +155,9 @@ export class IAutocompleteComponent extends Utilities implements OnInit, OnDestr
 
   public matcher = new IErrorStateMatcher();
 
+  /* mengindikasikan bahwa komponent baru di render dan belum ada option yang terselect*/
+  init = true;
+
   @ViewChild('autoInput', {static: false}) input: ElementRef<HTMLInputElement>;
 
   @ViewChild(MatAutocompleteTrigger, {static: false}) matAutoTrigger: MatAutocompleteTrigger;
@@ -218,16 +221,11 @@ export class IAutocompleteComponent extends Utilities implements OnInit, OnDestr
   }
 
   hasValue() {
-    return String(extractingValue(this.asGroup() ? this.formGroup.value : this.getDisplayControl().value, this.displayProp)).length > 0;
+    return String(extractingValue(this.asGroup() ? this.formGroup.value : this.getDisplayControl().value, this.displayProp)).trim().length > 0;
   }
 
   isNativeInputEmpty() {
-    if (this.input) {
-      const v = String(this.input.nativeElement.value);
-      return v.length === 0;
-    } else {
-      return true;
-    }
+    return this.input ? String(this.input.nativeElement.value).trim().length === 0 : true;
   }
 
   contactingEndpoint(mode: AutoMode, key = '') {
@@ -305,6 +303,10 @@ export class IAutocompleteComponent extends Utilities implements OnInit, OnDestr
   }
 
   whenTyping($event: any) {
+    if (this.init) {
+      this.init = false;
+    }
+
     /* */
     if ($event.ctrlKey && $event.key === 'Enter' || $event.key === 'Enter') {
       this.matAutoTrigger.closePanel();
@@ -384,6 +386,10 @@ export class IAutocompleteComponent extends Utilities implements OnInit, OnDestr
     this.patchFormGroup(this.formGroup, $event.option.value);
     this.typing = false;
     this.optionSelected.emit($event);
+
+    if (this.init) {
+      this.init = false;
+    }
     // this.cd.detectChanges();
   }
 

@@ -42,7 +42,7 @@ export class UkuranComponent extends Utilities implements OnInit, OnDestroy, Aft
               public dialogRef: MatDialogRef<UkuranComponent>,
               public currentPendaratanState: PendaratanBrigeService,
               public organisasiService: OrganisasiService,
-              public sumberdayaService: SumberdayaService) { super(); }
+              public sumberdayaService: SumberdayaService) { super(changeDetector); }
 
   ngOnInit() {
     this.subs.push(this.currentPendaratanState.formUkuran$.subscribe(async value => {
