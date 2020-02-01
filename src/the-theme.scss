@@ -88,7 +88,7 @@ $the-warn: mat-palette($color-warn);
 
 @media screen and (max-width: 767px) {
 
-  .cdk-overlay-pane {
+  .cdk-global-overlay-wrapper {
     padding-top: ($default-padding + 30) !important;
   }
 
@@ -147,7 +147,7 @@ $the-warn: mat-palette($color-warn);
 
 @media screen and (min-width: 768px) {
 
-  .cdk-overlay-pane {
+  .cdk-global-overlay-wrapper {
     padding-top: ($default-padding + 41) !important;
   }
 
