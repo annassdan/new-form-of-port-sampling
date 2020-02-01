@@ -107,15 +107,13 @@
 
               <!-- Lokasi pendaratan -->
               <div class="col-md-6">
-                <mat-form-field appearance="outline">
-                  <mat-label>Lokasi Pendaratan</mat-label>
-                  <input #targetLokasiPendaratan autocomplete="off"
-                         formControlName="namaLokasiPendaratan"
-                         appMatInputNext
-                         [nextTarget]="targetTanggalSampling"
-                         [previousTarget]="targetWpp"
-                         matInput placeholder="Lokasi Pendaratan">
-                </mat-form-field>
+                <i-text-input #targetLokasiPendaratan="iText"
+                              formControlName="namaLokasiPendaratan"
+                              placeholder="Lokasi Pendaratan"
+                              [nextTo]="targetTanggalSampling"
+                              [previousTo]="targetWpp"
+                              label="Lokasi Pendaratan">
+                </i-text-input>
               </div>
 
               <!--Waktu Pendaratan-->
@@ -126,6 +124,7 @@
                          placeholder="Waktu Pendaratan"
                          formControlName="tanggalSampling"
                          appMatDatepickerNext
+                         [nextTarget]="targetJamSampling"
                          [previousTarget]="targetLokasiPendaratan"
                          (focus)="datepickerTanggalPendaratan.open()"
                          (click)="datepickerTanggalPendaratan.open()"
@@ -133,6 +132,19 @@
                   <mat-datepicker #datepickerTanggalPendaratan></mat-datepicker>
                 </mat-form-field>
               </div>
+
+              <!--JAM-->
+              <div class="col-md-6">
+                <i-text-input #targetJamSampling="iText"
+                              formControlName="jamSampling"
+                              label="Jam Sampling"
+                              placeholder="00:00 - 23:59"
+                              [useTextMask]="clockMask()"
+                              [previousTo]="targetTanggalSampling"
+                              [nextTo]="targetNamaKapal">
+                </i-text-input>
+              </div>
+
             </div>
           </mat-card-content>
         </mat-card>
@@ -152,24 +164,25 @@
 
               <!-- Kapal -->
               <div class="col-md-6">
-                <mat-form-field appearance="outline">
-                  <mat-label>Nama Kapal</mat-label>
-                  <input #targetNamaKapal autocomplete="off"
-                         formControlName="namaKapal"
-                         appMatInputNext
-                         matInput placeholder="Nama Kapal">
-                </mat-form-field>
+                <i-text-input #targetNamaKapal="iText"
+                              formControlName="namaKapal"
+                              placeholder="Nama Kapal"
+                              [nextTo]="targetTandaSelar"
+                              [previousTo]="targetTanggalSampling"
+                              label="Nama Kapal">
+                </i-text-input>
               </div>
 
               <!--tanda Selar-->
               <div class="col-md-6">
-                <mat-form-field appearance="outline">
-                  <mat-label>Tanda Selar</mat-label>
-                  <input #targetTandaSelar autocomplete="off"
-                         formControlName="tandaSelar"
-                         appMatInputNext
-                         matInput placeholder="Tanda Selar">
-                </mat-form-field>
+                <i-text-input #targetTandaSelar="iText"
+                              formControlName="tandaSelar"
+                              placeholder="Tanda Selar"
+                              [nextTo]="targetTanggalBerangkat"
+                              [previousTo]="targetNamaKapal"
+                              label="Tanda Selar">
+                </i-text-input>
+
               </div>
 
               <!--tanggal berangkat-->
@@ -179,6 +192,9 @@
                   <input #targetTanggalBerangkat="matDatepickerInput" matInput autocomplete="off"
                          placeholder="Tanggal Berangkat"
                          formControlName="tanggalBerangkat"
+                         appMatDatepickerNext
+                         [nextTarget]="targetTanggalKembali"
+                         [previousTarget]="targetTandaSelar"
                          (focus)="datepickerTanggalBerangkat.open()"
                          (click)="datepickerTanggalBerangkat.open()"
                          [matDatepicker]="datepickerTanggalBerangkat">
@@ -194,6 +210,8 @@
                          placeholder="Tanggal Kembali"
                          formControlName="tanggalKembali"
                          appMatDatepickerNext
+                         [nextTarget]="targetPelabuhanAsal"
+                         [previousTarget]="targetTanggalBerangkat"
                          (focus)="datepickerTanggalKembali.open()"
                          (click)="datepickerTanggalKembali.open()"
                          [matDatepicker]="datepickerTanggalKembali">
@@ -203,46 +221,47 @@
 
               <!--Pelabuhan asal-->
               <div class="col-md-6">
-                <mat-form-field appearance="outline">
-                  <mat-label>Pelabuhan Asal</mat-label>
-                  <input #targetPelabuhanAsal autocomplete="off"
-                         formControlName="pelabuhanAsal"
-                         appMatInputNext
-                         matInput placeholder="Pelabuhan Asal">
-                </mat-form-field>
+                <i-text-input #targetPelabuhanAsal="iText"
+                              formControlName="pelabuhanAsal"
+                              label="Pelabuhan Asal"
+                              placeholder="Pelabuhan Asal"
+                              [nextTo]="targetNamaPemilikKapal"
+                              [previousTo]="targetTanggalKembali">
+                </i-text-input>
               </div>
 
               <!--Pemilik kapal-->
               <div class="col-md-6">
-                <mat-form-field appearance="outline">
-                  <mat-label>Nama Pemilik Kapal</mat-label>
-                  <input #targetNamaPemilikKapal autocomplete="off"
-                         formControlName="namaPemilikKapal"
-                         appMatInputNext
-                         matInput placeholder="Nama Pemilik Kapal">
-                </mat-form-field>
+                <i-text-input #targetNamaPemilikKapal="iText"
+                              formControlName="namaPemilikKapal"
+                              label="Nama Pemilik Kapal"
+                              placeholder="Nama Pemilik Kapal"
+                              [nextTo]="targetNamaNakhoda"
+                              [previousTo]="targetPelabuhanAsal">
+                </i-text-input>
               </div>
 
               <!--Nakhoda-->
               <div class="col-md-6">
-                <mat-form-field appearance="outline">
-                  <mat-label>Nama Nakhoda</mat-label>
-                  <input #targetNamaNakhoda autocomplete="off"
-                         formControlName="namaKapten"
-                         appMatInputNext
-                         matInput placeholder="Nama Nakhoda">
-                </mat-form-field>
+                <i-text-input #targetNamaNakhoda="iText"
+                              formControlName="namaKapten"
+                              label="Nama Nakhoda"
+                              placeholder="Nama Nakhoda"
+                              [previousTo]="targetNamaPemilikKapal"
+                              [nextTo]="targetJumlahAbk">
+                </i-text-input>
               </div>
 
               <!--Jumlah ABK-->
               <div class="col-md-6">
-                <mat-form-field appearance="outline">
-                  <mat-label>Jumlah ABK (orang)</mat-label>
-                  <input #targetJumlahAbk autocomplete="off"
-                         formControlName="jumlahAbk"
-                         appMatInputNext
-                         matInput placeholder="Jumlah ABK">
-                </mat-form-field>
+                <i-text-input #targetJumlahAbk="iText"
+                              formControlName="jumlahAbk"
+                              label="Jumlah ABK (orang)"
+                              placeholder="Jumlah ABK"
+                              [useTextMask]="standardInputMask('', ' Orang')"
+                              [previousTo]="targetNamaNakhoda"
+                              [nextTo]="targetPanjangKapal">
+                </i-text-input>
               </div>
             </div>
 
@@ -263,172 +282,186 @@
             <div class="row">
               <!-- Panjang Kapal -->
               <div class="col-md-6">
-                <mat-form-field appearance="outline">
-                  <mat-label>Panjang Kapal (m)</mat-label>
-                  <input #targetPanjangKapal autocomplete="off"
-                         formControlName="panjangKapal"
-                         appMatInputNext
-                         matInput placeholder="Panjang Kapal ">
-                </mat-form-field>
+                <i-text-input #targetPanjangKapal="iText"
+                              formControlName="panjangKapal"
+                              label="Panjang Kapal (m)"
+                              placeholder="Panjang Kapal"
+                              [useTextMask]="standardInputMask('', ' m')"
+                              [previousTo]="targetJumlahAbk"
+                              [nextTo]="targetBobotKapal">
+                </i-text-input>
               </div>
 
               <!--Bobot Kapal-->
               <div class="col-md-6">
-                <mat-form-field appearance="outline">
-                  <mat-label>Bobot Kapal (GT)</mat-label>
-                  <input #targetBobotKapal autocomplete="off"
-                         formControlName="bobotKapal"
-                         appMatInputNext
-                         matInput placeholder="Bobot Kapal ">
-                </mat-form-field>
+                <i-text-input #targetBobotKapal="iText"
+                              formControlName="bobotKapal"
+                              label="Bobot Kapal (GT)"
+                              placeholder="Bobot Kapal"
+                              [useTextMask]="standardInputMask('', ' GT')"
+                              [previousTo]="targetPanjangKapal"
+                              [nextTo]="targetMesinUtama">
+                </i-text-input>
               </div>
 
               <!--Mesin Utama-->
               <div class="col-md-6">
-                <mat-form-field appearance="outline">
-                  <mat-label>Mesin Utama (PK)</mat-label>
-                  <input #targetMesinUtama autocomplete="off"
-                         formControlName="mesinUtama"
-                         appMatInputNext
-                         matInput placeholder="Mesin Utama">
-                </mat-form-field>
+                <i-text-input #targetMesinUtama="iText"
+                              formControlName="mesinUtama"
+                              label="Mesin Utama (PK)"
+                              placeholder="Mesin Utama"
+                              [useTextMask]="standardInputMask('', ' PK')"
+                              [previousTo]="targetBobotKapal"
+                              [nextTo]="targetMesinBantu">
+                </i-text-input>
               </div>
 
               <!--Mesin Bantu-->
               <div class="col-md-6">
-                <mat-form-field appearance="outline">
-                  <mat-label>Mesin Bantu</mat-label>
-                  <input #targetMesinBantu autocomplete="off"
-                         formControlName="mesinBantu"
-                         appMatInputNext
-                         matInput placeholder="Mesin Bantu (PK)">
-                </mat-form-field>
+                <i-text-input #targetMesinBantu="iText"
+                              formControlName="mesinBantu"
+                              label="Mesin Bantu (PK)"
+                              placeholder="Mesin Bantu"
+                              [useTextMask]="standardInputMask('', ' PK')"
+                              [previousTo]="targetMesinUtama"
+                              [nextTo]="targetMaterialKapal">
+                </i-text-input>
               </div>
 
               <!--Material Kapal-->
               <div class="col-md-6">
-                <mat-form-field appearance="outline">
-                  <mat-label>Material Kapal</mat-label>
-                  <input #targetMaterialKapal autocomplete="off"
-                         formControlName="materialKapal"
-                         appMatInputNext
-                         matInput placeholder="Material Kapal">
-                </mat-form-field>
+                <i-text-input #targetMaterialKapal="iText"
+                              formControlName="materialKapal"
+                              label="Material Kapal"
+                              placeholder="Material Kapal"
+                              [previousTo]="targetMesinBantu"
+                              [nextTo]="targetDayaCahaya">
+                </i-text-input>
               </div>
 
               <!--Daya Cahaya-->
               <div class="col-md-6">
-                <mat-form-field appearance="outline">
-                  <mat-label>Daya Cahaya (watt)</mat-label>
-                  <input #targetDayaCahaya autocomplete="off"
-                         formControlName="dayaCahaya"
-                         appMatInputNext
-                         matInput placeholder="Daya Cahaya ">
-                </mat-form-field>
+                <i-text-input #targetDayaCahaya="iText"
+                              formControlName="dayaCahaya"
+                              label="Daya Cahaya (watt)"
+                              placeholder="Daya Cahaya"
+                              [useTextMask]="standardInputMask('', ' Watt')"
+                              [previousTo]="targetMaterialKapal"
+                              [nextTo]="targetJumlahPalka">
+                </i-text-input>
               </div>
 
               <!--Jumlah Palka-->
               <div class="col-md-6">
-                <mat-form-field appearance="outline">
-                  <mat-label>Jumlah Palka (buah)</mat-label>
-                  <input #targetJumlahPalka autocomplete="off"
-                         formControlName="jumlahPalka"
-                         appMatInputNext
-                         matInput placeholder="Jumlah Palka">
-                </mat-form-field>
+                <i-text-input #targetJumlahPalka="iText"
+                              formControlName="jumlahPalka"
+                              label="Jumlah Palka (buah)"
+                              placeholder="Jumlah Palka"
+                              [useTextMask]="standardInputMask('', ' Buah')"
+                              [previousTo]="targetDayaCahaya"
+                              [nextTo]="targetJumlahBoks">
+                </i-text-input>
               </div>
 
               <!--Jumlah Boks-->
               <div class="col-md-6">
-                <mat-form-field appearance="outline">
-                  <mat-label>Jumlah Boks (buah)</mat-label>
-                  <input #targetJumlahBoks autocomplete="off"
-                         formControlName="jumlahBoks"
-                         appMatInputNext
-                         matInput placeholder="Jumlah Boks">
-                </mat-form-field>
+                <i-text-input #targetJumlahBoks="iText"
+                              formControlName="jumlahBoks"
+                              label="Jumlah Boks (buah)"
+                              placeholder="Jumlah Boks"
+                              [useTextMask]="standardInputMask('', ' Buah')"
+                              [previousTo]="targetJumlahPalka"
+                              [nextTo]="targetKapasitasPalkaBoksKeranjang">
+                </i-text-input>
               </div>
 
               <!--Kapasitas Palka-->
               <div class="col-md-6">
-                <mat-form-field appearance="outline">
-                  <mat-label>Kapasitas Palka/Boks/Keranjang (kg)</mat-label>
-                  <input #targetKapasitasPalkaBoksKeranjang autocomplete="off"
-                         formControlName="kapasitasPalkaBoks"
-                         appMatInputNext
-                         matInput placeholder="Kapasitas Palka/Boks/Keranjang">
-                </mat-form-field>
+                <i-text-input #targetKapasitasPalkaBoksKeranjang="iText"
+                              formControlName="kapasitasPalkaBoks"
+                              label="Kapasitas Palka/Boks/Keranjang (kg)"
+                              placeholder="Kapasitas Palka/Boks/Keranjang "
+                              [useTextMask]="standardInputMask('', ' Kg')"
+                              [previousTo]="targetJumlahBoks"
+                              [nextTo]="targetKapalBantu">
+                </i-text-input>
               </div>
 
               <!--Kapal Bantu-->
               <div class="col-md-6 row cause-slide-toggle-section">
                 <div class="col-md-5 slide-toggle-section">
-                  <section>
-                    <mat-slide-toggle color="accent" formControlName="kapalBantu">Kapal Bantu</mat-slide-toggle>
-                  </section>
+                  <i-toggle #targetKapalBantu formControlName="kapalBantu"
+                            [nextTo]="targetUkuranKapalBantu"
+                            [previousTo]="targetKapasitasPalkaBoksKeranjang"
+                            label="Kapal Bantu"></i-toggle>
                 </div>
                 <div class="col-md-7 input-inside">
-                  <mat-form-field appearance="outline">
-                    <mat-label>Ukuran Kapal Bantu (GT)</mat-label>
-                    <input #targetUkuranKapalBantu autocomplete="off"
-                           formControlName="ukuranKapalBantu"
-                           appMatInputNext
-                           matInput placeholder="Ukuran Kapal Bantu">
-                  </mat-form-field>
+                  <i-text-input label="Ukuran Kapal Bantu (GT)"
+                                placeholder="Ukuran Kapal Bantu"
+                                #targetUkuranKapalBantu="iText"
+                                formControlName="ukuranKapalBantu"
+                                [useTextMask]="standardInputMask('', ' GT')"
+                                [previousTo]="targetKapalBantu"
+                                [nextTo]="targetFreezer">
+                  </i-text-input>
                 </div>
               </div>
 
               <!--Freezer-->
               <div class="col-md-6 row cause-slide-toggle-section">
                 <div class="col-md-5 slide-toggle-section">
-                  <section>
-                    <mat-slide-toggle color="accent" formControlName="freezer">Freezer</mat-slide-toggle>
-                  </section>
+                  <i-toggle #targetFreezer formControlName="freezer"
+                            [nextTo]="targetKapasitasFreezer"
+                            [previousTo]="targetUkuranKapalBantu"
+                            label="Freezer"></i-toggle>
                 </div>
                 <div class="col-md-7 input-inside">
-                  <mat-form-field appearance="outline">
-                    <mat-label>Kapasitas Freezer (kg)</mat-label>
-                    <input #targetKapasitasFreezer autocomplete="off"
-                           formControlName="kapasitasFreezer"
-                           appMatInputNext
-                           matInput placeholder="Kapasitas Freezer">
-                  </mat-form-field>
+                  <i-text-input label="Kapasitas Freezer (kg)"
+                                placeholder="Kapasitas Freezer "
+                                #targetKapasitasFreezer="iText"
+                                formControlName="kapasitasFreezer"
+                                [useTextMask]="standardInputMask('', ' GT')"
+                                [previousTo]="targetFreezer"
+                                [nextTo]="targetGps">
+                  </i-text-input>
                 </div>
               </div>
 
               <!--GPS-->
               <div class="col-md-6 row cause-slide-toggle-section">
                 <div class="col-md-5 slide-toggle-section">
-                  <section>
-                    <mat-slide-toggle color="accent" formControlName="gps">GPS</mat-slide-toggle>
-                  </section>
+                  <i-toggle #targetGps formControlName="gps"
+                            [nextTo]="targetJenisGps"
+                            [previousTo]="targetKapasitasFreezer"
+                            label="GPS"></i-toggle>
                 </div>
                 <div class="col-md-7 input-inside">
-                  <mat-form-field appearance="outline">
-                    <mat-label>Jenis GPS</mat-label>
-                    <input #targetJenisGps autocomplete="off"
-                           formControlName="jenisGps"
-                           appMatInputNext
-                           matInput placeholder="Jenis/Merk GPS">
-                  </mat-form-field>
+                  <i-text-input label="Jenis GPS"
+                                placeholder="Jenis GPS"
+                                #targetJenisGps="iText"
+                                formControlName="jenisGps"
+                                [previousTo]="targetGps"
+                                [nextTo]="targetKapalAndon">
+                  </i-text-input>
                 </div>
               </div>
 
               <!--Kapal ANdon-->
               <div class="col-md-6 row cause-slide-toggle-section">
                 <div class="col-md-5 slide-toggle-section">
-                  <section>
-                    <mat-slide-toggle color="accent" formControlName="kapalAndon">Kapal Andon</mat-slide-toggle>
-                  </section>
+                  <i-toggle #targetKapalAndon formControlName="kapalAndon"
+                            [nextTo]="targetAsalKapalAndon"
+                            [previousTo]="targetJenisGps"
+                            label="Kapal Andon"></i-toggle>
                 </div>
                 <div class="col-md-7 input-inside">
-                  <mat-form-field appearance="outline">
-                    <mat-label>Asal Kapal Andon</mat-label>
-                    <input #targetAsalKapalAndon autocomplete="off"
-                           formControlName="asalKapalAndon"
-                           appMatInputNext
-                           matInput placeholder="Asal Kapal Andon">
-                  </mat-form-field>
+                  <i-text-input label="Asal Kapal Andon"
+                                placeholder="Asal Kapal Andon"
+                                #targetAsalKapalAndon="iText"
+                                formControlName="asalKapalAndon"
+                                [previousTo]="targetKapalAndon"
+                                [nextTo]="targetAlatTangkap">
+                  </i-text-input>
                 </div>
               </div>
 
@@ -461,6 +494,8 @@
                   displayProp="namaAlatTangkap"
                   mode="initially"
                   filterOnProp="namaAlatTangkap"
+                  [previousTo]="targetAsalKapalAndon"
+                  [nextTo]="targetMaterial"
                   [targetOptions]="organisasiService.getAlatTangkap">
                 </i-autocomplete>
               </div>

@@ -32,7 +32,7 @@
   <div *ngIf="(rootState.searching$ | async) && (rootState.asSmallSize$ | async); else showNavBar"></div>
   <!--navigation bar -->
   <ng-template #showNavBar>
-    <mat-toolbar color="primary">
+    <mat-toolbar color="primary" class="dashboard-toolbar">
       <button #nav mat-icon-button (click)="sidenav.toggle()">
         <mat-icon>view_headline</mat-icon>
       </button>

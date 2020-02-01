@@ -14,7 +14,11 @@
 
 #dialog-operasional {
 
-  padding-bottom: 55px;
+  //.form-operasional {
+  //  margin-top: ($default-padding + 78);
+  //}
+
+  //padding-bottom: 55px;
 
   .floating-to-right {
     float: right;
@@ -31,13 +35,6 @@
   .no-margin {
     margin: 0 0 0 0 !important;
   }
-
-  .dialog-toolbar {
-    position: fixed;
-    z-index: 7;
-  }
-
-
 
   @media screen and (max-width: 767px) {
 

@@ -1,4 +1,4 @@
-import {extractingValue, standardInputMask} from "./utils";
+import {clockMask, extractingValue, standardInputMask} from "./utils";
 import {
   extractFormArray,
   extractFormControl,
@@ -19,6 +19,8 @@ export class Utilities implements AfterViewInit {
   toolbarWidth = this.toolbarWidthOnSmall;
 
   standardInputMask = standardInputMask;
+
+  clockMask = clockMask;
 
   extractFormControlValue = extractFormControlValue;
 

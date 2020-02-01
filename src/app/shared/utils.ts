@@ -11,8 +11,7 @@ import {
 import {PropDisplay} from "./conponents/i-autocomplete/i-autocomplete.component";
 import {ErrorStateMatcher} from "@angular/material/core";
 import {FormControl, FormGroupDirective, NgForm} from "@angular/forms";
-import { v4 as uuid } from 'uuid';
-
+import {v4 as uuid} from 'uuid';
 
 
 export function generateUUID(comapreTo?: string[]) {
@@ -36,7 +35,6 @@ export function unsubscribes(subscribers: Subscription[]) {
 }
 
 
-
 export function standardInputMask(prefix = '', suffix = '') {
   return {
     mask: createNumberMask({
@@ -46,6 +44,22 @@ export function standardInputMask(prefix = '', suffix = '') {
     }),
     guide: false,
     placeholderChar: '\u2000'
+  }
+}
+
+/* [ /[1-2]/, /[0-9]/, ':', /[0-5]/, /[0-9]/]
+* xx:xx
+* */
+export function clockMask(prefix = '', suffix = '') {
+  return {
+    mask: (value) => {
+      const raw = String(value);
+      const v1 = +raw.substr(0, 1);
+      return ((value && raw.length > 0) && (v1 === 2))
+        ? [/[0-2]/, /[0-3]/, ':', /[0-5]/, /[0-9]/]
+        : [/[0-2]/, /[0-9]/, ':', /[0-5]/, /[0-9]/];
+    },
+    guide: true,
   }
 }
 
@@ -72,11 +86,11 @@ export function extractingValue(object: any, properties: PropDisplay | string[] 
 
   if (isObject(object)) {
     if (isString(properties)) {
-      return object[<string> properties];
+      return object[<string>properties];
     } else if (properties && isFunction(properties)) {
-      object = (<(value, extra?) => any> properties)(object);
+      object = (<(value, extra?) => any>properties)(object);
     } else if (properties && properties[0] && isString(properties[0])) {
-      properties = <string[]> properties;
+      properties = <string[]>properties;
       for (const property of properties) {
         if (object[property] === undefined) {
           return '-';
