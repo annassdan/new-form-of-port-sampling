@@ -1,6 +1,8 @@
 import {MatAutocompleteTrigger, MatButton, MatDatepickerInput, MatInput} from '@angular/material';
 import {IAutocompleteComponent} from "./conponents/i-autocomplete/i-autocomplete.component";
 import {ITextInputComponent} from "./conponents/i-text-input/i-text-input.component";
+import {MatSlideToggle} from "@angular/material/slide-toggle";
+import {IToggleComponent} from "./conponents/i-toggle/i-toggle.component";
 
 /**
  * Melakukan generate native element dari kustom component material
@@ -26,6 +28,10 @@ export function fromMaterialExportAsNative(tag: any): any {
     nativeElement = tag['_elementRef']['nativeElement'];
   }
 
+  else if (tag instanceof MatSlideToggle) {
+    nativeElement = tag['_elementRef']['nativeElement'];
+  }
+
   else if (tag instanceof MatButton) {
     // console.log(tag);
     nativeElement = tag['_elementRef']['nativeElement'];
@@ -37,6 +43,10 @@ export function fromMaterialExportAsNative(tag: any): any {
 
   else if (tag instanceof ITextInputComponent) {
     nativeElement = tag['matInput']['_elementRef']['nativeElement'];
+  }
+
+  else if (tag instanceof IToggleComponent) {
+    nativeElement = tag['toggle']['_elementRef']['nativeElement'];
   }
 
   return nativeElement;

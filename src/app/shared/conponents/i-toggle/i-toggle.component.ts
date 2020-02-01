@@ -2,30 +2,34 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
+  EventEmitter,
   Host,
   Input,
   OnInit,
   Optional,
+  Output,
   SkipSelf,
   ViewChild
 } from '@angular/core';
-import {Utilities} from "../../utilities";
 import {ControlContainer, ControlValueAccessor, FormControl, FormGroup, NG_VALUE_ACCESSOR} from "@angular/forms";
-import {IErrorStateMatcher} from "../../utils";
-import {MatInput} from "@angular/material/input";
+import {ThemePalette} from "@angular/material/core";
 
 @Component({
-  selector: 'i-text-input',
-  exportAs: 'iText',
-  templateUrl: './i-text-input.component.html',
-  styleUrls: ['./i-text-input.component.scss'],
+  selector: 'i-toggle',
+  exportAs: 'IToggle',
+  templateUrl: './i-toggle.component.html',
+  styleUrls: ['./i-toggle.component.scss'],
   providers: [{
     provide: NG_VALUE_ACCESSOR,
-    useExisting: ITextInputComponent,
+    useExisting: IToggleComponent,
     multi: true
   }]
 })
-export class ITextInputComponent extends Utilities implements OnInit, ControlValueAccessor {
+export class IToggleComponent implements OnInit, ControlValueAccessor {
+
+  @Input() labelPosition: 'before' | 'after' = "after";
+
+  @Input() color: ThemePalette = "primary";
 
   @Input() formControl: FormControl;
 
@@ -33,14 +37,7 @@ export class ITextInputComponent extends Utilities implements OnInit, ControlVal
 
   @Input() clearButton = true;
 
-  @Input() useTextMask;
-
-  /* untuk mengindikasikan bahwa tombol clear telah ditekan */
-  public cleared = false;
-
   @Input() label: string;
-
-  @Input() placeholder: string = '';
 
   @Input() disabled = false;
 
@@ -50,27 +47,15 @@ export class ITextInputComponent extends Utilities implements OnInit, ControlVal
   /* when Ctrl + enter, move to previous element */
   @Input() previousTo;
 
-  @Input() validator: Function;
+  @Output() onToggled = new EventEmitter();
 
-  @Input() errorMessage = '';
+  @ViewChild('iToggle', {static: false}) toggle: ElementRef<HTMLInputElement>;
 
-  @Input() required = false;
-
-  @Input() useHint = false;
-
-  @Input() hintMessage = '';
-
-  public matcher = new IErrorStateMatcher();
-
-  @ViewChild('iText', {static: false}) input: ElementRef<HTMLInputElement>;
-
-  @ViewChild(MatInput, {static: false}) matInput: MatInput;
-
-  previousValue: any;
+  focus = false;
 
   constructor(@Optional() @Host() @SkipSelf()
               public controlContainer: ControlContainer,
-              public cd: ChangeDetectorRef) { super(); }
+              public cd: ChangeDetectorRef) {}
 
   ngOnInit() {
     if (this.formControl && this.formControlName) {
@@ -79,7 +64,6 @@ export class ITextInputComponent extends Utilities implements OnInit, ControlVal
 
     if (this.formControlName) {
       this.formControl = this.getDisplayControl();
-      this.previousValue = this.formControl.value;
     }
 
     if (this.disabled) {
@@ -104,25 +88,19 @@ export class ITextInputComponent extends Utilities implements OnInit, ControlVal
   }
 
   writeValue(obj: any): void {
-    // console.log(obj)
   }
 
-  hasValue() {
-    return String(this.getDisplayControl().value).trim().length > 0;
+  onFocus($event: any) {
+    this.focus = true;
   }
 
-  isNativeInputEmpty() {
-    return this.input ? String(this.input.nativeElement.value).trim().length === 0 : true;
+  onBlur($event: any) {
+    this.focus = false;
   }
 
-  clear() {
-    this.cleared = true;
-
-    try {
-      this.getDisplayControl().patchValue('');
-      this.previousValue = undefined;
-      this.input.nativeElement.blur();
-      this.input.nativeElement.value = '';
-    } catch (e) {}
+  beforeBlur() {
+    this.focus = false;
+    this.cd.detectChanges();
   }
+
 }

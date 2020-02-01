@@ -1,5 +1,5 @@
-<div  id="dialog-rincian-pendaratan">
-  <div  #scrollMe *ngIf="currentPendaratanState.formRincianPendaratan$ |async"
+<div id="dialog-rincian-pendaratan">
+  <div #scrollMe *ngIf="currentPendaratanState.formRincianPendaratan$ |async"
        [formGroup]="currentPendaratanState.formRincianPendaratan$ |async"
        class="form-rincian-pendaratan">
     <mat-toolbar *ngIf="!(rootState.asSmallSize$ | async) ? (toolbarWidth === toolbarWidthOnBig) : true"
@@ -7,7 +7,8 @@
                  [ngStyle]="{ width : (rootState.asSmallSize$ | async) ? toolbarWidthOnSmall : toolbarWidth}">
       <mat-icon class="icon-of-dialog">double_arrow</mat-icon>
       <!-- title -->
-      <h5 [ngClass]="isFormControlEmpty('namaKapal', currentPendaratanState.formRincianPendaratan$ | async) ? 'conditional-accent title-of-dialog' : 'title-of-dialog'" >
+      <h5
+        [ngClass]="isFormControlEmpty('namaKapal', currentPendaratanState.formRincianPendaratan$ | async) ? 'conditional-accent title-of-dialog' : 'title-of-dialog'">
         {{extractFormControlValue('namaKapal', currentPendaratanState.formRincianPendaratan$ | async, defaultNamaKapal)}}
       </h5>
 
@@ -26,7 +27,7 @@
          class="row form-content-wrapper">
 
       <div class="col-md-12">
-        <mat-card >
+        <mat-card>
           <mat-card-header>
             <div mat-card-avatar class="example-header-image"></div>
             <mat-card-title>Informasi Pendaratan Kapal</mat-card-title>
@@ -38,31 +39,15 @@
 
               <!--Nama Kapal-->
               <div class="col-md-6">
-                <mat-form-field appearance="outline">
-                  <mat-label>Nama Kapal</mat-label>
-                  <input #targetNamaKapal="matInput" autocomplete="off"
-                         formControlName="namaKapal"
-                         appMatInputNext [nextTarget]="targetAlatTangkap"
-                         matInput placeholder="Nama Kapal">
-                </mat-form-field>
+                <i-text-input #targetNamaKapal="iText"
+                              label="Nama Kapal"
+                              placeholder="Nama Kapal"
+                              formControlName="namaKapal"
+                              [nextTo]="targetAlatTangkap">
+                </i-text-input>
               </div>
 
               <!--Alat Tangkap-->
-<!--              <div class="col-md-6">-->
-<!--                <mat-form-field appearance="outline">-->
-<!--                  <mat-label>Alat Tangkap</mat-label>-->
-<!--                  <input [matAutocomplete]="autoAlatTangkap"-->
-<!--                         #targetAlatTangkap="matAutocompleteTrigger"-->
-<!--                         formControlName="uuidAlatTangkap"-->
-<!--                         autocomplete="off" matInput placeholder="Alat Tangkap"-->
-<!--                         appMatAutocompleteNext [nextTarget]="targetJumlahKapalPenangkap"-->
-<!--                         [previousTarget]="targetNamaKapal">-->
-<!--                  <mat-autocomplete #autoAlatTangkap="matAutocomplete">-->
-<!--                    <mat-option value="Pukat Cincin">Pukat Cincin</mat-option>-->
-<!--                    <mat-option value="Pukat Rawai">Pukat Rawai</mat-option>-->
-<!--                  </mat-autocomplete>-->
-<!--                </mat-form-field>-->
-<!--              </div>-->
               <div class="col-md-6">
                 <i-autocomplete
                   #targetAlatTangkap="iAutocomplete"
@@ -72,6 +57,8 @@
                   displayProp="namaAlatTangkap"
                   mode="initially"
                   filterOnProp="namaAlatTangkap"
+                  [nextTo]="targetPenampung"
+                  [previousTo]="targetNamaKapal"
                   [targetOptions]="organisasiService.getAlatTangkap">
                 </i-autocomplete>
               </div>
@@ -79,132 +66,135 @@
               <!--Penampung & penangkap-->
               <div class="col-md-6 row cause-slide-toggle-section">
                 <div class="col-md-6 slide-toggle-section">
-                  <section>
-                    <mat-slide-toggle color="accent" formControlName="penampung">Penampung</mat-slide-toggle>
-                  </section>
+                  <i-toggle #targetPenampung formControlName="penampung"
+                            [nextTo]="targetPenangkap"
+                            [previousTo]="targetAlatTangkap"
+                            label="Penampung"></i-toggle>
                 </div>
                 <div class="col-md-6 slide-toggle-section">
-                  <section>
-                    <mat-slide-toggle color="accent" formControlName="penangkap">Penangkap</mat-slide-toggle>
-                  </section>
+                  <i-toggle #targetPenangkap formControlName="penangkap"
+                            [nextTo]="targetJumlahKapalPenangkap"
+                            [previousTo]="targetPenampung"
+                            label="Penangkap"></i-toggle>
                 </div>
               </div>
 
               <!--Jumlah Kapal penangkap-->
               <div class="col-md-6">
-                <mat-form-field appearance="outline">
-                  <mat-label>Jumlah Kapal Penangkap</mat-label>
-                  <input #targetJumlahKapalPenangkap autocomplete="off"
-                         [textMask]="standardInputMask('', ' Buah')"
-                         formControlName="jumlahKapalPenangkap"
-                         appMatInputNext [previousTarget]="targetAlatTangkap"
-                         [nextTarget]="targetJumlahSetting"
-                         matInput placeholder="Jumlah Kapal Penangkap">
-                </mat-form-field>
+                <i-text-input #targetJumlahKapalPenangkap="iText"
+                              formControlName="jumlahKapalPenangkap"
+                              [useTextMask]="standardInputMask('', ' Buah')"
+                              placeholder="Jumlah Kapal Penangkap (buah)"
+                              [nextTo]="targetJumlahSetting"
+                              [previousTo]="targetPenangkap"
+                              label="Jumlah Kapal Penangkap (buah)">
+                </i-text-input>
               </div>
 
               <!--Jumlah Setting-->
               <div class="col-md-6">
-                <mat-form-field appearance="outline">
-                  <mat-label>Jumlah Setting</mat-label>
-                  <input #targetJumlahSetting autocomplete="off"
-                         [textMask]="standardInputMask()"
-                         formControlName="jumlahSetting"
-                         appMatInputNext [nextTarget]="targetJumlahMataPancing"
-                         [previousTarget]="targetJumlahKapalPenangkap"
-                         matInput placeholder="Jumlah Kapal Penangkap">
-                </mat-form-field>
+                <i-text-input #targetJumlahSetting="iText"
+                              label="Jumlah Setting"
+                              placeholder="Jumlah Setting"
+                              formControlName="jumlahSetting"
+                              [useTextMask]="standardInputMask()"
+                              [nextTo]="targetJumlahMataPancing"
+                              [previousTo]="targetJumlahKapalPenangkap">
+                </i-text-input>
               </div>
 
               <!--Jumlah mata pancing-->
               <div class="col-md-6">
-                <mat-form-field appearance="outline">
-                  <mat-label>Jumlah Mata Pancing</mat-label>
-                  <input #targetJumlahMataPancing autocomplete="off"
-                         [textMask]="standardInputMask()"
-                         formControlName="jumlahMataPancing"
-                         appMatInputNext [nextTarget]="targetGridDaerahPenangkapan"
-                         [previousTarget]="targetJumlahSetting"
-                         matInput placeholder="Jumlah Mata Pancing">
-                </mat-form-field>
+                <i-text-input #targetJumlahMataPancing="iText"
+                              label="Jumlah Mata Pancing"
+                              placeholder="Jumlah Mata Pancing"
+                              formControlName="jumlahMataPancing"
+                              [useTextMask]="standardInputMask()"
+                              [nextTo]="targetRumpon"
+                              [previousTo]="targetJumlahSetting">
+                </i-text-input>
               </div>
 
               <!-- Rumpon & Cahaya -->
               <div class="col-md-6 row cause-slide-toggle-section">
                 <div class="col-md-6 slide-toggle-section">
-                  <section>
-                    <mat-slide-toggle color="accent" formControlName="rumpon">Rumpon</mat-slide-toggle>
-                  </section>
+                  <i-toggle #targetRumpon formControlName="rumpon"
+                            [nextTo]="targetCahaya"
+                            [previousTo]="targetJumlahMataPancing"
+                            label="Rumpon"></i-toggle>
                 </div>
                 <div class="col-md-6 slide-toggle-section">
-                  <section>
-                    <mat-slide-toggle color="accent" formControlName="cahaya">Cahaya</mat-slide-toggle>
-                  </section>
+                  <i-toggle #targetCahaya formControlName="cahaya"
+                            [nextTo]="targetGridDaerahPenangkapan"
+                            [previousTo]="targetRumpon"
+                            label="Cahaya"></i-toggle>
                 </div>
               </div>
 
               <!--Grid daerah Penangkapan-->
               <div class="col-md-6">
-                <mat-form-field appearance="outline">
-                  <mat-label>Grid D. Penangkapan</mat-label>
-                  <input #targetGridDaerahPenangkapan autocomplete="off"
-                         formControlName="daerahPenangkapan"
-                         appMatInputNext [nextTarget]="targetJumlahHariPerTrip"
-                         [previousTarget]="targetJumlahMataPancing"
-                         matInput placeholder="Grid D. Penangkapan">
-                </mat-form-field>
+                <i-text-input #targetGridDaerahPenangkapan="iText"
+                              label="Grid D. Penangkapan"
+                              placeholder="Grid D. Penangkapan"
+                              formControlName="jumlahHariMenangkap"
+                              [nextTo]="targetJumlahHariPerTrip"
+                              [previousTo]="targetCahaya">
+                </i-text-input>
               </div>
 
               <!--Jumlah hari per trip-->
               <div class="col-md-6">
-                <mat-form-field appearance="outline">
-                  <mat-label>Jumlah Hari/Trip</mat-label>
-                  <input #targetJumlahHariPerTrip autocomplete="off"
-                         [textMask]="standardInputMask('', ' Hari')"
-                         formControlName="jumlahHariPerTrip"
-                         appMatInputNext [nextTarget]="targetJumlahHariMenangkap"
-                         [previousTarget]="targetGridDaerahPenangkapan"
-                         matInput placeholder="Jumlah Hari/Trip">
-                </mat-form-field>
+                <i-text-input #targetJumlahHariPerTrip="iText"
+                              label="Jumlah Hari/Trip (hari)"
+                              placeholder="Jumlah Hari/Trip (hari)"
+                              formControlName="jumlahHariPerTrip"
+                              [useTextMask]="standardInputMask('', ' Hari')"
+                              [nextTo]="targetJumlahHariMenangkap"
+                              [previousTo]="targetGridDaerahPenangkapan">
+                </i-text-input>
               </div>
 
               <!--Jumlah Hari menangkap-->
               <div class="col-md-6">
-                <mat-form-field appearance="outline">
-                  <mat-label>Jumlah Hari Menangkap</mat-label>
-                  <input #targetJumlahHariMenangkap autocomplete="off"
-                         [textMask]="standardInputMask('', ' Hari')"
-                         formControlName="jumlahHariMenangkap"
-                         appMatInputNext [nextTarget]="targetTotalTangkapanVolume"
-                         [previousTarget]="targetJumlahHariPerTrip"
-                         matInput placeholder="Jumlah Hari Menangkap">
-                </mat-form-field>
+                <i-text-input #targetJumlahHariMenangkap="iText"
+                              label="Jumlah Hari Menangkap (hari)"
+                              placeholder="Jumlah Hari Menangkap (hari)"
+                              formControlName="jumlahHariMenangkap"
+                              [useTextMask]="standardInputMask('', ' Hari')"
+                              [nextTo]="targetTotalTangkapanVolume"
+                              [previousTo]="targetJumlahHariPerTrip">
+                </i-text-input>
               </div>
 
-              <!--Total Tangkapan Volume-->
-              <div class="col-md-6">
-                <mat-form-field appearance="outline">
-                  <mat-label>Total Tangkapan Volume</mat-label>
-                  <input #targetTotalTangkapanVolume autocomplete="off"
-                         [textMask]="standardInputMask('', ' Kg')"
-                         formControlName="totalTangkapanVolume"
-                         appMatInputNext [nextTarget]="targetTotalTangkapanIndividu"
-                         [previousTarget]="targetJumlahHariMenangkap"
-                         matInput placeholder="Total Tangkapan Volume">
-                </mat-form-field>
-              </div>
+              <!-- Total Tangkapan-->
+              <div class="col-md-12 grouping-some-input">
+                <fieldset>
+                  <legend>Total Hasil Tangkapan</legend>
+                  <div class="row">
+                    <!--Total Tangkapan Volume-->
+                    <div class="col-md-6">
+                      <i-text-input #targetTotalTangkapanVolume="iText"
+                                    label="Volume (kg)"
+                                    placeholder="Volume (kg)"
+                                    formControlName="totalTangkapanVolume"
+                                    [useTextMask]="standardInputMask('', ' Kg')"
+                                    [nextTo]="targetTotalTangkapanIndividu"
+                                    [previousTo]="targetJumlahHariMenangkap">
+                      </i-text-input>
+                    </div>
 
-              <!--Total Tangkapan Individu-->
-              <div class="col-md-6">
-                <mat-form-field appearance="outline">
-                  <mat-label>Total Tangkapan Individu</mat-label>
-                  <input #targetTotalTangkapanIndividu autocomplete="off"
-                         [textMask]="standardInputMask('', ' Ekor')"
-                         formControlName="totalTangkapanIndividu"
-                         appMatInputNext
-                         [previousTarget]="targetTotalTangkapanVolume"
-                         matInput placeholder="Total Tangkapan Individu">
-                </mat-form-field>
+                    <!--Total Tangkapan Individu-->
+                    <div class="col-md-6">
+                      <i-text-input #targetTotalTangkapanIndividu="iText"
+                                    label="Individu (ekor)"
+                                    placeholder="Individu (ekor)"
+                                    formControlName="totalTangkapanIndividu"
+                                    [useTextMask]="standardInputMask('', ' Ekor')"
+                                    [previousTo]="targetTotalTangkapanVolume">
+                      </i-text-input>
+                    </div>
+                  </div>
+                </fieldset>
               </div>
 
             </div>
@@ -214,14 +204,14 @@
       </div>
 
 
-
       <!--Detail Hasil Tangkapan-->
       <div class="col-md-12 " style="vertical-align: bottom">
         <strong *ngIf="listOfHasilTangkapan('dataRincianTangkapanPendaratan').length === 0; else hasHasilTangkapan"
-               class="warn">Belum Ada Hasil Tangkapan</strong>
+                class="warn">Belum Ada Hasil Tangkapan</strong>
         <ng-template class=" title-list-hasil-tangkapan" #hasHasilTangkapan>
-          <strong >Daftar Hasil Tangkapan
-            <strong class="primary">({{listOfHasilTangkapan('dataRincianTangkapanPendaratan').length}})</strong></strong>
+          <strong>Daftar Hasil Tangkapan
+            <strong class="primary">({{listOfHasilTangkapan('dataRincianTangkapanPendaratan').length}}
+              )</strong></strong>
         </ng-template>
 
         <button class="floating-to-right" #tombolTambahHasilTangkapan
@@ -241,11 +231,12 @@
             <ng-template matStepperIcon="number" let-index="index">
               {{index + 1}}
             </ng-template>
-            <div *ngFor="let hasilTangkapan of listOfHasilTangkapan('dataRincianTangkapanPendaratan'); index as indexHasilTangkapan">
+            <div
+              *ngFor="let hasilTangkapan of listOfHasilTangkapan('dataRincianTangkapanPendaratan'); index as indexHasilTangkapan">
               <mat-step>
                 <ng-template class="full-width-table" matStepLabel>
                   <div class="full-width-table" style="display: flex" [formGroupName]="indexHasilTangkapan">
-                    <table class="full-width-table table-of-hasil-tangkapan " >
+                    <table class="full-width-table table-of-hasil-tangkapan ">
                       <tr>
                         <td class="hasil-tangkapan-spesies">
                           <mat-form-field appearance="outline">
@@ -294,10 +285,7 @@
       </div>
 
 
-
       <br><br><br><br><br><br>
-
-
 
 
     </div>

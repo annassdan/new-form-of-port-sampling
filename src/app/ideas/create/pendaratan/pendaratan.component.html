@@ -78,7 +78,7 @@
 
           <!-- Lokasi pendaratan -->
           <div class="col-md-6">
-            <i-text-input #targetLokasiPendaratan=iText
+            <i-text-input #targetLokasiPendaratan="iText"
                           formControlName="namaLokasiPendaratan"
                           placeholder="Lokasi Pendaratan"
                           [nextTo]="targetTanggalPendaratan"
@@ -117,12 +117,6 @@
       </mat-card-content>
     </mat-card>
   </div>
-
-
-  <div class="col-md-12 rincian-pendaratan-container">
-
-  </div>
-
 
   <div class="col-md-12 card-rincian-pendaratan">
     <mat-card>

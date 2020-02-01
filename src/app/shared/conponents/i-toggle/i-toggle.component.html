@@ -1,0 +1,14 @@
+<!--<section>-->
+  <mat-slide-toggle #iToggle [color]="color"
+                    [labelPosition]="labelPosition"
+                    appMatToggleNext
+                    [str]="label"
+                    (onFocus)="onFocus($event)"
+                    (onBlur)="onBlur($event)"
+                    (beforeBlur)="beforeBlur()"
+                    [nextTarget]="nextTo"
+                    [previousTarget]="previousTo"
+                    [formControl]="getDisplayControl()">
+    <span [ngClass]="focus ? ('focus-text') : ''">{{label}}</span>
+  </mat-slide-toggle>
+<!--</section>-->

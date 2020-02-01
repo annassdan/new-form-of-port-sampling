@@ -61,6 +61,8 @@ import {UkuranContainer} from "./ideas/create/pendaratan/ukuran/ukuran.container
 import {MatCardModule} from "@angular/material/card";
 import { InitializingComponent } from './ideas/the-dashboard/ghosts/initializing/initializing.component';
 import {FlexLayoutModule} from "@angular/flex-layout";
+import { IToggleComponent } from './shared/conponents/i-toggle/i-toggle.component';
+import { MatToggleNextDirective } from './shared/directives/mat-toggle-next.directive';
 
 @NgModule({
   declarations: [
@@ -87,6 +89,8 @@ import {FlexLayoutModule} from "@angular/flex-layout";
     ReproduksiContainer,
     UkuranContainer,
     InitializingComponent,
+    IToggleComponent,
+    MatToggleNextDirective,
   ],
   imports: [
     BrowserModule,

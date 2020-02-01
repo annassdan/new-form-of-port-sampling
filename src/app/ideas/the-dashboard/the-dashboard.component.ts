@@ -69,7 +69,7 @@ export class TheDashboardComponent implements OnInit, OnDestroy, AfterViewInit {
     },
     {
       name: 'data-utama',
-      displayName: 'Data Utama',
+      displayName: 'Data Sampling',
       icon: 'receipt',
       hasActive: '',
       rightIcon: this.collapsedIcon,
