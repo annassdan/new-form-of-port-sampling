@@ -92,16 +92,10 @@ $the-warn: mat-palette($color-warn);
     padding-top: ($default-padding + 30) !important;
   }
 
-  //.cdk-overlay-pane {
-  //  padding-top: ($default-padding + 41) !important;
-  //}
-  //
-  //.dialog-toolbar {
-  //  margin-top: -($default-padding) !important;
-  //  position: fixed;
-  //  z-index: 7;
-  //  box-shadow: black 0 0 0 0, black 0 0 0 0, #afafaf 0 2px 3px 0px, black 0 0 0 0;
-  //}
+  .input-inside {
+    margin-right: -15px !important;
+    width: 120%;
+  }
 
   .mat-card {
     padding: 0 0 25px 0;

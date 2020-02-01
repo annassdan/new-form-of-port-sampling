@@ -420,7 +420,7 @@
                                 placeholder="Kapasitas Freezer "
                                 #targetKapasitasFreezer="iText"
                                 formControlName="kapasitasFreezer"
-                                [useTextMask]="standardInputMask('', ' GT')"
+                                [useTextMask]="standardInputMask('', ' Kg')"
                                 [previousTo]="targetFreezer"
                                 [nextTo]="targetGps">
                   </i-text-input>
@@ -503,13 +503,13 @@
 
               <!--Material Bahan-->
               <div class="col-md-6">
-                <mat-form-field appearance="outline">
-                  <mat-label>Material/Bahan</mat-label>
-                  <input #targetMaterial autocomplete="off"
-                         formControlName="material"
-                         appMatInputNext
-                         matInput placeholder="Material/Bahan">
-                </mat-form-field>
+                <i-text-input label="Material/Bahan"
+                              placeholder="Material/Bahan"
+                              #targetMaterial="iText"
+                              formControlName="material"
+                              [previousTo]="targetAlatTangkap"
+                              [nextTo]="targetJumlahAlatDioperasikan">
+                </i-text-input>
               </div>
 
               <!--spesifikasi-->
@@ -519,58 +519,62 @@
 
               <!--Jumlah alat dioperasikan-->
               <div class="col-md-6">
-                <mat-form-field appearance="outline">
-                  <mat-label>Jumlah Alat Dioperasikan (piece/unit)</mat-label>
-                  <input #targetJumlahAlatDioperasikan autocomplete="off"
-                         formControlName="jumlahAlatTangkapYangDioperasikan"
-                         appMatInputNext
-                         matInput placeholder="Jumlah Alat Dioperasikan">
-                </mat-form-field>
+                <i-text-input label="Jumlah Alat Dioperasikan (piece/unit)"
+                              placeholder="Jumlah Alat Dioperasikan"
+                              #targetJumlahAlatDioperasikan="iText"
+                              formControlName="jumlahAlatTangkapYangDioperasikan"
+                              [useTextMask]="standardInputMask('', ' Piece/Unit')"
+                              [previousTo]="targetMaterial"
+                              [nextTo]="targetGridDaerahPenangkapan">
+                </i-text-input>
               </div>
 
               <!--Daerah Penangkapan-->
               <div class="col-md-6">
-                <mat-form-field appearance="outline">
-                  <mat-label>Grid D. Penangkapan</mat-label>
-                  <input #targetGridDaerahPenangkapan autocomplete="off"
-                         formControlName="daerahPenangkapan"
-                         appMatInputNext
-                         matInput placeholder="Grid D. Penangkapan">
-                </mat-form-field>
+                <i-text-input label="Grid D. Penangkapan"
+                              placeholder="Grid D. Penangkapan"
+                              #targetGridDaerahPenangkapan="iText"
+                              formControlName="daerahPenangkapan"
+                              [previousTo]="targetJumlahAlatDioperasikan"
+                              [nextTo]="targetJumlahSetting">
+                </i-text-input>
               </div>
 
               <!--Jumlah Setting-->
               <div class="col-md-6">
-                <mat-form-field appearance="outline">
-                  <mat-label>Jumlah Setting (kali)</mat-label>
-                  <input #targetJumlahSetting autocomplete="off"
-                         formControlName="jumlahSetting"
-                         appMatInputNext
-                         matInput placeholder="Jumlah Setting">
-                </mat-form-field>
+                <i-text-input label="Jumlah Setting (kali)"
+                              placeholder="Jumlah Setting"
+                              #targetJumlahSetting="iText"
+                              formControlName="jumlahSetting"
+                              [useTextMask]="standardInputMask('', ' Kali')"
+                              [previousTo]="targetGridDaerahPenangkapan"
+                              [nextTo]="targetLamaPerendaman">
+                </i-text-input>
               </div>
 
 
               <!--Lama Perendaman-->
               <div class="col-md-6">
-                <mat-form-field appearance="outline">
-                  <mat-label>Lama Perendaman (jam/setting)</mat-label>
-                  <input #targetLamaPerendaman autocomplete="off"
-                         formControlName="lamaPerendaman"
-                         appMatInputNext
-                         matInput placeholder="Lama Perendaman">
-                </mat-form-field>
+                <i-text-input label="Lama Perendaman (jam/setting)"
+                              placeholder="Lama Perendaman "
+                              #targetLamaPerendaman="iText"
+                              formControlName="lamaPerendaman"
+                              [useTextMask]="standardInputMask('', ' Jam/Setting')"
+                              [previousTo]="targetJumlahSetting"
+                              [nextTo]="targetJumlahBalokEs">
+                </i-text-input>
               </div>
 
               <!--Jumlah Balok Es-->
               <div class="col-md-6">
-                <mat-form-field appearance="outline">
-                  <mat-label>Jumlah Balok Es (kg)</mat-label>
-                  <input #targetJumlahBalokEs autocomplete="off"
-                         formControlName="jumlahBalokEs"
-                         appMatInputNext
-                         matInput placeholder="Jumlah Balok Es">
-                </mat-form-field>
+                <i-text-input label="Jumlah Balok Es (kg)"
+                              placeholder="Jumlah Balok Es"
+                              #targetJumlahBalokEs="iText"
+                              formControlName="jumlahBalokEs"
+                              [useTextMask]="standardInputMask('', ' Kg')"
+                              [previousTo]="targetLamaPerendaman"
+                              [nextTo]="targetJenisRumpon">
+                </i-text-input>
               </div>
 
               <!--Jenis Rumpon-->
@@ -583,6 +587,8 @@
                   mode="initially"
                   required="true"
                   errorMessage="Jenis Rumpon tidak boleh kosong"
+                  [nextTo]="targetJumlahRumponDikunjungi"
+                  [previousTo]="targetJumlahBalokEs"
                   [targetOptions]="rumpon">
                 </i-autocomplete>
               </div>
@@ -595,24 +601,26 @@
                   <div class="row">
                     <!--rumpon dikunjungi-->
                     <div class="col-md-6">
-                      <mat-form-field appearance="outline">
-                        <mat-label>Dikunjung</mat-label>
-                        <input #targetJumlahRumponDikunjungi autocomplete="off"
-                               formControlName="jumlahRumponDikunjungi"
-                               appMatInputNext
-                               matInput placeholder="Dikunjungi">
-                      </mat-form-field>
+                      <i-text-input label="Dikunjungi"
+                                    placeholder="Dikunjungi"
+                                    #targetJumlahRumponDikunjungi="iText"
+                                    formControlName="jumlahRumponDikunjungi"
+                                    [useTextMask]="standardInputMask()"
+                                    [previousTo]="targetJenisRumpon"
+                                    [nextTo]="targetJumlahRumponBerhasil">
+                      </i-text-input>
                     </div>
 
                     <!--rumpon berhasil-->
                     <div class="col-md-6">
-                      <mat-form-field appearance="outline">
-                        <mat-label>Berhasil</mat-label>
-                        <input #targetJumlahRumponBerhasil autocomplete="off"
-                               formControlName="jumlahRumponBerhasil"
-                               appMatInputNext
-                               matInput placeholder="Berhasil">
-                      </mat-form-field>
+                      <i-text-input label="Berhasil"
+                                    placeholder="Berhasil"
+                                    #targetJumlahRumponBerhasil="iText"
+                                    formControlName="jumlahRumponBerhasil"
+                                    [useTextMask]="standardInputMask()"
+                                    [previousTo]="targetJumlahRumponDikunjungi"
+                                    [nextTo]="targetKedalamanAirMulai">
+                      </i-text-input>
                     </div>
                   </div>
                 </fieldset>
@@ -626,24 +634,26 @@
                   <div class="row">
                     <!--kedalaman perairan mulai-->
                     <div class="col-md-6">
-                      <mat-form-field appearance="outline">
-                        <mat-label>Mulai (m)</mat-label>
-                        <input #targetKedalamanAirMulai autocomplete="off"
-                               formControlName="kedalamanAirMulai"
-                               appMatInputNext
-                               matInput placeholder="Mulai">
-                      </mat-form-field>
+                      <i-text-input label="Mulai (m)"
+                                    placeholder="Mulai"
+                                    #targetKedalamanAirMulai="iText"
+                                    formControlName="kedalamanAirMulai"
+                                    [useTextMask]="standardInputMask('', ' m')"
+                                    [previousTo]="targetJumlahRumponBerhasil"
+                                    [nextTo]="targetKedalamanAirHingga">
+                      </i-text-input>
                     </div>
 
                     <!--Keldalaman perairan hingga-->
                     <div class="col-md-6">
-                      <mat-form-field appearance="outline">
-                        <mat-label>Hingga (m)</mat-label>
-                        <input #targetKedalamanAirHingga autocomplete="off"
-                               formControlName="kedalamanAirHingga"
-                               appMatInputNext
-                               matInput placeholder="Hingga">
-                      </mat-form-field>
+                      <i-text-input label="Hingga (m)"
+                                    placeholder="Hingga"
+                                    #targetKedalamanAirHingga="iText"
+                                    formControlName="kedalamanAirHingga"
+                                    [useTextMask]="standardInputMask('', ' m')"
+                                    [previousTo]="targetKedalamanAirMulai"
+                                    [nextTo]="targetJumlahHariPerTrip">
+                      </i-text-input>
                     </div>
                   </div>
                 </fieldset>
@@ -657,24 +667,26 @@
                   <div class="row">
                     <!--Jumlah Hari per trip-->
                     <div class="col-md-6">
-                      <mat-form-field appearance="outline">
-                        <mat-label>Jumlah Hari Per Trip (hari)</mat-label>
-                        <input #targetJumlahHariPerTrip autocomplete="off"
-                               formControlName="jumlahHariPerTrip"
-                               appMatInputNext
-                               matInput placeholder="Jumlah Hari Per Trip">
-                      </mat-form-field>
+                      <i-text-input label="Jumlah Hari Per Trip (hari)"
+                                    placeholder="Jumlah Hari Per Trip "
+                                    #targetJumlahHariPerTrip="iText"
+                                    formControlName="jumlahHariPerTrip"
+                                    [useTextMask]="standardInputMask('', ' Hari')"
+                                    [previousTo]="targetKedalamanAirHingga"
+                                    [nextTo]="targetJumlahHariMenangkap">
+                      </i-text-input>
                     </div>
 
                     <!--Jumlah Hari menangkap-->
                     <div class="col-md-6">
-                      <mat-form-field appearance="outline">
-                        <mat-label>Jumlah Hari Menangkap (hari)</mat-label>
-                        <input #targetJumlahHariMenangkap autocomplete="off"
-                               formControlName="jumlahHariMenangkap"
-                               appMatInputNext
-                               matInput placeholder="Jumlah Hari Menangkap">
-                      </mat-form-field>
+                      <i-text-input label="Jumlah Hari Menangkap (hari)"
+                                    placeholder="Jumlah Hari Menangkap"
+                                    #targetJumlahHariMenangkap="iText"
+                                    formControlName="jumlahHariMenangkap"
+                                    [useTextMask]="standardInputMask('', ' Hari')"
+                                    [previousTo]="targetJumlahHariPerTrip"
+                                    [nextTo]="targetWaktuSetting">
+                      </i-text-input>
                     </div>
                   </div>
                 </fieldset>
@@ -690,6 +702,8 @@
                   mode="initially"
                   required="true"
                   errorMessage="Waktu Setting tidak boleh kosong"
+                  [previousTo]="targetJumlahHariMenangkap"
+                  [nextTo]="targetKomentar"
                   [targetOptions]="waktuSetting">
                 </i-autocomplete>
               </div>
