@@ -15,7 +15,7 @@
         &nbsp;Operasional {{extractingValue((currentPendaratanState.formRincianPendaratan$ | async), 'namaKapal')}}</h5>
 
       <!--invisible fake button-->
-      <button #fake mat-flat-button></button>
+      <button #fake mat-flat-button style="display: none"></button>
       <!--spacer-->
       <span class="spacer"></span>
 
@@ -740,7 +740,7 @@
               <!--Sumber Informasi-->
               <div class="col-md-12">
                 <i-autocomplete
-                  #targetWaktuSetting="iAutocomplete"
+                  #targetSumberInformasi="iAutocomplete"
                   appearance="outline"
                   placeholder="Sumber Informasi"
                   formControlName="sumberInformasi"

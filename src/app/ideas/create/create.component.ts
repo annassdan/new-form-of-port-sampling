@@ -5,6 +5,9 @@ import {BreakpointObserver} from '@angular/cdk/layout';
 import {MAX_WIDTH} from '../../shared/constants';
 import {pendaratan} from '../../models/pendaratan/pendaratan';
 import {Shared} from '../../shared/shared';
+import {PendaratanBrigeService} from "./pendaratan/pendaratan-brige.service";
+import {createFormGroup, createFormGroupContent, patchFormGroup} from "../../shared/reactive-form-modeling";
+import {generateUUID} from "../../shared/utils";
 
 @Component({
   selector: 'app-create',
@@ -13,10 +16,11 @@ import {Shared} from '../../shared/shared';
 })
 export class CreateComponent extends Shared implements OnInit, OnDestroy {
 
-  @ViewChild('searchInput', {static: true}) searchInput : ElementRef;
+  @ViewChild('searchInput', {static: true}) searchInput: ElementRef;
   subscribers: Subscription[] = [];
 
   constructor(public rootState: MainStateService,
+              public currentPendaratanState: PendaratanBrigeService,
               public breakpointObserver: BreakpointObserver) {
     super();
   }
@@ -49,18 +53,21 @@ export class CreateComponent extends Shared implements OnInit, OnDestroy {
   onInViewportChange($event: boolean) {
     this.rootState.breadcrumbAppearInViewport($event);
   }
+
   /* --------------------------------------------------------------------------------------------------- */
-
-
-
-
 
 
   async test() {
     await import(/* webpackChunkName: "settings" */ '../../../assets/settings/settings.js')
-      .then(async m => await m.myFunction()).catch(reason => {});
+      .then(async m => await m.myFunction()).catch(reason => {
+      });
   }
 
+
+  resetFormPendaratan() {
+    // this.currentPendaratanState.setFormPendaratan(createFormGroup(createFormGroupContent({...pendaratan, uuid: generateUUID()})));
+    this.subscribers.push(this.currentPendaratanState.formPendaratan$.subscribe(value => patchFormGroup(value, pendaratan)));
+  }
 
 
 }

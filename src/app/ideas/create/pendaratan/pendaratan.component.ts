@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, HostListener, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component, HostListener, OnInit, ViewChild} from '@angular/core';
 import {FormGroup} from '@angular/forms';
 import {
   addFormArrayMember,
@@ -14,7 +14,7 @@ import {fromMaterialExportAsNative} from '../../../shared/material-util';
 import {PendaratanBrigeService} from './pendaratan-brige.service';
 import {Utilities} from "../../../shared/utilities";
 import {MatAutocompleteSelectedEvent} from "@angular/material/autocomplete";
-import {Observable, of} from "rxjs";
+import {Observable, of, Subscription} from "rxjs";
 import {OrganisasiService} from "../../../services/master/organisasi.service";
 import {SumberdayaService} from "../../../services/master/sumberdaya.service";
 import {Operasional, operasional} from "../../../models/operasional/operasional";
@@ -43,6 +43,8 @@ import {
 })
 export class PendaratanComponent extends Utilities implements OnInit, AfterViewInit {
 
+  subs: Subscription[] = [];
+
   formPendaratan: FormGroup;
   clickOnRincianPendaratanMenu = false;
 
@@ -61,6 +63,7 @@ export class PendaratanComponent extends Utilities implements OnInit, AfterViewI
   menuTrigger: MatMenuTrigger;
 
   constructor(public currentPendaratanState: PendaratanBrigeService,
+              public cd: ChangeDetectorRef,
               public router: Router,
               public organisasiService: OrganisasiService,
               public sumberdayaService: SumberdayaService,
@@ -113,7 +116,21 @@ export class PendaratanComponent extends Utilities implements OnInit, AfterViewI
   }
 
   formPendaratanInializing() {
+    /* listen to new initializing form pendaratan */
+    // this.subs.push(this.currentPendaratanState.formPendaratan$.subscribe(form => {
+    //
+    //   if (form) {
+    //     console.log(form)
+    //     this.formPendaratan = form;
+    //     this.cd.detectChanges();
+    //   } else {
+    //     console.log('!form')
+    //   }
+    // }));
+
+
     this.formPendaratan = createFormGroup(createFormGroupContent({...pendaratan, uuid: generateUUID()}));
+    this.currentPendaratanState.setFormPendaratan(this.formPendaratan);
   }
 
 

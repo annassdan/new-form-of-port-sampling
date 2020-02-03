@@ -69,6 +69,10 @@ $the-warn: mat-palette($color-warn);
   font-size: $the-font-size-1 !important;
 }
 
+.mat-raised-button, .mat-flat-button {
+  padding: 4px 17px !important;
+}
+
 .dashboard-toolbar {
   box-shadow: black 0 0 0 0, black 0 0 0 0, #afafaf 0 2px 3px 0px, black 0 0 0 0;
   z-index: 2;

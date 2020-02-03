@@ -70,7 +70,9 @@
 <!--      <button (click)="startSearch()" mat-icon-button>-->
 <!--        <mat-icon class="my-color">search</mat-icon>-->
 <!--      </button>-->
-      <button mat-stroked-button class="margin-from-icon" color="accent">
+      <button mat-stroked-button
+              (click)="resetFormPendaratan()"
+              class="margin-from-icon" color="accent">
         Atur Ulang Form
       </button>
       <button (click)="rootState.search(false)" mat-icon-button>

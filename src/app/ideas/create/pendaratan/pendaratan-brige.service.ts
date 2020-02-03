@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {BehaviorSubject, Observable, Subject} from 'rxjs';
-import {rincianPendaratan} from '../../../models/pendaratan/pendaratan';
+import {pendaratan, rincianPendaratan} from '../../../models/pendaratan/pendaratan';
 import {operasional} from "../../../models/operasional/operasional";
 import {biologiUkuran} from "../../../models/ukuran/ukuran";
 import {biologiReproduksi} from "../../../models/reproduksi/reproduksi";
@@ -8,6 +8,8 @@ import {biologiReproduksi} from "../../../models/reproduksi/reproduksi";
 
 @Injectable({ providedIn: 'root' })
 export class PendaratanBrigeService {
+
+  private _formPendaratan: Subject<any> = new BehaviorSubject<any>(undefined);
 
   private _formRincianPendaratan: Subject<any> = new BehaviorSubject<any>(undefined);
 
@@ -18,6 +20,15 @@ export class PendaratanBrigeService {
   private _formReproduksi: Subject<any> = new BehaviorSubject<any>(undefined);
 
   constructor() { }
+
+
+  get formPendaratan$(): Observable<any> {
+    return this._formPendaratan.asObservable();
+  }
+
+  setFormPendaratan(value = pendaratan) {
+    this._formPendaratan.next(value);
+  }
 
   get formOperasional$(): Observable<any> {
     return this._formOperasional.asObservable();
