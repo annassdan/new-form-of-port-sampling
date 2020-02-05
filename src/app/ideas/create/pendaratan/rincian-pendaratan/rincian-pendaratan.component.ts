@@ -18,6 +18,7 @@ import {Utilities} from "../../../../shared/utilities";
 import {animate, style, transition, trigger} from "@angular/animations";
 import {OrganisasiService} from "../../../../services/master/organisasi.service";
 import {SumberdayaService} from "../../../../services/master/sumberdaya.service";
+import {SpesiesService} from "../../../../services/master/spesies.service";
 
 const SPESIES = 'spesies';
 const VOLUME = 'volume';
@@ -51,6 +52,7 @@ export class RincianPendaratanComponent
 
   constructor(public rootState: MainStateService,
               public organisasiService: OrganisasiService,
+              public spesiesService: SpesiesService,
               public changeDetector: ChangeDetectorRef,
               public dialogRef: MatDialogRef<RincianPendaratanComponent>,
               public currentPendaratanState: PendaratanBrigeService) { super(changeDetector); }

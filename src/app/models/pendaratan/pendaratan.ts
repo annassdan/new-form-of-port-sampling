@@ -6,7 +6,9 @@ import {alatTangkap} from "../master/organisasi";
 export const hasilTangkapanPendaratan: CanOptional = {
   ...model,
   /* relasi ke tabel spesies */
-  uuidSpesies: '',
+  uuidSpesies: {
+    namaNasional: ''
+  },
   /*double*/
   tangkapanVolume: 0,
   /*double*/

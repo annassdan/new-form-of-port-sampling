@@ -63,6 +63,8 @@ import { InitializingComponent } from './ideas/the-dashboard/ghosts/initializing
 import {FlexLayoutModule} from "@angular/flex-layout";
 import { IToggleComponent } from './shared/conponents/i-toggle/i-toggle.component';
 import { MatToggleNextDirective } from './shared/directives/mat-toggle-next.directive';
+import { DomPurifyPipe } from './shared/pipes/dom-purify.pipe';
+import { FilterHighlightPipe } from './shared/pipes/filter-highlight.pipe';
 
 @NgModule({
   declarations: [
@@ -91,6 +93,8 @@ import { MatToggleNextDirective } from './shared/directives/mat-toggle-next.dire
     InitializingComponent,
     IToggleComponent,
     MatToggleNextDirective,
+    DomPurifyPipe,
+    FilterHighlightPipe,
   ],
   imports: [
     BrowserModule,

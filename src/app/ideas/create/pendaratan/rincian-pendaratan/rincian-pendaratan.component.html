@@ -239,15 +239,28 @@
                     <table class="full-width-table table-of-hasil-tangkapan ">
                       <tr>
                         <td class="hasil-tangkapan-spesies">
-                          <mat-form-field appearance="outline">
-                            <mat-label>Nama Spesies</mat-label>
-                            <input autocomplete="off" id="{{prefixElementHasilTangkapan[0] + indexHasilTangkapan}}"
-                                   formControlName="uuidSpesies"
-                                   appMatInputNext
-                                   [nextTarget]="invokeElementById(prefixElementHasilTangkapan[0], prefixElementHasilTangkapan[1], indexHasilTangkapan)"
-                                   [previousTarget]="invokeElementById(prefixElementHasilTangkapan[0], prefixElementHasilTangkapan[2], indexHasilTangkapan)"
-                                   matInput placeholder="Nama Spesies">
-                          </mat-form-field>
+                          <i-autocomplete
+                            [autoId]="prefixElementHasilTangkapan[0] + indexHasilTangkapan"
+                            appearance="outline"
+                            placeholder="Spesies"
+                            formGroupName="uuidSpesies"
+                            displayProp="namaNasional"
+                            mode="initially"
+                            filterOnProp="namaNasional"
+                            [nextTo]="invokeElementById(prefixElementHasilTangkapan[0], prefixElementHasilTangkapan[1], indexHasilTangkapan)"
+                            [previousTo]="invokeElementById(prefixElementHasilTangkapan[0], prefixElementHasilTangkapan[2], indexHasilTangkapan)"
+                            [targetOptions]="spesiesService.getSpesies">
+                          </i-autocomplete>
+<!--                          <mat-form-field appearance="outline">-->
+<!--                            <mat-label>Nama Spesies</mat-label>-->
+
+<!--                            <input autocomplete="off" id="{{prefixElementHasilTangkapan[0] + indexHasilTangkapan}}"-->
+<!--                                   formControlName="uuidSpesies"-->
+<!--                                   appMatInputNext-->
+<!--                                   [nextTarget]="invokeElementById(prefixElementHasilTangkapan[0], prefixElementHasilTangkapan[1], indexHasilTangkapan)"-->
+<!--                                   [previousTarget]="invokeElementById(prefixElementHasilTangkapan[0], prefixElementHasilTangkapan[2], indexHasilTangkapan)"-->
+<!--                                   matInput placeholder="Nama Spesies">-->
+<!--                          </mat-form-field>-->
                         </td>
                         <td class="hasil-tangkapan-volume">
                           <mat-form-field appearance="outline">

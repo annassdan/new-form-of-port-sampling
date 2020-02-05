@@ -2,6 +2,7 @@
   <mat-form-field [appearance]="appearance">
     <mat-label>{{label ? label : placeholder}}</mat-label>
     <input type="text" #autoInput matInput
+           id="{{autoId}}"
            appMatAutocompleteNext [required]="required"
            [formControl]="getDisplayControl()" [errorStateMatcher]="matcher"
            (whenBlur)="blur($event)"
@@ -64,7 +65,8 @@
                       (opened)="opened()"
                       (optionSelected)="onSelected($event)">
       <mat-option *ngFor="let option of tempOptions | async" [value]="option" [disabled]="typing">
-        {{extractingValue(option, displayProp)}}
+        <div [innerHTML]="extractingValue(option, displayProp) | filterHighlight : getDisplayControl().value"></div>
+<!--        {{extractingValue(option, displayProp)}}-->
       </mat-option>
     </mat-autocomplete>
 

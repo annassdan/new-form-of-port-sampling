@@ -4,6 +4,10 @@
   background: mat-color(mat-palette($color-primary, 100));
 }
 
+.highlightText {
+  background: yellow;
+}
+
 //.mat-option:hover:not(.mat-option-disabled), .mat-option:focus:not(.mat-option-disabled) {
 //  background: mat-color(mat-palette($color-primary, 100));
 //}

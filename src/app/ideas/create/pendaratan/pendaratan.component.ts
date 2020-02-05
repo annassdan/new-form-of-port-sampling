@@ -72,7 +72,6 @@ export class PendaratanComponent extends Utilities implements OnInit, AfterViewI
     this.formPendaratanInializing();
   }
 
-
   ngOnInit() {
   }
 

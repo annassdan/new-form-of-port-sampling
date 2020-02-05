@@ -46,6 +46,9 @@ export type PropDisplay = {
 })
 export class IAutocompleteComponent extends Utilities implements OnInit, OnDestroy, AfterViewInit, ControlValueAccessor {
 
+  @Input() autoId = '';
+
+
   loadingStyleWhenCloseButtonExists = {
     position: 'absolute',
     margin: '-15px 0 0 -33px'
