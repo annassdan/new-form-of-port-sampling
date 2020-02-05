@@ -1,0 +1,156 @@
+[
+  {
+    "namaNasional": "Antoan",
+    "spesies": "Caesio Xanthonota",
+    "kodeFao": "IHA",
+    "namaLokal": [
+      {
+        "sebutan": "Pisang-Pisang"
+      }
+    ]
+  },
+  {
+    "namaNasional": "Baby Tuna",
+    "spesies": "Thunnus spp",
+    "kodeFao": "TUS",
+    "namaLokal": [
+      {
+        "sebutan": "Baby Tuna"
+      }
+    ]
+  },
+  {
+    "namaNasional": "Bambangan",
+    "spesies": "Lutjanus Malabaricus",
+    "kodeFao": "MAL",
+    "namaLokal": [
+      {
+        "sebutan": "Kakap Merah"
+      }
+    ]
+  },
+  {
+    "namaNasional": "Barakuda",
+    "spesies": "Sphyraena spp",
+    "kodeFao": "BAR",
+    "namaLokal": [
+      {
+        "sebutan": "Barakuda"
+      }
+    ]
+  },
+  {
+    "namaNasional": "Baronang",
+    "spesies": "Siganus Guttatus",
+    "kodeFao": "SGU",
+    "namaLokal": [
+      {
+        "sebutan": "Baronang"
+      },
+      {
+        "sebutan": "Bilawwis"
+      },
+      {
+        "sebutan": "Baronang Biasa"
+      }
+    ]
+  },
+  {
+    "namaNasional": "Baronang",
+    "spesies": "Siganus Virgatus",
+    "kodeFao": "IUG",
+    "namaLokal": [
+      {
+        "sebutan": "Bilawwis"
+      },
+      {
+        "sebutan": "Baronang Kuning"
+      }
+    ]
+  },
+  {
+    "namaNasional": "Baronang",
+    "spesies": "Siganus Canaliculatus",
+    "kodeFao": "SCN",
+    "namaLokal": [
+      {
+        "sebutan": "Bilawwis"
+      },
+      {
+        "sebutan": "Baronang Lamaun"
+      }
+    ]
+  },
+  {
+    "namaNasional": "Baronang",
+    "spesies": "Siganus Javus",
+    "kodeFao": "IGV",
+    "namaLokal": [
+      {
+        "sebutan": "Bilawwis"
+      },
+      {
+        "sebutan": "Baronang Sampel"
+      }
+    ]
+  },
+  {
+    "namaNasional": "Bawal Hitam",
+    "spesies": "Parastromateus Niger",
+    "kodeFao": "POB",
+    "namaLokal": [
+      {
+        "sebutan": "Bawal Hitam"
+      }
+    ]
+  },
+  {
+    "namaNasional": "Belanak",
+    "spesies": "Mugil spp",
+    "kodeFao": "MGS",
+    "namaLokal": [
+      {
+        "sebutan": "Belanak"
+      }
+    ]
+  },
+  {
+    "namaNasional": "Biji Nangka",
+    "spesies": "Upeneus spp",
+    "kodeFao": "GOX",
+    "namaLokal": [
+      {
+        "sebutan": "Kuniran Merah"
+      }
+    ]
+  },
+  {
+    "namaNasional": "Buntal",
+    "spesies": "Tetraodon spp",
+    "kodeFao": "TFX",
+    "namaLokal": [
+      {
+        "sebutan": "Buntal"
+      },
+      {
+        "sebutan": "Gurisang"
+      },
+      {
+        "sebutan": "Dayah Nyubu"
+      }
+    ]
+  },
+  {
+    "namaNasional": "Cakalang",
+    "spesies": "Katsuwonus Pelamis",
+    "kodeFao": "SKJ",
+    "namaLokal": [
+      {
+        "sebutan": "Cakalang"
+      },
+      {
+        "sebutan": "Lure"
+      }
+    ]
+  }
+]
