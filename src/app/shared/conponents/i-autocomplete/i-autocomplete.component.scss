@@ -1,8 +1,8 @@
 @import "../../../../the-theme";
 
-.mat-option.mat-active {
-  background: mat-color(mat-palette($color-primary, 100));
-}
+
+
+
 
 .highlightText {
   background: yellow;
@@ -12,9 +12,26 @@
 //  background: mat-color(mat-palette($color-primary, 100));
 //}
 
+.option-hint {
+  position: relative !important;
+  margin-top: -30px !important;
+  font-size: 11px !important;
+}
+
+.mat-option.hint {
+  height: auto !important;
+}
+
+.mat-option.mat-active {
+  background: mat-color(mat-palette($color-primary, 100));
+}
+
 .mat-option.mat-selected {
   background: mat-color(mat-palette($color-accent, 200)) !important;
 }
+
+
+
 
 
 
@@ -35,4 +52,8 @@
     }
 
   }
+
+
+
+
 }

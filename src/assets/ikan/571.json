@@ -1,7 +1,7 @@
 [
   {
     "namaNasional": "Antoan",
-    "spesies": "Caesio Xanthonota",
+    "spesies": "Caesio xanthonota",
     "kodeFao": "IHA",
     "namaLokal": [
       {
@@ -21,7 +21,7 @@
   },
   {
     "namaNasional": "Bambangan",
-    "spesies": "Lutjanus Malabaricus",
+    "spesies": "Lutjanus malabaricus",
     "kodeFao": "MAL",
     "namaLokal": [
       {
@@ -41,7 +41,7 @@
   },
   {
     "namaNasional": "Baronang",
-    "spesies": "Siganus Guttatus",
+    "spesies": "Siganus guttatus",
     "kodeFao": "SGU",
     "namaLokal": [
       {
@@ -57,7 +57,7 @@
   },
   {
     "namaNasional": "Baronang",
-    "spesies": "Siganus Virgatus",
+    "spesies": "Siganus virgatus",
     "kodeFao": "IUG",
     "namaLokal": [
       {
@@ -70,7 +70,7 @@
   },
   {
     "namaNasional": "Baronang",
-    "spesies": "Siganus Canaliculatus",
+    "spesies": "Siganus canaliculatus",
     "kodeFao": "SCN",
     "namaLokal": [
       {
@@ -83,7 +83,7 @@
   },
   {
     "namaNasional": "Baronang",
-    "spesies": "Siganus Javus",
+    "spesies": "Siganus javus",
     "kodeFao": "IGV",
     "namaLokal": [
       {
@@ -96,7 +96,7 @@
   },
   {
     "namaNasional": "Bawal Hitam",
-    "spesies": "Parastromateus Niger",
+    "spesies": "Parastromateus niger",
     "kodeFao": "POB",
     "namaLokal": [
       {
@@ -142,7 +142,7 @@
   },
   {
     "namaNasional": "Cakalang",
-    "spesies": "Katsuwonus Pelamis",
+    "spesies": "Katsuwonus pelamis",
     "kodeFao": "SKJ",
     "namaLokal": [
       {

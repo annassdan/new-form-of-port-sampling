@@ -4,7 +4,7 @@ import {
   Component,
   ElementRef,
   EventEmitter,
-  Host,
+  Host, HostListener,
   Input,
   OnDestroy,
   OnInit,
@@ -21,6 +21,7 @@ import {BehaviorSubject, Observable, of, Subject, Subscription} from "rxjs";
 import {MatFormFieldAppearance} from "@angular/material/form-field/typings/form-field";
 import {Utilities} from "../../utilities";
 import {MatOption} from "@angular/material/core";
+import {fromMaterialExportAsNative} from "../../material-util";
 
 export type SearchType = 'includes' | 'equals';
 
@@ -58,6 +59,8 @@ export class IAutocompleteComponent extends Utilities implements OnInit, OnDestr
     position: 'absolute',
     margin: '-32px 0px 0px -41px'
   };
+
+
 
   readonly isEager = () => this.mode === 'eager';
 
@@ -134,6 +137,12 @@ export class IAutocompleteComponent extends Utilities implements OnInit, OnDestr
 
   @Input() displayProp: PropDisplay | string[] | string;
 
+  @Input() extraOptionHints: (PropDisplay | string[] | string)[];
+
+  @Input() optionHints: string[] | string;
+
+  @Input() optionHintsAsItalic = true;
+
   @Input() idProp: string | PropDisplay = PK_COLUMN;
 
   @Input() filterOnProp: PropDisplay | string[] | string;
@@ -183,18 +192,26 @@ export class IAutocompleteComponent extends Utilities implements OnInit, OnDestr
 
   whatPropType = (prop, whichProp = 'api') => {
     if (isObject(prop)) {
-      return (<PropDisplay>this.displayProp)[whichProp]
+      return (<PropDisplay>prop)[whichProp]
     } else if (isArray(prop)) {
-      return <string[]>this.displayProp;
+      return <string[]>prop;
     } else if (isString(prop)) {
       return <string>prop;
     }
     return [];
   };
 
-  applyFilter = (d: any[], key: any, searchToProperty = this.filterOnProp, type: SearchType = 'includes') => {
+  applyFilter = (d: any[], key: any, searchToProperty = this.filterOnProp, optHt = this.optionHints, type: SearchType = 'includes') => {
+
+    // console.log(extractingValue(d[0], this.whatPropType(this.extraOptionHints[0])));
+
     return type === 'includes'
-      ? d.filter(e => String(extractingValue(e, this.whatPropType(searchToProperty))).toLowerCase().includes(String(key).toLowerCase()))
+      ? (
+        optHt
+        ? d.filter(e => String(extractingValue(e, this.whatPropType(searchToProperty))).toLowerCase().includes(String(key).toLowerCase())
+          || String(extractingValue(e, this.whatPropType(optHt))).toLowerCase().includes(String(key).toLowerCase()))
+        : d.filter(e => String(extractingValue(e, this.whatPropType(searchToProperty))).toLowerCase().includes(String(key).toLowerCase()))
+      )
       : d.filter(e => String(extractingValue(e, this.whatPropType(searchToProperty))).toLowerCase() === String(key).toLowerCase());
   };
 
@@ -305,7 +322,19 @@ export class IAutocompleteComponent extends Utilities implements OnInit, OnDestr
     }
   }
 
+
+  @HostListener('document:keyup', ['$event'])
+  keyEvent(event: KeyboardEvent) {
+    if (event.ctrlKey && event.key === 'Tab') {
+      this.getDisplayControl().patchValue(this.previousValue);
+    } else if (event.key === 'Tab') {
+      this.getDisplayControl().patchValue(this.previousValue);
+    }
+  }
+
+
   whenTyping($event: any) {
+
     if (this.init) {
       this.init = false;
     }
@@ -564,4 +593,9 @@ export class IAutocompleteComponent extends Utilities implements OnInit, OnDestr
   writeValue(obj: any): void {
   }
 
+  whenKeyDown($event: any) {
+  }
+
+  whenKeyPress($event: any) {
+  }
 }

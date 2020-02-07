@@ -9,7 +9,7 @@ export class FilterHighlightPipe implements PipeTransform {
   constructor(private _sanitizer:DomSanitizer) {
   }
 
-  transform(value: any, args: any): any {
+  transform(value: any, ...args: any[]): any {
     if (value === undefined || String(value).trim().length === 0) {
       return this._sanitizer.bypassSecurityTrustHtml('');
     }
@@ -18,9 +18,10 @@ export class FilterHighlightPipe implements PipeTransform {
       return this._sanitizer.bypassSecurityTrustHtml(value);
     }
 
-    const regex = new RegExp(String(args).trim(), 'gi');
+    const color = args[1] ? args[1] : 'primary';
+    const regex = new RegExp(String(args[0]).trim(), 'gi');
     const content = String(value).replace(regex, match => {
-      return `<strong class="primary">${match}</strong>`;
+      return `<strong class="${color}">${match}</strong>`;
     });
 
     return this._sanitizer.bypassSecurityTrustHtml(content);

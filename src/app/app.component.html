@@ -1,1 +1,25 @@
-<router-outlet></router-outlet>
+<!--<router-outlet></router-outlet>-->
+<br><br>
+
+<div class="row" [formGroup]="form">
+  <div class="col-md-6">
+    <button>AWAL</button>
+  </div>
+  <br><br>
+  <div class="col-md-6">
+    <i-autocomplete
+      appearance="outline"
+      placeholder="Spesies"
+      formGroupName="uuidSpesies"
+      displayProp="namaNasional"
+      optionHints="spesies"
+      [extraOptionHints]="['namaLokal', {}]"
+      mode="initially"
+      filterOnProp="namaNasional"
+      [targetOptions]="spesiesService.getSpesies">
+    </i-autocomplete>
+  </div>
+  <div class="col-md-6">
+    <button>BUTTON</button>
+  </div>
+</div>

@@ -35,7 +35,7 @@ import {InViewportModule} from '@thisissoon/angular-inviewport';
 import {NoContentComponent} from './ideas/the-dashboard/ghosts/no-content/no-content.component';
 import {NgxElectronModule} from 'ngx-electron';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {CreateComponent} from './ideas/create/create.component';
+import {CreateDataComponent} from './ideas/create/create-data.component';
 import {PendaratanComponent} from './ideas/create/pendaratan/pendaratan.component';
 import {InputSelectTextDirective} from './shared/directives/input-select-text.directive';
 import {MatAutocompleteNextDirective} from './shared/directives/mat-autocomplete-next.directive';
@@ -74,7 +74,7 @@ import { FilterHighlightPipe } from './shared/pipes/filter-highlight.pipe';
     StandardGhostComponent,
     WhenElementRenderedDirective,
     NoContentComponent,
-    CreateComponent,
+    CreateDataComponent,
     PendaratanComponent,
     InputSelectTextDirective,
     MatAutocompleteNextDirective,

@@ -6,15 +6,14 @@ import {MAX_WIDTH} from '../../shared/constants';
 import {pendaratan} from '../../models/pendaratan/pendaratan';
 import {Shared} from '../../shared/shared';
 import {PendaratanBrigeService} from "./pendaratan/pendaratan-brige.service";
-import {createFormGroup, createFormGroupContent, patchFormGroup} from "../../shared/reactive-form-modeling";
-import {generateUUID} from "../../shared/utils";
+import {patchFormGroup} from "../../shared/reactive-form-modeling";
 
 @Component({
   selector: 'app-create',
   templateUrl: './create.component.html',
   styleUrls: ['./create.component.scss'],
 })
-export class CreateComponent extends Shared implements OnInit, OnDestroy {
+export class CreateDataComponent extends Shared implements OnInit, OnDestroy {
 
   @ViewChild('searchInput', {static: true}) searchInput: ElementRef;
   subscribers: Subscription[] = [];

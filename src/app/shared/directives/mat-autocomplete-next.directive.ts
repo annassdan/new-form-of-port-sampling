@@ -25,7 +25,10 @@ export class MatAutocompleteNextDirective implements AfterViewInit, OnDestroy {
   @Input() previousTarget: any;
   @Input() nextTarget: any;
   @Output() whenBlur = new EventEmitter<any>();
-  @Output() whenTyping = new EventEmitter<any>();
+
+  @Output() whenKeyUp = new EventEmitter<any>();
+  @Output() whenKeyPress = new EventEmitter<any>();
+  @Output() whenKeyDown = new EventEmitter<any>();
 
   private subscription: Subscription;
   private autocomplete: MatAutocomplete;
@@ -79,6 +82,16 @@ export class MatAutocompleteNextDirective implements AfterViewInit, OnDestroy {
     this.whenBlur.emit($event);
   }
 
+  @HostListener('keypress', ['$event'])
+  async onKeyPress($event) {
+    this.whenKeyPress.emit($event);
+  }
+
+  @HostListener('keypdown', ['$event'])
+  async onKeyDown($event) {
+    this.whenKeyDown.emit($event);
+  }
+
 
   @HostListener('keyup', ['$event'])
   async onKeyup($event) {
@@ -100,7 +113,7 @@ export class MatAutocompleteNextDirective implements AfterViewInit, OnDestroy {
         previous.focus();
       }
 
-      this.whenTyping.emit($event);
+      this.whenKeyUp.emit($event);
     } else {
       /* deteksi event key enter untuk berpindah ke komponent target */
       if ($event.key === 'Enter' && this.nextTarget) {
@@ -122,13 +135,13 @@ export class MatAutocompleteNextDirective implements AfterViewInit, OnDestroy {
         //   }
         // }
 
-        this.whenTyping.emit($event);
+        this.whenKeyUp.emit($event);
       } else {
         if ($event.key === 'Enter' || $event.key === 'Escape') {}
         else {
           if ($event.key === 'ArrowDown' || $event.key === 'ArrowUp' || $event.key === 'ArrowLeft' || $event.key === 'ArrowRight') {}
           else {
-            this.whenTyping.emit($event);
+            this.whenKeyUp.emit($event);
           }
         }
       }

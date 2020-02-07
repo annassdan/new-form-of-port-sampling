@@ -6,7 +6,9 @@
            appMatAutocompleteNext [required]="required"
            [formControl]="getDisplayControl()" [errorStateMatcher]="matcher"
            (whenBlur)="blur($event)"
-           (whenTyping)="whenTyping($event)"
+           (whenKeyUp)="whenTyping($event)"
+           (whenKeyPress)="whenKeyPress($event)"
+           (whenKeyDown)="whenKeyDown($event)"
            [nextTarget]="nextTo"
            [previousTarget]="previousTo"
            [attr.aria-label]="ariaLabel"
@@ -64,9 +66,16 @@
                       [displayWith]="transformDisplay"
                       (opened)="opened()"
                       (optionSelected)="onSelected($event)">
-      <mat-option *ngFor="let option of tempOptions | async" [value]="option" [disabled]="typing">
+      <mat-option [ngClass]="optionHints ? 'hint' : ''" *ngFor="let option of tempOptions | async" [value]="option" [disabled]="typing">
         <div [innerHTML]="extractingValue(option, displayProp) | filterHighlight : getDisplayControl().value"></div>
 <!--        {{extractingValue(option, displayProp)}}-->
+        <div *ngIf="optionHints" class="option-hint">
+
+          <i *ngIf="optionHintsAsItalic; else notItalic" [innerHTML]="extractingValue(option, optionHints) | filterHighlight : getDisplayControl().value : 'accent'"></i>
+          <ng-template #notItalic>
+            <div [innerHTML]="extractingValue(option, optionHints) | filterHighlight : getDisplayControl().value : 'accent'"></div>
+          </ng-template>
+        </div>
       </mat-option>
     </mat-autocomplete>
 
